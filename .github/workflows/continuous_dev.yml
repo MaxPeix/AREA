@@ -27,7 +27,7 @@ jobs:
       - name: Check SSH key
         run: |
           ls -l ~/.ssh/
-          ls -l ~/.ssh/id_rsa_new
+          ls -l ~/.ssh/id_rsa
           # Ajoutez des commandes pour vérifier les permissions si nécessaire
 
       - name: Push to Epitech repository
