@@ -17,6 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Check SSH key
+        run: |
+          ls -l ~/.ssh/
+          ls -l ~/.ssh/id_rsa_new
+          # Ajoutez des commandes pour vérifier les permissions si nécessaire
+
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
