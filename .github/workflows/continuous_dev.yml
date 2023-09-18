@@ -17,19 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Check SSH key
-        run: |
-          ls -l ~/.ssh/
-          ls -l ~/.ssh/id_rsa_new
-          # Ajoutez des commandes pour vérifier les permissions si nécessaire
-
-
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Check SSH key
+        run: |
+          ls -l ~/.ssh/
+          ls -l ~/.ssh/id_rsa_new
+          # Ajoutez des commandes pour vérifier les permissions si nécessaire
 
       - name: Push to Epitech repository
         run:  |
