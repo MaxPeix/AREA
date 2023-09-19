@@ -15,25 +15,6 @@ jobs:
   push_to_mirror:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Push to Epitech repository
-        run:  |
-          git remote add mirror $MIRROR_URL
-          git fetch mirror
-
-          # Get the current branch name
-          BRANCH_NAME=$(git symbolic-ref --short HEAD)
-
-          # Check if the branch exists on the mirror repository
-          if git rev-parse --verify "mirror/$BRANCH_NAME" >/dev/null 2>&1; then
-            # If the branch exists, push changes to it
-            git push mirror $BRANCH_NAME
-          else
-            # If the branch doesn't exist, create it on the mirror repository
-            git push mirror $BRANCH_NAME:$BRANCH_NAME
-          fi
-
       - name: Mirror to Another Repository
         uses: pixta-dev/repository-mirroring-action@v1
         with:
