@@ -1,24 +1,23 @@
-name: AREA
+name: Push to EPITECH
 
 on:
   push:
-    branches:
-      - '*'
+    branches: [ '**', '!ga-ignore-*' ]
   pull_request:
-    branches:
-      - '*'
+    branches: [ '**', '!ga-ignore-*' ]
 
 env:
-  MIRROR_URL: "git@github.com:EpitechPromo2026/B-DEV-500-BDX-5-1-area-max.peixoto.git"
+  MIRROR_URL: git@github.com:EpitechPromo2026/B-DEV-500-BDX-5-1-area-max.peixoto.git
 
 jobs:
   push_to_mirror:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Mirror to Another Repository
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Push the repository to a mirror
         uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url: ${{ env.MIRROR_URL }}
