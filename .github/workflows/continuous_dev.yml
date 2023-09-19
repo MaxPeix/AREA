@@ -2,7 +2,10 @@ name: Push to EPITECH
 
 on:
   push:
-    branches: [ '**', '!ga-ignore-*' ]
+    branches:
+      - '**'
+    paths-ignore:
+      - '.github/workflows/**'
   pull_request:
     branches: [ '**', '!ga-ignore-*' ]
 
@@ -12,7 +15,7 @@ env:
 jobs:
   push_to_mirror:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.added, '.github/workflows/**') }}
     steps:
       - uses: actions/checkout@v3
         with:
