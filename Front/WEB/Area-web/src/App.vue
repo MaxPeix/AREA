@@ -1,17 +1,35 @@
 <template>
-  <nav>
-    <RouterLink to="/login" v-if="showNav">Login</RouterLink>
-  </nav>
-  <RouterView />
+  <img v-if="showWelcome" class="logo" src="logo"/>
+  <div>
+    <div v-if="showWelcome">Welcome to Area</div>
+    <RouterView />
+  </div>
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
+import logo from './components/icons/logo_vert.png';
+
 export default {
-  computed: {
-    showNav() {
-      return this.$route.path !== '/login'
-    },
+  data() {
+    return {
+      logo,
+      showWelcome: true,
+    };
   },
-}
+  created() {
+    setTimeout(() => {
+      this.showWelcome = false;
+      this.$router.push('/login');
+    }, 2000);
+  },
+};
 </script>
+
+<style scoped>
+.logo {
+  width: 200px;
+  height: 200px;
+}
+
+</style>
