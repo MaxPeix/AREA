@@ -1,17 +1,16 @@
   <template>
-    <img :src="logo" alt="Logo" class="logo"/>
-    <p>Hello World! {{ test }}</p>
+    <img :src="theme.logo" class="logo"/>
+    <p>Hello World!</p>
   </template>
 
 <script>
-import logo from './icons/logo_vert.png';
+import { themes } from '../themes/themes.js';
 
 export default {
   name: 'Login',
   data() {
     return {
-      logo,
-      test: 'test',
+      theme: themes.default,
     };
   },
 };
