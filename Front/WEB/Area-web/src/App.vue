@@ -1,15 +1,17 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/login">Login</RouterLink>
-      </nav>
-    </div>
-  </header>
-
+  <nav>
+    <RouterLink to="/login" v-if="showNav">Login</RouterLink>
+  </nav>
   <RouterView />
 </template>
+
+<script>
+import { RouterLink, RouterView } from 'vue-router';
+export default {
+  computed: {
+    showNav() {
+      return this.$route.path !== '/login'
+    },
+  },
+}
+</script>

@@ -1,6 +1,18 @@
-<script setup>
-</script>
+  <template>
+    <p>Hello World! {{ test }}</p>
+  </template>
 
-<template>
-  <p>Hello World!</p>
-</template>
+<script>
+
+  export default {
+    name: 'Login',
+    components: {
+    },
+    data() {
+      return {
+        test: 'test'
+      }
+    },
+  }
+
+  </script>
