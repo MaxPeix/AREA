@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -43,13 +44,28 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-        $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+
+        try {
+            $request->validate([
+                'firstname' => 'required|string|max:255',
+                'lastname' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'username' => 'required|string|max:255|unique:users',
+                'password' => 'required|string|min:6',
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+
+            if (isset($errors['username'])) {
+                return response()->json(['message' => 'Ce nom d\'utilisateur existe déjà'], 401);
+            }
+
+            if (isset($errors['email'])) {
+                return response()->json(['message' => 'Cet email est déjà utilisé'], 401);
+            }
+
+            return response()->json(['message' => 'Validation failed', 'errors' => $errors], 401);
+        }
 
         $user = User::create([
             'firstname' => $request->firstname,
