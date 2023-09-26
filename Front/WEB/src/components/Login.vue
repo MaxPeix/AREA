@@ -3,12 +3,12 @@
     <div class="left-content">
         <p class="title">Log in to Area </p>
         <input class="inputs" type="text" placeholder="Email" />
-          <div class="password-wrapper">
-            <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
-            <button class="show-button" @click.prevent="toggleShowPassword">
-              {{ showPassword ? 'Hide' : 'Show' }}
-            </button>
-          </div>
+        <div class="password-wrapper">
+          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <button class="show-button" @click.prevent="toggleShowPassword">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
       <button class="button">Login</button>
     </div>
     <img class="logo" :src="currentLogo"/>
@@ -81,7 +81,8 @@ export default {
   border-radius: 14px;
   border: none;
   margin: 10px;
-  text-align: center;
+  padding: 2px 16px;
+  text-align: left;
   font-family: Inter;
   font-size: 16px;
   font-weight: 500;
