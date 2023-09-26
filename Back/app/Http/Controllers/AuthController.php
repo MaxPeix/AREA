@@ -12,15 +12,20 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('custom.auth', ['except' => ['login','register']]);
     }
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json(['message' => 'Invalid data need password and an valid adress mail', 'errors' => $errors], 401);
+        }
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
