@@ -10,7 +10,7 @@
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
         </div>
-      <button class="button">Login</button>
+      <button class="button" @click="movetohome">Login</button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -67,6 +67,9 @@ export default {
     },
     movetologin() {
       this.$router.push('/signup');
+    },
+    movetohome() {
+      this.$router.push('/home');
     },
   },
 };
