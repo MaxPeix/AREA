@@ -1,9 +1,29 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+import VueRouter from 'vue-router';
+import Login from './components/Login.vue'
+import Welcome from './components/Welcome.vue'
+import Signup from './components/Signup.vue'
 
-const app = createApp(App)
+Vue.config.productionTip = false
+Vue.use(Buefy);
+Vue.use(VueRouter);
 
-app.use(router)
+const routes = [
+  { path: '/', component: Welcome, name: 'welcome' },
+  { path: '/login', component: Login, name: 'login' },
+  { path: '/signup', component: Signup, name: 'signup' },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
+];
 
-app.mount('#app')
+const router = new VueRouter({
+  routes,
+  mode: 'history'
+});
+
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')
