@@ -2,6 +2,7 @@
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="left-content">
         <p class="title">Log in to Area </p>
+        <button class="no-acccount-button" @click="movetologin"> No account ?</button>
         <input class="inputs" type="text" placeholder="Email" />
         <div class="password-wrapper">
           <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
@@ -64,6 +65,9 @@ export default {
     toggleShowPassword() {
       this.showPassword = !this.showPassword;
     },
+    movetologin() {
+      this.$router.push('/signup');
+    },
   },
 };
 </script>
@@ -104,6 +108,15 @@ export default {
   background: #137C8B;
 }
 
+.no-acccount-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color : #fff;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
 .title {
   color: #FFF;
   font-family: Inter;
@@ -111,6 +124,7 @@ export default {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  margin: 24px 0px;
 }
 .wrapper {
   color: #FFF;

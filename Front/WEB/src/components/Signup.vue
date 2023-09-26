@@ -1,21 +1,21 @@
 <template>
     <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
       <div class="left-content">
-          <p class="title">Sign up </p>
-					<button alt="already-member" @click="movetologin"> Already a member ?</button>
+          <p class="title">Signup</p>
+					<button class="member-button" @click="movetologin">Already a member ?</button>
           <input class="inputs" type="text" placeholder="Email" />
-            <div class="password-wrapper">
-              <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <div class="password-wrapper">
+            <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
               <button class="show-button" @click.prevent="toggleShowPassword">
                 {{ showPassword ? 'Hide' : 'Show' }}
               </button>
-            </div>
-            <div class="password-wrapper">
-              <input class="inputs" :type="passwordType" v-model="password" placeholder="Confirm Password" />
-              <button class="show-button" @click.prevent="toggleShowPassword">
-                {{ showPassword ? 'Hide' : 'Show' }}
+          </div>
+          <div class="password-wrapper">
+            <input class="inputs" :type="confirmPasswordType" v-model="confirmPassword" placeholder="Confirm Password" />
+              <button class="show-button" @click.prevent="toggleShowConfirmPassword">
+                {{ showConfirmPassword ? 'Hide' : 'Show' }}
               </button>
-            </div>
+          </div>
         <button class="button">Signup</button>
       </div>
       <img class="logo" :src="currentLogo"/>
@@ -37,7 +37,9 @@ export default {
       logo_gris,
       backgroundColor: themes.dark.backgroundColor,
       password: '',
+      confirmPassword: '',
       showPassword: false,
+      showConfirmPassword: false,
     };
   },
   computed: {
@@ -66,10 +68,16 @@ export default {
     passwordType() {
       return this.showPassword ? 'text' : 'password';
     },
+    confirmPasswordType() {
+      return this.showConfirmPassword ? 'text' : 'password';
+    },
   },
   methods: {
     toggleShowPassword() {
       this.showPassword = !this.showPassword;
+    },
+    toggleShowConfirmPassword() {
+      this.showConfirmPassword = !this.showConfirmPassword;
     },
     movetologin() {
       this.$router.push('/login');
@@ -83,6 +91,15 @@ export default {
     width: 237px;
     height: 247px;
     margin-right: 300px;
+  }
+
+  .member-button {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: 20px;
+    color: #FFF;
   }
   .inputs {
     width: 300px;
@@ -121,6 +138,7 @@ export default {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    margin: 24px 0px;
   }
   .wrapper {
     color: #FFF;
