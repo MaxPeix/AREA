@@ -2,7 +2,7 @@
     <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
       <div class="left-content">
           <p class="title">Signup</p>
-					<button class="member-button" @click="movetologin">Already a member ?</button>
+		    <button class="member-button" @click="movetologin">Already a member ?</button>
           <input class="inputs" type="text" placeholder="Email" />
           <div class="password-wrapper">
             <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
