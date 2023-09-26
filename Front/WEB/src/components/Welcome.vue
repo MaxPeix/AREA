@@ -18,13 +18,13 @@ export default {
     logo_vert,
     logo_gris,
     backgroundColor: themes.default.backgroundColor,
-      };
+    };
   },
   created() {
-    // setTimeout(() => {
-    //   this.showWelcome = false;
-    //   this.$router.push('/login');
-    // }, 3000);
+    setTimeout(() => {
+      this.showWelcome = false;
+      this.$router.push('/login');
+    }, 3000);
   },
   computed: {
     currentLogo() {
