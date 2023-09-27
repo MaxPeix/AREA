@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ControllerArea;
 use App\Http\Controllers\TestController;
 
 /*
@@ -22,6 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('custom.auth')->group(function () {
     Route::get('/test', [TestController::class, 'test']);
+
+    // area
+    Route::get('/area', [ControllerArea::class, 'index']);
+    Route::get('/area/{id}', [ControllerArea::class, 'show']);
+    Route::post('/area', [ControllerArea::class, 'create']);
+    Route::delete('/area/{id}', [ControllerArea::class, 'delete']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
