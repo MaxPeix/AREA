@@ -1,28 +1,35 @@
 <template>
-    <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-        <div class="columns">
-            <div class="column">
-                <div class="card" v-for="(area, index) in areas" :key="index">
-                    <div class="card-content">{{ area }}</div>
-                </div>
-                <div class="card">
-                    <div class="card-content">+</div>
-                </div>
+  <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
+    <div class="columns">
+      <div class="column">
+        <div class="card" v-for="(area, index) in areas" :key="index">
+          <div class="card-content">
+            <div class="card-header"> <!-- Nouvelle div pour le texte "Area" -->
+              <p class="area-text">{{ area }}</p>
             </div>
-            <div class="column is-three-fifths">
-                <div class="center">
-                    <img class="logo" :src="currentLogo" />
-                    <div>See my areas</div>
-                </div>
+            <div class="card-footer">
+              <b-switch :value="true" class="small-success-button">
+              </b-switch>
             </div>
-            <div class="column">
-                <div></div>
-            </div>
+          </div>
         </div>
+        <div class="card">
+          <div class="card-content">+</div>
+        </div>
+      </div>
+      <div class="column is-three-fifths">
+        <div class="center">
+          <img class="logo" :src="currentLogo" />
+          <div>See my areas</div>
+        </div>
+      </div>
+      <div class="column">
+        <div></div>
+      </div>
     </div>
-        <!-- <img class="pfp" :src="defaultpfp" /> -->
-  </template>
-    
+  </div>
+</template>
+
 <script>
 import { themes } from '../themes/themes.js';
 import logo_bleu from '../components/icons/logo_bleu.png';
@@ -118,9 +125,50 @@ export default {
   overflow-y: auto;
 }
 
+/* Modifier la taille du bouton Success */
+.is-success {
+  background-color: #28a745; /* Couleur de fond du bouton success */
+  color: #fff; /* Couleur du texte */
+  font-size: 12px; /* Taille de la police */
+  padding: 4px 8px; /* Rembourrage du bouton */
+}
+
+/* Positionner le bouton en bas à gauche */
+.card-footer {
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px; /* Espace autour du bouton */
+}
+
+/* Reduire la taille de la carte */
 .card {
   background-color: #fff;
   margin: 10px;
   padding: 20px;
+  border-radius: 5px; /* Coins arrondis de la carte */
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px; /* Espace sous le texte "Area" */
+  margin-top: -40px;
+  margin-left: -30px;
+  font-weight: bold; /* Style du texte "Area" en gras, si désiré */
+}
+
+.small-success-button {
+  font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
+  padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
+}
+
+.area-text {
+  font-size: 44px; /* Ajustez la taille de la police selon vos préférences */
+  margin-bottom: 4px; /* Espace sous le texte "Area" */
+}
+
 </style>
