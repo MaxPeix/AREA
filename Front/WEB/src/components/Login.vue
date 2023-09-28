@@ -17,62 +17,60 @@
 </template>
 
 <script>
-import { themes } from '../themes/themes.js';
-import logo_bleu from '../components/icons/logo_bleu.png';
-import logo_vert from '../components/icons/logo_vert.png';
-import logo_gris from '../components/icons/logo_gris.png';
+  import { themes } from '../themes/themes.js';
+  import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 
-export default {
-  name: 'Login',
-  data() {
-    return {
-      logo_bleu,
-      logo_vert,
-      logo_gris,
-      backgroundColor: themes.default.backgroundColor,
-      password: '',
-      showPassword: false,
-    };
-  },
-  computed: {
-    currentLogo() {
-      if (this.backgroundColor === themes.default.backgroundColor) {
-				return this.logo_bleu;
-      } else if (this.backgroundColor === themes.light.backgroundColor) {
-				return this.logo_vert;
-      } else if (this.backgroundColor === themes.dark.backgroundColor) {
-				return this.logo_gris;
-      } else {
-				return this.logo_bleu;
-      }
+  export default {
+    name: 'Login',
+    data() {
+      return {
+        logo_bleu,
+        logo_vert,
+        logo_gris,
+        backgroundColor: themes.default.backgroundColor,
+        password: '',
+        showPassword: false,
+      };
     },
-    currentTheme() {
-      if (this.backgroundColor === themes.default.backgroundColor) {
-        return themes.default;
-      } else if (this.backgroundColor === themes.light.backgroundColor) {
-        return themes.light;
-      } else if (this.backgroundColor === themes.dark.backgroundColor) {
-        return themes.dark;
-      } else {
-        return themes.default;
-      }
+    computed: {
+      currentLogo() {
+        if (this.backgroundColor === themes.default.backgroundColor) {
+          return this.logo_bleu;
+        } else if (this.backgroundColor === themes.light.backgroundColor) {
+          return this.logo_vert;
+        } else if (this.backgroundColor === themes.dark.backgroundColor) {
+          return this.logo_gris;
+        } else {
+          return this.logo_bleu;
+        }
+      },
+      currentTheme() {
+        if (this.backgroundColor === themes.default.backgroundColor) {
+          return themes.default;
+        } else if (this.backgroundColor === themes.light.backgroundColor) {
+          return themes.light;
+        } else if (this.backgroundColor === themes.dark.backgroundColor) {
+          return themes.dark;
+        } else {
+          return themes.default;
+        }
+      },
+      passwordType() {
+        return this.showPassword ? 'text' : 'password';
+      },
     },
-    passwordType() {
-      return this.showPassword ? 'text' : 'password';
+    methods: {
+      toggleShowPassword() {
+        this.showPassword = !this.showPassword;
+      },
+      movetologin() {
+        this.$router.push('/signup');
+      },
+      movetohome() {
+        this.$router.push('/home');
+      },
     },
-  },
-  methods: {
-    toggleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    movetologin() {
-      this.$router.push('/signup');
-    },
-    movetohome() {
-      this.$router.push('/home');
-    },
-  },
-};
+  };
 </script>
 
 <style scoped>
@@ -118,6 +116,7 @@ export default {
   color : #fff;
   margin-left: auto;
   margin-right: 20px;
+  cursor: pointer;
 }
 
 .title {

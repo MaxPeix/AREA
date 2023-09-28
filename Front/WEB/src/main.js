@@ -7,6 +7,7 @@ import Login from './components/Login.vue'
 import Welcome from './components/Welcome.vue'
 import Signup from './components/Signup.vue'
 import Home from './components/Home.vue'
+import Account from './components/Account.vue'
 
 Vue.config.productionTip = false
 Vue.use(Buefy);
@@ -16,7 +17,8 @@ const routes = [
   { path: '/', component: Welcome, name: 'welcome' },
   { path: '/login', component: Login, name: 'login' },
   { path: '/signup', component: Signup, name: 'signup' },
-  { path: '/home', component: Home, name: 'home' },  
+  { path: '/home', component: Home, name: 'home' },
+  { path: '/account', component: Account, name: 'account' },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
