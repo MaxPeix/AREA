@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="columns">
-      <div class="column">
-        <div class="card" v-for="(area, index) in areas" :key="index">
+      <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
           <div class="card-content">
             <div class="card-header"> <!-- Nouvelle div pour le texte "Area" -->
               <p class="area-text">{{ area }}</p>
@@ -13,14 +13,14 @@
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-content">+</div>
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+          <div class="card-content card-plus">+</div>
         </div>
       </div>
       <div class="column is-three-fifths">
         <div class="center">
           <img class="logo" :src="currentLogo" />
-          <div>See my areas</div>
+          <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
       </div>
       <div class="column">
@@ -38,40 +38,40 @@ import logo_gris from '../components/icons/logo_gris.png';
 import defaultpfp from '../assets/default_pfp.png';
 
 export default {
-		name: 'Home',
+    name: 'Home',
     data() {
-			return {
-				defaultpfp,
-				logo_bleu,
-				logo_vert,
-				logo_gris,
-				backgroundColor: themes.light.backgroundColor,
-                areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6"]
-			};
+      return {
+        defaultpfp,
+        logo_bleu,
+        logo_vert,
+        logo_gris,
+        backgroundColor: themes.light.backgroundColor,
+                areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa"]
+      };
     },
     computed: {
     currentLogo() {
         if (this.backgroundColor === themes.default.backgroundColor) {
-        	return this.logo_bleu;
+          return this.logo_bleu;
         } else if (this.backgroundColor === themes.light.backgroundColor) {
-        	return this.logo_vert;
+          return this.logo_vert;
         } else if (this.backgroundColor === themes.dark.backgroundColor) {
-        	return this.logo_gris;
+          return this.logo_gris;
         } else {
-        	return this.logo_bleu;
+          return this.logo_bleu;
         }
     },
     currentTheme() {
         if (this.backgroundColor === themes.default.backgroundColor) {
-        	return themes.default;
+          return themes.default;
         } else if (this.backgroundColor === themes.light.backgroundColor) {
-        	return themes.light;
+          return themes.light;
         } else if (this.backgroundColor === themes.dark.backgroundColor) {
-        	return themes.dark;
+          return themes.dark;
         } else {
-        	return themes.default;
+          return themes.default;
         }
-			},
+      },
     },
 };
 </script>
@@ -103,7 +103,7 @@ export default {
   /* width: 100%; */
   height: 100vh;
   color: #FFF;
-  font-family: Inter;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
 }
 .logo {
@@ -116,21 +116,8 @@ export default {
   height: 61px;
   border-radius: 71px;
   margin-bottom: 20px;
-	margin-left: auto;
-	margin-right: 20px;
-}
-
-.scrollable-column {
-  height: 100%;
-  overflow-y: auto;
-}
-
-/* Modifier la taille du bouton Success */
-.is-success {
-  background-color: #28a745; /* Couleur de fond du bouton success */
-  color: #fff; /* Couleur du texte */
-  font-size: 12px; /* Taille de la police */
-  padding: 4px 8px; /* Rembourrage du bouton */
+  margin-left: auto;
+  margin-right: 20px;
 }
 
 /* Positionner le bouton en bas à gauche */
@@ -145,10 +132,10 @@ export default {
 
 /* Reduire la taille de la carte */
 .card {
-  background-color: #fff;
   margin: 10px;
   padding: 20px;
-  border-radius: 5px; /* Coins arrondis de la carte */
+  border-radius: 16px; /* Coins arrondis de la carte */
+  width: 80%;
 }
 
 .card-header {
@@ -158,7 +145,6 @@ export default {
   margin-bottom: 40px; /* Espace sous le texte "Area" */
   margin-top: -40px;
   margin-left: -30px;
-  font-weight: bold; /* Style du texte "Area" en gras, si désiré */
 }
 
 .small-success-button {
@@ -167,8 +153,50 @@ export default {
 }
 
 .area-text {
+  font-size: 22px; /* Ajustez la taille de la police selon vos préférences */
+  margin-bottom: 4px; /* Espace sous le texte "Area" */
+}
+
+.text-areas {
   font-size: 44px; /* Ajustez la taille de la police selon vos préférences */
   margin-bottom: 4px; /* Espace sous le texte "Area" */
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.column1  {
+  margin-top: 15px;
+  margin-left: 20px;
+  font-size: 32px;
+  color: #000;
+  border-radius: 24px;
+  font-weight: bold;
+}
+
+.scrollable-area {
+  overflow-y: auto;
+  max-height: 100vh; /* Ajustez la hauteur maximale selon vos besoins */
+}
+
+/* Cacher la scrollbar dans WebKit (Chrome et Safari) */
+.scrollable-area::-webkit-scrollbar {
+  width: 0.1em; /* Largeur de la scrollbar minimale */
+}
+
+.scrollable-area::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Couleur du bouton de défilement transparente */
+}
+
+.card-plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px; /* Adjust the font size as needed */
+  padding: 12px; /* Adjust the padding as needed */
+  border-radius: 16px; /* Adjust the border radius to match other cards */
 }
 
 </style>
