@@ -87,18 +87,6 @@ export default {
   height: 100%;
 }
 
-.on_left {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  color: #FFF;
-  font-family: Inter;
-  font-size: 64px;
-}
-
 .wrapper {
   /* width: 100%; */
   height: 100vh;
@@ -109,15 +97,6 @@ export default {
 .logo {
   width: 200px;
   height: 200px;
-}
-
-.pfp {
-  width: 61px;
-  height: 61px;
-  border-radius: 71px;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: 20px;
 }
 
 /* Positionner le bouton en bas à gauche */
@@ -154,11 +133,6 @@ export default {
 
 .area-text {
   font-size: 22px; /* Ajustez la taille de la police selon vos préférences */
-  margin-bottom: 4px; /* Espace sous le texte "Area" */
-}
-
-.text-areas {
-  font-size: 44px; /* Ajustez la taille de la police selon vos préférences */
   margin-bottom: 4px; /* Espace sous le texte "Area" */
 }
 
