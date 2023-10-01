@@ -18,12 +18,12 @@
         </div>
       </div>
       <div class="column is-three-fifths">
-        <div class="center">
+        <div class="center" @click="movetotasks">
           <img class="logo" :src="currentLogo" />
           <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
       </div>
-      <div class="column">
+      <div class="column">  
         <div></div>
       </div>
     </div>
@@ -45,8 +45,8 @@ export default {
         logo_bleu,
         logo_vert,
         logo_gris,
-        backgroundColor: themes.light.backgroundColor,
-                areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa"]
+        backgroundColor: themes.default.backgroundColor,
+        areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs"]
       };
     },
     computed: {
@@ -73,6 +73,11 @@ export default {
         }
       },
     },
+    methods: {
+        movetotasks() {
+        this.$router.push('/tasks');
+        },
+    }
 };
 </script>
 
@@ -91,6 +96,11 @@ export default {
   /* width: 100%; */
   height: 100vh;
   color: #FFF;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 64px;
+}
+
+.custom-font {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
 }
