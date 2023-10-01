@@ -94,8 +94,7 @@ export default {
 
 .wrapper {
   /* width: 100%; */
-  height: 100vh;
-  color: #FFF;
+  height: 102vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
 }
