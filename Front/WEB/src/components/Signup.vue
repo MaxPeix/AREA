@@ -1,89 +1,87 @@
 <template>
-    <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-      <div class="left-content">
-          <p class="title">Signup</p>
-		    <button class="member-button" @click="movetologin">Already a member ?</button>
-          <input class="inputs" type="text" placeholder="Email" />
-          <div class="password-wrapper">
-            <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
-              <button class="show-button" @click.prevent="toggleShowPassword">
-                {{ showPassword ? 'Hide' : 'Show' }}
-              </button>
-          </div>
-          <div class="password-wrapper">
-            <input class="inputs" :type="confirmPasswordType" v-model="confirmPassword" placeholder="Confirm Password" />
-              <button class="show-button" @click.prevent="toggleShowConfirmPassword">
-                {{ showConfirmPassword ? 'Hide' : 'Show' }}
-              </button>
-          </div>
-        <button class="button">Signup</button>
-      </div>
-      <img class="logo" :src="currentLogo"/>
+  <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
+    <div class="left-content">
+        <p class="title">Signup</p>
+      <button class="member-button" @click="movetologin">Already a member ?</button>
+        <input class="inputs" type="text" placeholder="Email" />
+        <div class="password-wrapper">
+          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+            <button class="show-button" @click.prevent="toggleShowPassword">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+        </div>
+        <div class="password-wrapper">
+          <input class="inputs" :type="confirmPasswordType" v-model="confirmPassword" placeholder="Confirm Password" />
+            <button class="show-button" @click.prevent="toggleShowConfirmPassword">
+              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+            </button>
+        </div>
+      <button class="button">Signup</button>
     </div>
+    <img class="logo" :src="currentLogo"/>
+  </div>
   </template>
   
 <script>
-import { themes } from '../themes/themes.js';
-import logo_bleu from '../components/icons/logo_bleu.png';
-import logo_vert from '../components/icons/logo_vert.png';
-import logo_gris from '../components/icons/logo_gris.png';
+  import { themes } from '../themes/themes.js';
+  import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 
-export default {
-  name: 'Signup',
-  data() {
-    return {
-      logo_bleu,
-      logo_vert,
-      logo_gris,
-      backgroundColor: themes.dark.backgroundColor,
-      password: '',
-      confirmPassword: '',
-      showPassword: false,
-      showConfirmPassword: false,
-    };
-  },
-  computed: {
-    currentLogo() {
-      if (this.backgroundColor === themes.default.backgroundColor) {
-        return this.logo_bleu;
-      } else if (this.backgroundColor === themes.light.backgroundColor) {
-        return this.logo_vert;
-      } else if (this.backgroundColor === themes.dark.backgroundColor) {
-        return this.logo_gris;
-      } else {
-        return this.logo_bleu;
-      }
+  export default {
+    name: 'Signup',
+    data() {
+      return {
+        logo_bleu,
+        logo_vert,
+        logo_gris,
+        backgroundColor: themes.dark.backgroundColor,
+        password: '',
+        confirmPassword: '',
+        showPassword: false,
+        showConfirmPassword: false,
+      };
     },
-    currentTheme() {
-      if (this.backgroundColor === themes.default.backgroundColor) {
-        return themes.default;
-      } else if (this.backgroundColor === themes.light.backgroundColor) {
-        return themes.light;
-      } else if (this.backgroundColor === themes.dark.backgroundColor) {
-        return themes.dark;
-      } else {
-        return themes.default;
-      }
+    computed: {
+      currentLogo() {
+        if (this.backgroundColor === themes.default.backgroundColor) {
+          return this.logo_bleu;
+        } else if (this.backgroundColor === themes.light.backgroundColor) {
+          return this.logo_vert;
+        } else if (this.backgroundColor === themes.dark.backgroundColor) {
+          return this.logo_gris;
+        } else {
+          return this.logo_bleu;
+        }
+      },
+      currentTheme() {
+        if (this.backgroundColor === themes.default.backgroundColor) {
+          return themes.default;
+        } else if (this.backgroundColor === themes.light.backgroundColor) {
+          return themes.light;
+        } else if (this.backgroundColor === themes.dark.backgroundColor) {
+          return themes.dark;
+        } else {
+          return themes.default;
+        }
+      },
+      passwordType() {
+        return this.showPassword ? 'text' : 'password';
+      },
+      confirmPasswordType() {
+        return this.showConfirmPassword ? 'text' : 'password';
+      },
     },
-    passwordType() {
-      return this.showPassword ? 'text' : 'password';
+    methods: {
+      toggleShowPassword() {
+        this.showPassword = !this.showPassword;
+      },
+      toggleShowConfirmPassword() {
+        this.showConfirmPassword = !this.showConfirmPassword;
+      },
+      movetologin() {
+        this.$router.push('/login');
+      },
     },
-    confirmPasswordType() {
-      return this.showConfirmPassword ? 'text' : 'password';
-    },
-  },
-  methods: {
-    toggleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    toggleShowConfirmPassword() {
-      this.showConfirmPassword = !this.showConfirmPassword;
-    },
-    movetologin() {
-      this.$router.push('/login');
-    },
-  },
-};
+  };
 </script>
   
   <style scoped>
@@ -100,6 +98,7 @@ export default {
     margin-left: auto;
     margin-right: 20px;
     color: #FFF;
+    cursor: pointer;
   }
   .inputs {
     width: 300px;
