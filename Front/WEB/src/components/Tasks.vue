@@ -42,7 +42,7 @@ export default {
       logo_vert,
       logo_gris,
       backgroundColor: themes.default.backgroundColor,
-      areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs", "etsufhs", "etsufhs", "etsufhs", "etsufhs"]
+      areas: ["Area 1", "Area 2", "Area 3", "areaaa 5", "area 6", "areaaaa", "etsufhs", "etsufhs", "etsufhs", "etsufhs", "etsufhs"]
     };
   },
   computed: {
