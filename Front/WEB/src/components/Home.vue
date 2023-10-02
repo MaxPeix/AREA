@@ -27,6 +27,9 @@
         <div></div>
       </div>
     </div>
+    <div class="pfp-container">
+      <img :src="defaultpfp" class="pfp" @click="moveToAccount"/>
+    </div>
   </div>
 </template>
 
@@ -76,6 +79,9 @@ export default {
     methods: {
         movetotasks() {
         this.$router.push('/tasks');
+        },
+        moveToAccount() {
+        this.$router.push('/account');
         },
     }
 };
@@ -180,6 +186,18 @@ export default {
   font-size: 36px; /* Adjust the font size as needed */
   padding: 12px; /* Adjust the padding as needed */
   border-radius: 16px; /* Adjust the border radius to match other cards */
+}
+
+.pfp-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 20px; /* Marge pour un espacement du bord de la page */
+}
+
+.pfp {
+  width: 100px;
+  height: 100px;
 }
 
 </style>

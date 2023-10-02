@@ -20,6 +20,9 @@
         <div class="card-content card-plus">+</div>
       </div>
     </b-container>
+    <div class="pfp-container">
+      <img :src="defaultpfp" class="pfp" @click="moveToAccount"/>
+    </div>
   </div>
 </template>
 
@@ -28,11 +31,13 @@ import { themes } from '../themes/themes.js';
 import logo_bleu from '../components/icons/logo_bleu.png';
 import logo_vert from '../components/icons/logo_vert.png';
 import logo_gris from '../components/icons/logo_gris.png';
+import defaultpfp from '../assets/default_pfp.png';
 
 export default {
   name: 'Tasks',
   data() {
     return {
+      defaultpfp,
       logo_bleu,
       logo_vert,
       logo_gris,
@@ -74,6 +79,9 @@ export default {
   methods: {
     movetohome() {
       this.$router.push('/home');
+    },
+    moveToAccount() {
+      this.$router.push('/account');
     },
   }
 };
@@ -146,5 +154,17 @@ export default {
     border-radius: 16px; /* Adjust the border radius to match other cards */
     margin-top: 0px;
   }
+
+.pfp-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 20px; /* Marge pour un espacement du bord de la page */
+}
+
+.pfp {
+  width: 100px;
+  height: 100px;
+}
 
 </style>
