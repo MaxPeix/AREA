@@ -7,20 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B52A7282AC2E984000B97EF /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B52A7272AC2E984000B97EF /* LoginScreen.swift */; };
+		1B62E2D02ACAC9F400CE05AB /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B62E2CF2ACAC9F400CE05AB /* RegistrationView.swift */; };
+		1B62E2D22ACACBE100CE05AB /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B62E2D12ACACBE100CE05AB /* ButtonView.swift */; };
 		1B6B93002AC2D4CE00C084CD /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6B92FF2AC2D4CE00C084CD /* Colors.swift */; };
+		1BA4D0042AC4561E00F21586 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA4D0032AC4561E00F21586 /* LoginView.swift */; };
+		1BA4D0062AC4563300F21586 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA4D0052AC4563300F21586 /* ContentView.swift */; };
+		1BA4D0082AC457D600F21586 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA4D0072AC457D600F21586 /* InputView.swift */; };
 		1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */; };
-		1BEFEBE52AC1C87900DCFE9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE42AC1C87900DCFE9C /* ContentView.swift */; };
 		1BEFEBE72AC1C87A00DCFE9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */; };
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B52A7272AC2E984000B97EF /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		1B62E2CF2ACAC9F400CE05AB /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		1B62E2D12ACACBE100CE05AB /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		1B6B92FF2AC2D4CE00C084CD /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		1BA4D0032AC4561E00F21586 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		1BA4D0052AC4563300F21586 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1BA4D0072AC457D600F21586 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		1BEFEBDF2AC1C87900DCFE9C /* MOBILE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOBILE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOBILEApp.swift; sourceTree = "<group>"; };
-		1BEFEBE42AC1C87900DCFE9C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -36,6 +42,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BA4CFFE2AC4556900F21586 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1BA4D0072AC457D600F21586 /* InputView.swift */,
+				1B62E2D12ACACBE100CE05AB /* ButtonView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1BA4CFFF2AC4558300F21586 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1BA4D0002AC4558A00F21586 /* Authentification */,
+				1BA4D0012AC4559400F21586 /* Profile */,
+				1BA4D0022AC455A100F21586 /* Root */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		1BA4D0002AC4558A00F21586 /* Authentification */ = {
+			isa = PBXGroup;
+			children = (
+				1BA4D0032AC4561E00F21586 /* LoginView.swift */,
+				1B62E2CF2ACAC9F400CE05AB /* RegistrationView.swift */,
+			);
+			path = Authentification;
+			sourceTree = "<group>";
+		};
+		1BA4D0012AC4559400F21586 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		1BA4D0022AC455A100F21586 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				1BA4D0052AC4563300F21586 /* ContentView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
 		1BEFEBD62AC1C87900DCFE9C = {
 			isa = PBXGroup;
 			children = (
@@ -55,12 +104,12 @@
 		1BEFEBE12AC1C87900DCFE9C /* MOBILE */ = {
 			isa = PBXGroup;
 			children = (
+				1BA4CFFF2AC4558300F21586 /* Core */,
+				1BA4CFFE2AC4556900F21586 /* Components */,
 				1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */,
-				1BEFEBE42AC1C87900DCFE9C /* ContentView.swift */,
 				1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */,
 				1BEFEBE82AC1C87A00DCFE9C /* Preview Content */,
 				1B6B92FF2AC2D4CE00C084CD /* Colors.swift */,
-				1B52A7272AC2E984000B97EF /* LoginScreen.swift */,
 			);
 			path = MOBILE;
 			sourceTree = "<group>";
@@ -143,9 +192,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BEFEBE52AC1C87900DCFE9C /* ContentView.swift in Sources */,
-				1B52A7282AC2E984000B97EF /* LoginScreen.swift in Sources */,
+				1BA4D0062AC4563300F21586 /* ContentView.swift in Sources */,
+				1B62E2D22ACACBE100CE05AB /* ButtonView.swift in Sources */,
 				1B6B93002AC2D4CE00C084CD /* Colors.swift in Sources */,
+				1B62E2D02ACAC9F400CE05AB /* RegistrationView.swift in Sources */,
+				1BA4D0082AC457D600F21586 /* InputView.swift in Sources */,
+				1BA4D0042AC4561E00F21586 /* LoginView.swift in Sources */,
 				1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
