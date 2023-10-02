@@ -82,6 +82,7 @@
         axios.post(apiUrl, requestData)
           .then(response => {
             console.log('Réponse du serveur :', response.data);
+            localStorage.setItem('token', response.data.authorisation.token);
             this.$router.push('/home');
             this.$buefy.notification.open({
               message: 'Connexion réussie',
