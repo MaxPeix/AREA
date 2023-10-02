@@ -29,6 +29,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
+
         if (!$token) {
             return response()->json([
                 'status' => 'error',
@@ -37,15 +38,15 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        $newToken = Auth::claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
                 'authorisation' => [
-                    'token' => $token,
+                    'token' => $newToken,
                     'type' => 'bearer',
                 ]
             ]);
-
     }
 
     public function register(Request $request){
