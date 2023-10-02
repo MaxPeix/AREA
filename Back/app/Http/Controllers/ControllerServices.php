@@ -5,9 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\Service;
+use App\Models\Action;
+use App\Models\Reaction;
+use Illuminate\Support\Facades\Auth;
 
 class ControllerServices extends Controller
 {
+
+    public function index()
+    {
+        $userId = Auth::id();
+        $actions = Action::whereHas('area', function ($query) use ($userId) {
+            $query->where('users_id', $userId);
+        })->get();
+        $reactions = Reaction::whereIn('actions_id', $actions->pluck('id'))->get();
+        $serviceIds = $reactions->pluck('services_id')->toArray();
+        $services = Service::whereIn('id', $serviceIds)->get();
+        return response()->json($services);
+    }
+
+
     // Récupérer un service spécifique lié à une action
     public function showAction($actionId)
     {

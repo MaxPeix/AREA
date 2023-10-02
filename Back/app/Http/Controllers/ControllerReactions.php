@@ -11,6 +11,17 @@ use App\Models\Action;
 
 class ControllerReactions extends Controller
 {
+
+    public function index()
+    {
+        $userId = Auth::id();
+        $actions = Action::whereHas('area', function ($query) use ($userId) {
+            $query->where('users_id', $userId);
+        })->get();
+        $reactions = Reaction::whereIn('actions_id', $actions->pluck('id'))->get();
+        return response()->json($reactions);
+    }
+
     // Récupérer une réaction spécifique liée à une area
     public function show($areaId)
     {
@@ -65,7 +76,6 @@ class ControllerReactions extends Controller
                 'actions_id' => 'required',
                 'services_id' => 'required',
                 'activated' => 'required',
-                // Ajoutez d'autres règles de validation au besoin.
             ]);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->getMessages();

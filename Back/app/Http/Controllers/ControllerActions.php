@@ -10,6 +10,16 @@ use App\Models\Area;
 
 class ControllerActions extends Controller
 {
+
+    public function index()
+    {
+        $userId = Auth::id();
+        $actions = Action::whereHas('area', function ($query) use ($userId) {
+            $query->where('users_id', $userId);
+        })->get();
+        return response()->json($actions);
+    }
+
     // Récupérer une action spécifique liée à une area
     public function show($areaId)
     {

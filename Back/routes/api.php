@@ -34,18 +34,21 @@ Route::middleware('custom.auth')->group(function () {
     Route::delete('/area/{id}', [ControllerArea::class, 'delete']);
 
     // actions
+    Route::get('/actions', [ControllerActions::class, 'index']);
     Route::get('/actions/{areaId}', [ControllerActions::class, 'show']);
     Route::post('/actions/{areaId}', [ControllerActions::class, 'create']);
     Route::put('/actions/{areaId}', [ControllerActions::class, 'update']);
     Route::delete('/actions/{areaId}', [ControllerActions::class, 'delete']);
 
     // reactions
+    Route::get('/reactions', [ControllerReactions::class, 'index']);
     Route::get('/reactions/{areaId}', [ControllerReactions::class, 'show']);
     Route::post('/reactions/{areaId}', [ControllerReactions::class, 'create']);
     Route::put('/reactions/{areaId}', [ControllerReactions::class, 'update']);
     Route::delete('/reactions/{areaId}', [ControllerReactions::class, 'delete']);
 
     // services
+    Route::get('/services', [ControllerServices::class, 'index']);
     Route::get('/services/actions/{actionId}', [ControllerServices::class, 'showAction']);
     Route::get('/services/reactions/{reactionId}', [ControllerServices::class, 'showReaction']);
     Route::post('/services', [ControllerServices::class, 'create']);
