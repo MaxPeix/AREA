@@ -9,11 +9,10 @@ ENV DEBIAN_FRONTEND noninteractive
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
-# Installing tools and PHP extentions using "apt", "docker-php", "pecl",
-#
+# Installing tools and PHP extensions using "apt", "docker-php", "pecl", and "git".
 
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
-#         "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
+# "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
 RUN set -eux; \
     apt-get update; \
     apt-get upgrade -y; \
@@ -29,12 +28,16 @@ RUN set -eux; \
             libwebp-dev \
             libxpm-dev \
             libmcrypt-dev \
-            libonig-dev; \
+            libonig-dev \
+            unzip \
+            p7zip-full \
+            zip \
+            git; \
     rm -rf /var/lib/apt/lists/*
 
-# Install the PHP pdo_mysql extention
+# Install the PHP pdo_mysql extension
 RUN docker-php-ext-install pdo_mysql; \
-    # Install the PHP pdo_pgsql extention
+    # Install the PHP pdo_pgsql extension
     docker-php-ext-install pdo_pgsql; \
     # Install the PHP gd library
     docker-php-ext-configure gd \
