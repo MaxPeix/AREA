@@ -101,7 +101,8 @@ export default {
   .cards-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center; /* Centre les cartes verticalement */
+    align-items: center;
+    margin-left: 120px;
   }
   
   .back-button {
@@ -136,6 +137,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    box-shadow: none;
     margin-left: -30px;
   }
   

@@ -148,6 +148,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  box-shadow: none;
   margin-bottom: 40px; /* Espace sous le texte "Area" */
   margin-top: -40px;
   margin-left: -30px;

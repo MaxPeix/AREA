@@ -233,7 +233,7 @@ export default {
   margin-right: auto;
   margin-left: 20px;
   cursor: pointer;
-  rotate: 180deg;
+  transform: rotate(180deg);
 }
 
 </style>
