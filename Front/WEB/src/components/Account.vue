@@ -88,7 +88,6 @@ export default {
       this.username = username;
       this.email = email;
     }
-
   },
   computed: {
     currentLogo() {

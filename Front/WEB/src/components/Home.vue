@@ -76,6 +76,18 @@ export default {
         }
       },
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+      } else {
+        const decoded = jwt_decode(token);
+        const username = decoded.username;
+        const email = decoded.email;
+        this.username = username;
+        this.email = email;
+      }
+    },
     methods: {
         movetotasks() {
         this.$router.push('/tasks');
