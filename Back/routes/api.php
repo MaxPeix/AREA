@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ControllerArea;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ControllerActions;
+use App\Http\Controllers\ControllerReactions;
+use App\Http\Controllers\ControllerServices;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +32,24 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/area/{id}', [ControllerArea::class, 'show']);
     Route::post('/area', [ControllerArea::class, 'create']);
     Route::delete('/area/{id}', [ControllerArea::class, 'delete']);
+
+    // actions
+    Route::get('/actions/{areaId}', [ControllerActions::class, 'show']);
+    Route::post('/actions/{areaId}', [ControllerActions::class, 'create']);
+    Route::put('/actions/{areaId}', [ControllerActions::class, 'update']);
+    Route::delete('/actions/{areaId}', [ControllerActions::class, 'delete']);
+
+    // reactions
+    Route::get('/reactions/{areaId}', [ControllerReactions::class, 'show']);
+    Route::post('/reactions/{areaId}', [ControllerReactions::class, 'create']);
+    Route::put('/reactions/{areaId}', [ControllerReactions::class, 'update']);
+    Route::delete('/reactions/{areaId}', [ControllerReactions::class, 'delete']);
+
+    // services
+    Route::get('/services/actions/{actionId}', [ControllerServices::class, 'showAction']);
+    Route::get('/services/reactions/{reactionId}', [ControllerServices::class, 'showReaction']);
+    Route::post('/services', [ControllerServices::class, 'create']);
+    Route::put('/services/{serviceId}', [ControllerServices::class, 'update']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
