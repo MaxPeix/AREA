@@ -10,7 +10,7 @@
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
         </div>
-      <button class="button" @click="movetohome">Login</button>
+      <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button">Log in</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -33,6 +33,7 @@
         showPassword: false,
         emailInput: '',
         passwordInput: '',
+        is_loading: false
       };
     },
     computed: {
@@ -70,22 +71,34 @@
         this.$router.push('/signup');
       },
       movetohome() {
-        const apiUrl = 'http://localhost:8000/api/login'; // Assurez-vous d'utiliser le bon URL de l'API
+        const apiUrl = 'http://localhost:8000/api/login';
 
         const requestData = {
-          email: this.emailInput, // Utilisez la valeur saisie par l'utilisateur
-          password: this.passwordInput, // Utilisez le mot de passe saisi par l'utilisateur
+          email: this.emailInput,
+          password: this.passwordInput
         };
 
+        this.is_loading = true;
         axios.post(apiUrl, requestData)
           .then(response => {
-            // Gérer la réponse réussie ici, par exemple, vous pouvez rediriger vers la page d'accueil.
             console.log('Réponse du serveur :', response.data);
             this.$router.push('/home');
+            this.$buefy.notification.open({
+              message: 'Connexion réussie',
+              type: 'is-success',
+              duration: 5000,
+            });
           })
           .catch(error => {
-            // Gérer les erreurs ici, par exemple, afficher un message d'erreur à l'utilisateur.
             console.error('Erreur lors de la requête :', error);
+            this.$buefy.notification.open({
+              message: 'Identifiants incorrects',
+              type: 'is-danger',
+              duration: 5000,
+            });
+          })
+          .finally(() => {
+            this.is_loading = false;
           });
       }
     },
