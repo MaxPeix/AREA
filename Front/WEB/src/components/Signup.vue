@@ -3,20 +3,21 @@
     <div class="left-content">
         <p class="title">Signup</p>
       <button class="member-button" @click="movetologin">Already a member ?</button>
-        <input class="inputs" type="text" placeholder="Email" />
+        <input class="inputs" type="text" placeholder="Username" v-model="usernameInput"/>
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
             <button class="show-button" @click.prevent="toggleShowPassword">
               {{ showPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
         <div class="password-wrapper">
-          <input class="inputs" :type="confirmPasswordType" v-model="confirmPassword" placeholder="Confirm Password" />
+          <input class="inputs" :type="confirmPasswordType" v-model="confirmPasswordInput" placeholder="Confirm Password" />
             <button class="show-button" @click.prevent="toggleShowConfirmPassword">
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
-      <button class="button">Signup</button>
+      <button class="button" @click="moveToHome">Signup</button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -25,6 +26,7 @@
 <script>
   import { themes } from '../themes/themes.js';
   import { logo_bleu, logo_gris, logo_vert } from './icons/index';
+  import axios from 'axios';
 
   export default {
     name: 'Signup',
@@ -38,6 +40,10 @@
         confirmPassword: '',
         showPassword: false,
         showConfirmPassword: false,
+        usernameInput: '',
+        emailInput: '',
+        passwordInput: '',
+        confirmPasswordInput: '',
       };
     },
     computed: {
@@ -80,6 +86,24 @@
       movetologin() {
         this.$router.push('/login');
       },
+      moveToHome() {
+        const apiUrl = 'http://localhost:8000/api/register';
+
+        const requestData = {
+          username: this.usernameInput,
+          email: this.emailInput,
+          password: this.passwordInput,
+        };
+
+        axios.post(apiUrl, requestData)
+          .then(response => {
+            console.log('Réponse du serveur :', response.data);
+            this.$router.push('/home');
+          })
+          .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+          });
+      }
     },
   };
 </script>
