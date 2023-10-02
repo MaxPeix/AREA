@@ -3,9 +3,9 @@
     <div class="left-content">
         <p class="title">Log in to Area </p>
         <button class="no-acccount-button" @click="movetologin"> No account ?</button>
-        <input class="inputs" type="text" placeholder="Email" />
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
           <button class="show-button" @click.prevent="toggleShowPassword">
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
@@ -19,6 +19,7 @@
 <script>
   import { themes } from '../themes/themes.js';
   import { logo_bleu, logo_gris, logo_vert } from './icons/index';
+  import axios from 'axios';
 
   export default {
     name: 'Login',
@@ -30,6 +31,8 @@
         backgroundColor: themes.default.backgroundColor,
         password: '',
         showPassword: false,
+        emailInput: '',
+        passwordInput: '',
       };
     },
     computed: {
@@ -67,8 +70,24 @@
         this.$router.push('/signup');
       },
       movetohome() {
-        this.$router.push('/home');
-      },
+        const apiUrl = 'http://localhost:8000/api/login'; // Assurez-vous d'utiliser le bon URL de l'API
+
+        const requestData = {
+          email: this.emailInput, // Utilisez la valeur saisie par l'utilisateur
+          password: this.passwordInput, // Utilisez le mot de passe saisi par l'utilisateur
+        };
+
+        axios.post(apiUrl, requestData)
+          .then(response => {
+            // Gérer la réponse réussie ici, par exemple, vous pouvez rediriger vers la page d'accueil.
+            console.log('Réponse du serveur :', response.data);
+            this.$router.push('/home');
+          })
+          .catch(error => {
+            // Gérer les erreurs ici, par exemple, afficher un message d'erreur à l'utilisateur.
+            console.error('Erreur lors de la requête :', error);
+          });
+      }
     },
   };
 </script>
