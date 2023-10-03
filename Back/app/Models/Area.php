@@ -23,11 +23,11 @@ class Area extends Model
 
     public function actions()
     {
-        return $this->hasMany(Action::class);
+        return $this->hasMany(Action::class, 'areas_id', 'id');
     }
 
     public function reactions()
     {
-        return $this->hasMany(Reaction::class);
+        return $this->hasMany(Reaction::class, 'actions_id', 'id');
     }
 }
