@@ -4,7 +4,7 @@
       <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
         <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
           <div class="card-content">
-            <div class="card-header"> <!-- Nouvelle div pour le texte "Area" -->
+            <div class="card-header">
               <p class="area-text">{{ area.name }}</p>
             </div>
             <div class="card-footer">
@@ -43,6 +43,7 @@ import axios from 'axios';
 
 export default {
     name: 'Home',
+    props: ['areas'],
     data() {
       return {
         defaultpfp,
@@ -86,10 +87,10 @@ export default {
     },
     methods: {
         movetotasks() {
-        this.$router.push('/tasks');
+          this.$router.push({ name: 'tasks', params: { areas: this.areas } });
         },
         moveToAccount() {
-        this.$router.push('/account');
+          this.$router.push('/account');
         },
         getAreas() {
           const token = localStorage.getItem('token');
