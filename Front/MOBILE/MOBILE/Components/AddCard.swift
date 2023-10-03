@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct AddCard: View {
+    var addAction: () -> Void
+
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.green)
-            .frame(width: 280, height: 180)
+            .frame(width: 280, height: 130)
             .overlay(
-                Button(action: {
-                    print("Cliqued")
-                }) {
+                Button(action: addAction) {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 40, height: 40)
@@ -28,6 +28,8 @@ struct AddCard: View {
 
 struct AddCard_Previews: PreviewProvider {
     static var previews: some View {
-        AddCard()
+        AddCard {
+            print("Button clicked!")
+        }
     }
 }

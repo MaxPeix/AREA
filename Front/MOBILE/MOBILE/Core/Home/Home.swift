@@ -9,12 +9,48 @@ import SwiftUI
 
 struct Home: View {
     @Environment(\.colorScheme) var colorScheme
+    @State private var cardcounter: Int = 1
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ZStack {
+                Color("background")
+                    .ignoresSafeArea()
+
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.green.opacity(0.5))
+                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 40, trailing: 40))
+                    .overlay(
+                        VStack(spacing: 20) {
+                            Text("Current Areas")
+                                .font(.headline)
+                                .foregroundColor(Color.black)
+                                .padding(.top, 30)
+                            
+                            ScrollView {
+                                VStack(spacing: 20) {
+                                    ForEach(1...cardcounter, id: \.self) { num in
+                                        CardView(title: "Area \(num)")
+                                    }
+                                }
+                            }
+
+                            AddCard {
+                                cardcounter += 1
+                            }
+                            .offset(y: -30)
+
+                            Spacer()
+                        }
+                    )
+            }
+        }
     }
 }
 
-#Preview {
-    Home()
+
+struct Home_Previews: PreviewProvider {
+    static var previews: some View {
+        Home()
+    }
 }
