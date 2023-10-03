@@ -4,8 +4,8 @@
       <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
         <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
           <div class="card-content">
-            <div class="card-header"> <!-- Nouvelle div pour le texte "Area" -->
-              <p class="area-text">{{ area }}</p>
+            <div class="card-header">
+              <p class="area-text">{{ area.name }}</p>
             </div>
             <div class="card-footer">
               <b-switch :value="true" class="small-success-button">
@@ -39,9 +39,11 @@ import logo_bleu from '../components/icons/logo_bleu.png';
 import logo_vert from '../components/icons/logo_vert.png';
 import logo_gris from '../components/icons/logo_gris.png';
 import defaultpfp from '../assets/default_pfp.png';
+import axios from 'axios';
 
 export default {
     name: 'Home',
+    props: ['areas'],
     data() {
       return {
         defaultpfp,
@@ -49,7 +51,7 @@ export default {
         logo_vert,
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
-        areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs"]
+        areas: []
       };
     },
     computed: {
@@ -80,20 +82,37 @@ export default {
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
-      } else {
-        const decoded = jwt_decode(token);
-        const username = decoded.username;
-        const email = decoded.email;
-        this.username = username;
-        this.email = email;
       }
+      this.getAreas();
     },
     methods: {
         movetotasks() {
-        this.$router.push('/tasks');
+          this.$router.push({ name: 'tasks', params: { areas: this.areas } });
         },
         moveToAccount() {
-        this.$router.push('/account');
+          this.$router.push('/account');
+        },
+        getAreas() {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            this.$router.push('/login');
+            return; // Arrêter la fonction si le token n'est pas disponible
+          }
+          axios.get('http://localhost:8000/api/area', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            console.log('Réponse du serveur :', response.data);
+            this.areas = response.data;
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des tâches :', error);
+          })
+          .finally(() => {
+            // Cacher le spinner de chargement
+          });
         },
     }
 };
