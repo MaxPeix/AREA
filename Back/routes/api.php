@@ -8,6 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ControllerActions;
 use App\Http\Controllers\ControllerReactions;
 use App\Http\Controllers\ControllerServices;
+use App\Http\Controllers\GoogleOAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::middleware('custom.auth')->group(function () {
     Route::post('/services', [ControllerServices::class, 'create']);
     Route::put('/services/{serviceId}', [ControllerServices::class, 'update']);
 });
+
+Route::get('/oauth2callback', [GoogleOAuthController::class, 'oauth2callback']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
