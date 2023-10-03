@@ -28,9 +28,7 @@
 
 <script>
 import { themes } from '../themes/themes.js';
-import logo_bleu from '../components/icons/logo_bleu.png';
-import logo_vert from '../components/icons/logo_vert.png';
-import logo_gris from '../components/icons/logo_gris.png';
+import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
 
 export default {
@@ -73,7 +71,7 @@ export default {
       for (let i = 0; i < this.areas.length; i += 3) {
         groupedAreas.push(this.areas.slice(i, i + 3));
       }
-      return groupedAreas.slice(0, 4); // Afficher seulement 3 lignes
+      return groupedAreas.slice(0, 4);
     },
   },
   methods: {
@@ -95,13 +93,13 @@ export default {
     font-size: 32px;
     font-weight: bold;
     position: relative;
-    padding-top: 100px; /* Déplace le contenu vers le bas de la page */
+    padding-top: 100px;
   }
 
   .cards-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center; /* Centre les cartes verticalement */
+    align-items: center;
   }
   
   .back-button {
@@ -129,7 +127,7 @@ export default {
     padding: 20px;
     border-radius: 16px;
     width: 300px;
-    height: 180px; /* Vous pouvez également ajuster la hauteur ici si nécessaire */
+    height: 180px;
   }
   
   .card-header {
@@ -141,17 +139,17 @@ export default {
   
 
   .small-success-button {
-    font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
-    padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
+    font-size: 30px;
+    padding: 2px 4px;
   }
   
   .card-plus {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 80px; /* Adjust the font size as needed */
-    padding: 12px; /* Adjust the padding as needed */
-    border-radius: 16px; /* Adjust the border radius to match other cards */
+    font-size: 80px;
+    padding: 12px;
+    border-radius: 16px;
     margin-top: 0px;
   }
 
@@ -159,7 +157,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 20px; /* Marge pour un espacement du bord de la page */
+  margin: 20px;
 }
 
 .pfp {

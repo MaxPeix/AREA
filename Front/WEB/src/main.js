@@ -11,6 +11,7 @@ import Signup from './components/Signup.vue'
 import Home from './components/Home.vue'
 import Account from './components/Account.vue'
 import Tasks from './components/Tasks.vue'
+import TaskEditor from './components/TaskEditor.vue';
 
 Vue.config.productionTip = false
 Vue.use(Buefy);
@@ -24,6 +25,7 @@ const routes = [
   { path: '/home', component: Home, name: 'home' },
   { path: '/account', component: Account, name: 'account' },
   { path: '/tasks', component: Tasks, name: 'tasks' },
+  { path: '/taskeditor', component: TaskEditor, name: 'taskeditor' },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
