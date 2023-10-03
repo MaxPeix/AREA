@@ -3,14 +3,14 @@
     <div class="left-content">
         <p class="title">Log in to Area </p>
         <button class="no-acccount-button" @click="movetologin"> No account ?</button>
-        <input class="inputs" type="text" placeholder="Email" />
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
           <button class="show-button" @click.prevent="toggleShowPassword">
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
         </div>
-      <button class="button" @click="movetohome">Login</button>
+      <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button">Log in</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -19,6 +19,7 @@
 <script>
   import { themes } from '../themes/themes.js';
   import { logo_bleu, logo_gris, logo_vert } from './icons/index';
+  import axios from 'axios';
 
   export default {
     name: 'Login',
@@ -30,6 +31,9 @@
         backgroundColor: themes.default.backgroundColor,
         password: '',
         showPassword: false,
+        emailInput: '',
+        passwordInput: '',
+        is_loading: false
       };
     },
     computed: {
@@ -67,8 +71,37 @@
         this.$router.push('/signup');
       },
       movetohome() {
-        this.$router.push('/home');
-      },
+        const apiUrl = 'http://localhost:8000/api/login';
+
+        const requestData = {
+          email: this.emailInput,
+          password: this.passwordInput
+        };
+
+        this.is_loading = true;
+        axios.post(apiUrl, requestData)
+          .then(response => {
+            console.log('Réponse du serveur :', response.data);
+            localStorage.setItem('token', response.data.authorisation.token);
+            this.$router.push('/home');
+            this.$buefy.notification.open({
+              message: 'Connexion réussie',
+              type: 'is-success',
+              duration: 5000,
+            });
+          })
+          .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+            this.$buefy.notification.open({
+              message: 'Identifiants incorrects',
+              type: 'is-danger',
+              duration: 5000,
+            });
+          })
+          .finally(() => {
+            this.is_loading = false;
+          });
+      }
     },
   };
 </script>

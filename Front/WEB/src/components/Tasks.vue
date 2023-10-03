@@ -3,11 +3,11 @@
     <button class="back-button" @click="movetohome" :style="{ color: currentTheme.buttons }">Retour à l'accueil</button>
     <b-container class="cards-container">
       <b-row v-for="(group, rowIndex) in areaGroups" :key="rowIndex">
-        <b-col v-for="(area, colIndex) in group" :key="colIndex">
+        <b-col v-for="(areas, colIndex) in group" :key="colIndex">
           <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
             <div class="card-content">
               <div class="card-header">
-                <p class="area-text">{{ area }}</p>
+                <p class="area-text">{{ areas.name }}</p>
               </div>
               <div class="card-footer">
                 <b-switch :value="true" class="small-success-button"></b-switch>
@@ -33,6 +33,7 @@ import defaultpfp from '../assets/default_pfp.png';
 
 export default {
   name: 'Tasks',
+  props: ['areas'],
   data() {
     return {
       defaultpfp,
@@ -40,7 +41,6 @@ export default {
       logo_vert,
       logo_gris,
       backgroundColor: themes.default.backgroundColor,
-      areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs", "etsufhs", "etsufhs", "etsufhs", "etsufhs"]
     };
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     movetohome() {
-      this.$router.push('/home');
+      this.$router.push({ name: 'home', params: { areas: this.areas } });
     },
     moveToAccount() {
       this.$router.push('/account');
@@ -100,6 +100,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-left: 120px;
   }
   
   .back-button {
@@ -134,6 +135,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    box-shadow: none;
     margin-left: -30px;
   }
   

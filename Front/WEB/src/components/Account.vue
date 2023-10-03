@@ -2,7 +2,7 @@
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
       <img class="arrow" :src="arrow" @click="moveToTasks"/>
       <div class="middle-rectangle">
-        <p style="color: #A7A7A7; font-size: 24px"> Hello, Jimmy Mcgill 👋</p>
+        <p style="color: #A7A7A7; font-size: 24px"> Hello, {{ username }} 👋</p>
       </div>
       <div class="middle-inferior-rectangle">
       </div>
@@ -54,6 +54,7 @@
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive } from '../assets/index'
+import jwt_decode from "jwt-decode";
 
 export default {
   name: 'Account',
@@ -71,8 +72,22 @@ export default {
       youtube,
       gmail,
       google_drive,
+      username: '',
+      email: '',
       backgroundColor: themes.dark.backgroundColor,
     };
+  },
+  mounted() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/login');
+    } else {
+      const decoded = jwt_decode(token);
+      const username = decoded.username;
+      const email = decoded.email;
+      this.username = username;
+      this.email = email;
+    }
   },
   computed: {
     currentLogo() {

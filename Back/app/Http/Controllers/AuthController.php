@@ -29,6 +29,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
+
         if (!$token) {
             return response()->json([
                 'status' => 'error',
@@ -37,23 +38,21 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        $newToken = Auth::claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
                 'authorisation' => [
-                    'token' => $token,
+                    'token' => $newToken,
                     'type' => 'bearer',
                 ]
             ]);
-
     }
 
     public function register(Request $request){
 
         try {
             $request->validate([
-                'firstname' => 'required|string|max:255',
-                'lastname' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'username' => 'required|string|max:255|unique:users',
                 'password' => 'required|string|min:6',
@@ -73,19 +72,12 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
             'email' => $request->email,
             'roles' => 'user',
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-        ]);
         if (!$user) {
             return response()->json([
                 'status' => 'error',
