@@ -16,6 +16,9 @@
 		1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */; };
 		1BEFEBE72AC1C87A00DCFE9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */; };
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
+		F8DE10AA2ACC3BB50053F76E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10A92ACC3BB50053F76E /* Card.swift */; };
+		F8DE10AD2ACC3D020053F76E /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AC2ACC3D020053F76E /* Home.swift */; };
+		F8DE10AF2ACC3E340053F76E /* AddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AE2ACC3E340053F76E /* AddCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOBILEApp.swift; sourceTree = "<group>"; };
 		1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F8DE10A92ACC3BB50053F76E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		F8DE10AC2ACC3D020053F76E /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		F8DE10AE2ACC3E340053F76E /* AddCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +53,8 @@
 			children = (
 				1BA4D0072AC457D600F21586 /* InputView.swift */,
 				1B62E2D12ACACBE100CE05AB /* ButtonView.swift */,
+				F8DE10A92ACC3BB50053F76E /* Card.swift */,
+				F8DE10AE2ACC3E340053F76E /* AddCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -54,6 +62,7 @@
 		1BA4CFFF2AC4558300F21586 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				F8DE10AB2ACC3CEE0053F76E /* Home */,
 				1BA4D0002AC4558A00F21586 /* Authentification */,
 				1BA4D0012AC4559400F21586 /* Profile */,
 				1BA4D0022AC455A100F21586 /* Root */,
@@ -120,6 +129,14 @@
 				1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F8DE10AB2ACC3CEE0053F76E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F8DE10AC2ACC3D020053F76E /* Home.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,9 +213,12 @@
 				1B62E2D22ACACBE100CE05AB /* ButtonView.swift in Sources */,
 				1B6B93002AC2D4CE00C084CD /* Colors.swift in Sources */,
 				1B62E2D02ACAC9F400CE05AB /* RegistrationView.swift in Sources */,
+				F8DE10AD2ACC3D020053F76E /* Home.swift in Sources */,
 				1BA4D0082AC457D600F21586 /* InputView.swift in Sources */,
 				1BA4D0042AC4561E00F21586 /* LoginView.swift in Sources */,
 				1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */,
+				F8DE10AA2ACC3BB50053F76E /* Card.swift in Sources */,
+				F8DE10AF2ACC3E340053F76E /* AddCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
