@@ -98,7 +98,7 @@
           .catch(error => {
             console.log('Erreur lors de la requête :', error);
             this.$buefy.notification.open({
-              message: 'Mots de passe ou email incorrect',
+              message: 'Invalid credentials',
               type: 'is-danger',
               duration: 5000,
             });

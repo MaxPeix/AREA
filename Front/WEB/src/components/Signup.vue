@@ -114,7 +114,6 @@
         this.loading = true;
         axios.post(apiUrl, requestData)
           .then(response => {
-            this.loading = false;
             localStorage.setItem('token', response.data.authorisation.token);
             this.$buefy.notification.open({
               message: 'Connexion réussie',
@@ -130,6 +129,9 @@
               type: 'is-danger',
               duration: 5000,
             });
+          })
+          .finally(() => {
+            this.loading = false;
           });
       }
     },
