@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-      <img class="arrow" :src="arrow" @click="moveToTasks"/>
+      <img class="arrow" :src="arrow" @click="moveToHome"/>
       <div class="middle-rectangle">
         <p style="color: #A7A7A7; font-size: 24px"> Hello, {{ username }} 👋</p>
       </div>
@@ -114,7 +114,7 @@ export default {
     },
   },
   methods: {
-    moveToTasks() {
+    moveToHome() {
       this.$router.push('/home');
     },
   }
