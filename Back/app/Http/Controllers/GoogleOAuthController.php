@@ -11,8 +11,8 @@ class GoogleOAuthController extends Controller
     public function oauth2callback(Request $request)
     {
         try {
-            $clientId = "1025827948903-tlsoh7n6clf1hgggh752na4gpn0h0n4l.apps.googleusercontent.com";
-            $clientSecret = "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";
+            $clientIdGoogle = env('GOOGLE_CLIENT_ID');
+            $clientIdSecretGoogle = env('GOOGLE_CLIENT_SECRET');
             $scope = 'email profile https://www.googleapis.com/auth/drive https://mail.google.com/';
             $redirectUri = 'http://127.0.0.1:8000/api/oauth2callback';
 
@@ -21,7 +21,7 @@ class GoogleOAuthController extends Controller
             if (!$code) {
                 $userId = Auth::id();
                 $state = json_encode(['id' => $userId]);
-                $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}&scope={$scope}&state={$state}";
+                $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientIdGoogle}&redirect_uri={$redirectUri}&scope={$scope}&state={$state}";
                 return $authUri;
             } else {
                 $receivedState = $request->input('state');
@@ -32,8 +32,8 @@ class GoogleOAuthController extends Controller
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
                     'code' => $code,
-                    'client_id' => $clientId,
-                    'client_secret' => $clientSecret,
+                    'client_id' => $clientIdGoogle,
+                    'client_secret' => $clientIdSecretGoogle,
                     'redirect_uri' => $redirectUri,
                     'grant_type' => 'authorization_code'
                 ]));
