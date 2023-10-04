@@ -63,6 +63,12 @@
         return this.showPassword ? 'text' : 'password';
       },
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.$router.push('/home');
+      }
+    },
     methods: {
       toggleShowPassword() {
         this.showPassword = !this.showPassword;

@@ -46,6 +46,12 @@
         confirmPasswordInput: '',
       };
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.$router.push('/home');
+      }
+    },
     computed: {
       currentLogo() {
         if (this.backgroundColor === themes.default.backgroundColor) {
@@ -109,12 +115,13 @@
         axios.post(apiUrl, requestData)
           .then(response => {
             console.log('Réponse du serveur :', response.data);
-            this.$router.push('/home');
+            localStorage.setItem('token', response.data.authorisation.token);
             this.$buefy.notification.open({
               message: 'Connexion réussie',
               type: 'is-success',
               duration: 5000,
             });
+            this.$router.push('/home');
           })
           .catch(error => {
             console.error('Erreur lors de la requête :', error);
