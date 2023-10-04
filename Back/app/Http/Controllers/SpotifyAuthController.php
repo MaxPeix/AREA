@@ -11,8 +11,8 @@ class SpotifyAuthController extends Controller
     public function spotifyCallback(Request $request)
     {
         try {
-            $clientId = '9095a14ddbe547f6a6627166a3d86559';
-            $clientSecret = '5ce501e07077419fa59f3a9e4a2d577a';
+            $clientId= env('SPOTIFY_CLIENT_ID');
+            $clientSecret = env('SPOTIFY_CLIENT_SECRET');
             $scope = 'user-read-private user-read-email';
             $redirectUri = 'http://127.0.0.1:8000/api/spotify-callback';
     
