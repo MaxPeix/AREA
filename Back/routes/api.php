@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckTokenService;
 use App\Http\Controllers\ControllerArea;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ControllerActions;
@@ -55,6 +56,8 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/services/reactions/{reactionId}', [ControllerServices::class, 'showReaction']);
     Route::post('/services', [ControllerServices::class, 'create']);
     Route::put('/services/{serviceId}', [ControllerServices::class, 'update']);
+
+    Route::get('/checktokens', [CheckTokenService::class, 'checkTokensValidity']);
 });
 
 Route::get('/oauth2callback', [GoogleOAuthController::class, 'oauth2callback']);

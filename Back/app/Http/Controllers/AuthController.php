@@ -33,7 +33,7 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
@@ -84,14 +84,14 @@ class AuthController extends Controller
                 'message' => 'User creation failed',
             ], 500);
         }
+        $newToken = Auth::claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
 
-        $token = Auth::login($user);
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
             'authorisation' => [
-                'token' => $token,
+                'token' => $newToken,
                 'type' => 'bearer',
             ]
         ]);
