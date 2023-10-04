@@ -2,23 +2,23 @@
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="columns">
       <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index" @click="moveToAreaEditor(area.id)">
           <div class="card-content">
             <div class="card-header">
               <p class="area-text">{{ area.name }}</p>
             </div>
             <div class="card-footer">
-              <b-switch :value="true" class="small-success-button">
+              <b-switch v-model="area.activated" class="small-success-button">
               </b-switch>
             </div>
           </div>
         </div>
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
           <div class="card-content card-plus">+</div>
         </div>
       </div>
       <div class="column is-three-fifths">
-        <div class="center" @click="movetotasks">
+        <div class="center" @click="moveToAreas">
           <img class="logo" :src="currentLogo" />
           <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
@@ -51,7 +51,6 @@ export default {
         logo_vert,
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
-        areas: []
       };
     },
     computed: {
@@ -86,11 +85,17 @@ export default {
       this.getAreas();
     },
     methods: {
-        movetotasks() {
-          this.$router.push({ name: 'tasks', params: { areas: this.areas } });
+        moveToAreas() {
+          this.$router.push({ name: 'areas', params: { areas: this.areas } });
         },
         moveToAccount() {
           this.$router.push('/account');
+        },
+        moveToAreaEditor(areaId) {
+          this.$router.push({ name: 'areaeditor', params: { id: areaId } });
+        },
+        moveToAreaCreator() {
+          this.$router.push('/areacreator');
         },
         getAreas() {
           const token = localStorage.getItem('token');

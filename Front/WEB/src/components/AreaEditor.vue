@@ -3,37 +3,45 @@
     <img class="arrow" :src="arrow" @click="movetohome"/>
     <div class="card" :style="{ backgroundColor: currentTheme.buttons }">
       <div class="card-content">
-        <div class="card-header">
-          <p class="header-font">Area 1</p>
+        <div class="card-header" v-if="!loading">
+          <p class="header-font" v-for="item in area" :key="item.id">{{ item.name }}</p>
         </div>
-        <div class="card-footer">
-          <b-switch :value="true" class="small-success-button"></b-switch>
+        <div class="card-footer" v-if="!loading">
+          <b-switch v-model="area[0].activated" class="small-success-button"></b-switch>
         </div>
       </div>
     </div>
     <div class="action-reaction-rectangle" :style="{ left:'25%' }">
-      <button class="action-reaction-button header-font">Action</button>
+      <button class="action-reaction-button header-font" v-if="!loading"> {{ area[0].action.name }} </button>
     </div>
     <div class="action-reaction-rectangle" :style="{ left: '50%' }">
-      <button class="action-reaction-button header-font">Reaction</button>
+      <button class="action-reaction-button header-font" v-if="!loading"> {{ area[0].action.name }}</button>
     </div>
     <div class="logs">
       <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">Logs</p>
+    </div>
+
+    <!-- Écran de chargement -->
+    <div v-if="loading" class="loading-indicator">
+      Chargement en cours...
     </div>
   </div>
 </template>
 
 <script>
-
 import { themes } from '../themes/themes.js';
 import { arrow } from '../assets/index';
+import axios from 'axios';
 
 export default {
-  name: 'TaskEditor',
+  name: 'AreaEditor',
+  props: ['id'],
   data() {
     return {
       arrow,
       backgroundColor: themes.light.backgroundColor,
+      area: [],
+      loading: true, // Ajout de la variable de chargement
     };
   },
   computed: {
@@ -49,9 +57,39 @@ export default {
       }
     },
   },
+  mounted() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/login');
+    }
+    this.getArea();
+  },
   methods: {
     movetohome() {
       this.$router.push('/home');
+    },
+    getArea() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+        return; // Arrêter la fonction si le token n'est pas disponible
+      }
+      axios
+        .get('http://localhost:8000/api/area/' + this.id, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log('Réponse du serveur :', response.data);
+          this.area = response.data;
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération des tâches :', error);
+        })
+        .finally(() => {
+          this.loading = false; // Définir loading sur false lorsque la requête est terminée
+        });
     },
   }
 };
@@ -133,4 +171,12 @@ export default {
     background-color: #9FCDA8;
     border-radius: 16px;
   }
+
+  .loading-indicator {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+
 </style>
