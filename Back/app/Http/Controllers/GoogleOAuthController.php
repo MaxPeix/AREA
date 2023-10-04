@@ -19,10 +19,14 @@ class GoogleOAuthController extends Controller
             $code = $request->input('code');
 
             if (!$code) {
-                $userId = Auth::id();
-                $state = json_encode(['id' => $userId]);
-                $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientIdGoogle}&redirect_uri={$redirectUri}&scope={$scope}&state={$state}";
-                return $authUri;
+                if (Auth::check()) {
+                    $userId = Auth::id();
+                    $state = json_encode(['id' => $userId]);
+                    $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientIdGoogle}&redirect_uri={$redirectUri}&scope={$scope}&state={$state}";
+                    return $authUri;
+                } else {
+                    return response()->json(['message' => 'Unauthorized'], 401);
+                }
             } else {
                 $receivedState = $request->input('state');
                 $decodedState = json_decode($receivedState, true);
