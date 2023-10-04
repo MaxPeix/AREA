@@ -3,62 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class SpotifyAuthController extends Controller
 {
-    public function redirectToSpotify()
+    public function spotifyCallback(Request $request)
     {
-        $clientId = '9095a14ddbe547f6a6627166a3d86559';
-        $redirectUri = 'http://localhost:8000/api/spotify-callback';
-        $scope = 'user-read-email';
-        $state = bin2hex(random_bytes(8));
+        try {
+            $clientId= env('SPOTIFY_CLIENT_ID');
+            $clientSecret = env('SPOTIFY_CLIENT_SECRET');
+            $scope = 'user-read-private user-read-email';
+            $redirectUri = 'http://127.0.0.1:8000/api/spotify-callback';
     
-        $url = "https://accounts.spotify.com/authorize?response_type=code&client_id=$clientId&scope=$scope&redirect_uri=$redirectUri&state=$state";
+            $code = $request->input('code');
     
-        // Utilisation de cURL pour rediriger
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_exec($ch);
-        curl_close($ch);
-    }
+            if (!$code) {
+                $userId = 5;
+                $state = json_encode(['id' => $userId]);
+                $authUri = "https://accounts.spotify.com/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}&scope={$scope}&state={$state}";
+                return $authUri;
+            } else {
+                $receivedState = $request->input('state');
+                $decodedState = json_decode($receivedState, true);
+                $id = $decodedState['id'] ?? null;
     
-
-    public function handleCallback(Request $request)
-    {
-        // Récupérez le code de la requête
-        $code = $request->input('code');
+                // Échangez le code contre un jeton d'accès Spotify en utilisant cURL
+                $ch = curl_init("https://accounts.spotify.com/api/token");
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+                    'code' => $code,
+                    'grant_type' => 'authorization_code',
+                    'redirect_uri' => $redirectUri,
+                    'client_id' => $clientId,
+                    'client_secret' => $clientSecret,
+                ]));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                $output = curl_exec($ch);
+                curl_close($ch);
     
-        $clientId = '9095a14ddbe547f6a6627166a3d86559';
-        $clientSecret = '5ce501e07077419fa59f3a9e4a2d577a';
-        $redirectUri = 'http://localhost:8000/api/spotify-callback';
-    
-        // Utilisation de cURL pour envoyer la demande de token
-        $ch = curl_init();
-    
-        curl_setopt($ch, CURLOPT_URL, 'https://accounts.spotify.com/api/token');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'redirect_uri' => $redirectUri,
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-        ]));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    
-        $response = curl_exec($ch);
-        curl_close($ch);
-    
-        // Traitement de la réponse JSON
-        $data = json_decode($response, true);
-        \Log::info($response);
-    
-        $accessToken = $data['access_token'];
-    
-        // Utilisez $accessToken pour accéder à l'API Spotify et obtenir les informations de l'utilisateur.
+                $credentials = json_decode($output, true);
+                
+                // Enregistrez le jeton d'accès Spotify pour l'utilisateur
+                // Vous devrez adapter cela en fonction de la structure de votre modèle User
+                $user = User::find($id);
+                if ($user) {
+                    $user->spotify_token = $credentials['access_token'];
+                    $user->save();
+                } else {
+                    \Log::warning("Aucun utilisateur trouvé avec l'ID: " . $id);
+                }
+                
+                return redirect('http://localhost:8080/account');
+            }
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json(['message' => 'Error'], 500);
+        }
     }
     
 }
