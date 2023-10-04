@@ -38,8 +38,10 @@
               <span class="image-name">Youtube</span>
             </div>
             <div class="app-item">
-              <img :src="gmail"/>
-              <span class="image-name">Gmail</span>
+              <button @click="connectGoogle">
+                <img :src="gmail"/>
+                <span class="image-name">Gmail</span>
+              </button>
             </div>
             <div class="app-item">
               <img :src="google_drive"/>
@@ -55,6 +57,7 @@ import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive } from '../assets/index'
 import jwt_decode from "jwt-decode";
+import axios from 'axios';
 
 export default {
   name: 'Account',
@@ -116,6 +119,26 @@ export default {
   methods: {
     moveToTasks() {
       this.$router.push('/home');
+    },
+    connectGoogle() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+        return; // Arrêter la fonction si le token n'est pas disponible
+      }
+      axios.get('http://127.0.0.1:8000/api/oauth2callback', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          // redirect to url in response.data
+          window.location.replace(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   }
 };
