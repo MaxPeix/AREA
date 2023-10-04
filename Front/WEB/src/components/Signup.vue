@@ -17,7 +17,7 @@
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
-      <button class="button" @click="moveToHome">Signup</button>
+      <b-button class="button" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -35,7 +35,7 @@
         logo_bleu,
         logo_vert,
         logo_gris,
-        backgroundColor: themes.dark.backgroundColor,
+        backgroundColor: themes.default.backgroundColor,
         password: '',
         confirmPassword: '',
         showPassword: false,
@@ -44,6 +44,7 @@
         emailInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+        loading: false,
       };
     },
     mounted() {
@@ -93,14 +94,13 @@
         this.$router.push('/login');
       },
       moveToHome() {
-        // Vérifiez si le mot de passe et la confirmation du mot de passe sont identiques
         if (this.passwordInput !== this.confirmPasswordInput) {
           this.$buefy.notification.open({
             message: 'Les mots de passe ne correspondent pas',
             type: 'is-danger',
             duration: 5000,
           });
-          return; // Arrête la fonction si les mots de passe ne correspondent pas
+          return;
         }
 
         // Si les mots de passe correspondent, continuez avec la requête POST
@@ -111,10 +111,10 @@
           email: this.emailInput,
           password: this.passwordInput,
         };
-
+        this.loading = true;
         axios.post(apiUrl, requestData)
           .then(response => {
-            console.log('Réponse du serveur :', response.data);
+            this.loading = false;
             localStorage.setItem('token', response.data.authorisation.token);
             this.$buefy.notification.open({
               message: 'Connexion réussie',

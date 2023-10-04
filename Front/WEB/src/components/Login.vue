@@ -77,7 +77,6 @@
         this.$router.push('/signup');
       },
       movetohome() {
-        const apiUrl = 'http://localhost:8000/api/login';
 
         const requestData = {
           email: this.emailInput,
@@ -85,7 +84,7 @@
         };
 
         this.is_loading = true;
-        axios.post(apiUrl, requestData)
+        axios.post("http://localhost:8000/api/login", requestData)
           .then(response => {
             console.log('Réponse du serveur :', response.data);
             localStorage.setItem('token', response.data.authorisation.token);
@@ -97,9 +96,9 @@
             });
           })
           .catch(error => {
-            console.error('Erreur lors de la requête :', error);
+            console.log('Erreur lors de la requête :', error);
             this.$buefy.notification.open({
-              message: 'Erreur lors de la création du compte',
+              message: 'Mots de passe ou email incorrect',
               type: 'is-danger',
               duration: 5000,
             });
