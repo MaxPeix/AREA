@@ -12,16 +12,14 @@ class GoogleOAuthController extends Controller
     {
         $clientId = "1025827948903-tlsoh7n6clf1hgggh752na4gpn0h0n4l.apps.googleusercontent.com";
         $clientSecret = "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";
-        $scope = 'email profile';
+        $scope = 'email profile gmail readonly';
         $redirectUri = 'http://127.0.0.1:8000/api/oauth2callback';
 
         $code = $request->input('code');
 
         if (!$code) {
             $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}&scope={$scope}";
-            return json_encode([
-                'authUri' => $authUri,
-            ]);
+            return redirect($authUri);
         } else {
             $ch = curl_init("https://oauth2.googleapis.com/token");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -47,10 +45,9 @@ class GoogleOAuthController extends Controller
             curl_close($ch);
             
             $userInfo = json_decode($output, true);
+            var_dump($userInfo);
 
-            return json_encode([
-                'user' => $userInfo,
-            ]);
+            return redirect('http://localhost:8080/account');
         }
     }
 }
