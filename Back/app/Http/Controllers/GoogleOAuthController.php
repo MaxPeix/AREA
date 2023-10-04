@@ -44,7 +44,7 @@ class GoogleOAuthController extends Controller
                 $credentials = json_decode($output, true);
                 $user = User::find($id);
                 if ($user) {
-                    $user->google_id = $credentials['access_token'];
+                    $user->google_token = $credentials['access_token'];
                     $user->save();
                 } else {
                     \Log::warning("Aucun utilisateur trouvé avec l'ID: " . $id);

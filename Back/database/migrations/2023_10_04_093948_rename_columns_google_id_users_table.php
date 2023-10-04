@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('google_access_token')->nullable();
-            $table->string('google_refresh_token')->nullable();
+            $table->renameColumn('google_token', 'google_token');
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('google_token', 'google_token');
+        });
     }
 };
