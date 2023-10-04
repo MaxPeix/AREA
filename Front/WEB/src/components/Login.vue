@@ -93,7 +93,7 @@
           .catch(error => {
             console.error('Erreur lors de la requête :', error);
             this.$buefy.notification.open({
-              message: 'Identifiants incorrects',
+              message: 'Erreur lors de la création du compte',
               type: 'is-danger',
               duration: 5000,
             });

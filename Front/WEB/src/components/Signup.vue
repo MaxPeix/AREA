@@ -87,6 +87,17 @@
         this.$router.push('/login');
       },
       moveToHome() {
+        // Vérifiez si le mot de passe et la confirmation du mot de passe sont identiques
+        if (this.passwordInput !== this.confirmPasswordInput) {
+          this.$buefy.notification.open({
+            message: 'Les mots de passe ne correspondent pas',
+            type: 'is-danger',
+            duration: 5000,
+          });
+          return; // Arrête la fonction si les mots de passe ne correspondent pas
+        }
+
+        // Si les mots de passe correspondent, continuez avec la requête POST
         const apiUrl = 'http://localhost:8000/api/register';
 
         const requestData = {
@@ -99,9 +110,19 @@
           .then(response => {
             console.log('Réponse du serveur :', response.data);
             this.$router.push('/home');
+            this.$buefy.notification.open({
+              message: 'Connexion réussie',
+              type: 'is-success',
+              duration: 5000,
+            });
           })
           .catch(error => {
             console.error('Erreur lors de la requête :', error);
+            this.$buefy.notification.open({
+              message: 'Identifiants incorrects',
+              type: 'is-danger',
+              duration: 5000,
+            });
           });
       }
     },
