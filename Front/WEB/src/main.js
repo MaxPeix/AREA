@@ -17,7 +17,6 @@ import AreaCreator from './components/AreaCreator.vue';
 Vue.config.productionTip = false
 Vue.use(Buefy);
 Vue.use(VueRouter);
-// Vue.use(BootstrapVue);
 
 const routes = [
   { path: '/', component: Welcome, name: 'welcome' },
