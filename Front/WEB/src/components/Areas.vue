@@ -4,7 +4,7 @@
     <b-container class="cards-container">
       <b-row v-for="(group, rowIndex) in areaGroups" :key="rowIndex">
         <b-col v-for="(areas, colIndex) in group" :key="colIndex">
-          <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+          <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaEditor(areas.id)">
             <div class="card-content">
               <div class="card-header">
                 <p class="area-text">{{ areas.name }}</p>
@@ -16,7 +16,7 @@
           </div>
         </b-col>
       </b-row>
-      <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+      <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
         <div class="card-content card-plus">+</div>
       </div>
     </b-container>
@@ -32,7 +32,7 @@ import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
 
 export default {
-  name: 'Tasks',
+  name: 'Areas',
   props: ['areas'],
   data() {
     return {
@@ -80,6 +80,12 @@ export default {
     },
     moveToAccount() {
       this.$router.push('/account');
+    },
+    moveToAreaEditor(areaId) {
+      this.$router.push({ name: 'areaeditor', params: { id: areaId } });
+    },
+    moveToAreaCreator() {
+      this.$router.push('/areacreator');
     },
   }
 };
