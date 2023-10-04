@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @State private var username = ""
     @State private var email = ""
     @State private var password = ""
-    @State private var confirmPassword = ""
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -31,13 +31,13 @@ struct RegistrationView: View {
                         .padding(.vertical, 32)
                 }
                 VStack(spacing: 12) {
-                    InputView(text: $email, placeholder: "Your Email")
+                    InputView(text: $username, placeholder: "Your Username")
+                        .autocapitalization(.none)
+                    
+                    InputView(text: $email, placeholder: "Your Email", isSecureField: true)
                         .autocapitalization(.none)
                     
                     InputView(text: $password, placeholder: "Your Password", isSecureField: true)
-                        .autocapitalization(.none)
-                    
-                    InputView(text: $confirmPassword, placeholder: "Confirm Password", isSecureField: true)
                         .autocapitalization(.none)
                     
                 }
