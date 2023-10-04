@@ -41,10 +41,14 @@ import logo_vert from '../components/icons/logo_vert.png';
 import logo_gris from '../components/icons/logo_gris.png';
 import defaultpfp from '../assets/default_pfp.png';
 import axios from 'axios';
+import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
     name: 'Home',
     props: ['areas'],
+    components: {
+      AreaCreatorForm,
+    },
     data() {
       return {
         defaultpfp,
@@ -120,7 +124,13 @@ export default {
           this.$router.push({ name: 'areaeditor', params: { id: areaId } });
         },
         moveToAreaCreator() {
-          this.$router.push('/areacreator');
+          // this.$router.push('/areacreator');
+          console.log("opennig modal")
+          this.$buefy.modal.open({
+              parent: this,
+              component: AreaCreatorForm,
+              hasModalCard: true,
+            })
         },
         getAreas() {
           const token = localStorage.getItem('token');
