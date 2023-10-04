@@ -16,9 +16,9 @@
 		1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */; };
 		1BEFEBE72AC1C87A00DCFE9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */; };
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
-		F8DE10AA2ACC3BB50053F76E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10A92ACC3BB50053F76E /* Card.swift */; };
+		F8DE10AA2ACC3BB50053F76E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10A92ACC3BB50053F76E /* CardView.swift */; };
 		F8DE10AD2ACC3D020053F76E /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AC2ACC3D020053F76E /* Home.swift */; };
-		F8DE10AF2ACC3E340053F76E /* AddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AE2ACC3E340053F76E /* AddCard.swift */; };
+		F8DE10AF2ACC3E340053F76E /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AE2ACC3E340053F76E /* AddCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,9 +32,9 @@
 		1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOBILEApp.swift; sourceTree = "<group>"; };
 		1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F8DE10A92ACC3BB50053F76E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		F8DE10A92ACC3BB50053F76E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		F8DE10AC2ACC3D020053F76E /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
-		F8DE10AE2ACC3E340053F76E /* AddCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCard.swift; sourceTree = "<group>"; };
+		F8DE10AE2ACC3E340053F76E /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +53,8 @@
 			children = (
 				1BA4D0072AC457D600F21586 /* InputView.swift */,
 				1B62E2D12ACACBE100CE05AB /* ButtonView.swift */,
-				F8DE10A92ACC3BB50053F76E /* Card.swift */,
-				F8DE10AE2ACC3E340053F76E /* AddCard.swift */,
+				F8DE10A92ACC3BB50053F76E /* CardView.swift */,
+				F8DE10AE2ACC3E340053F76E /* AddCardView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -217,8 +217,8 @@
 				1BA4D0082AC457D600F21586 /* InputView.swift in Sources */,
 				1BA4D0042AC4561E00F21586 /* LoginView.swift in Sources */,
 				1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */,
-				F8DE10AA2ACC3BB50053F76E /* Card.swift in Sources */,
-				F8DE10AF2ACC3E340053F76E /* AddCard.swift in Sources */,
+				F8DE10AA2ACC3BB50053F76E /* CardView.swift in Sources */,
+				F8DE10AF2ACC3E340053F76E /* AddCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

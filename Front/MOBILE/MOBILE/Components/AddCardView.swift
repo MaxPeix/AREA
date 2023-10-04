@@ -13,7 +13,7 @@ struct AddCard: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.green)
-            .frame(width: 280, height: 130)
+            .frame(width: 350, height: 100)
             .overlay(
                 Button(action: addAction) {
                     Image(systemName: "plus")

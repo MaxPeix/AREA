@@ -14,7 +14,7 @@ struct CardView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
             .fill(Color.white)
-            .frame(width: 280, height: 130)
+            .frame(width: 300, height: 130)
             .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
             .overlay(
                 VStack {
