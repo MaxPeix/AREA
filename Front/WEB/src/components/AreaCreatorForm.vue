@@ -23,13 +23,16 @@
               </b-field>
           </section>
           <footer class="modal-card-foot">
-              <b-button
-                label="Close"
-                @click="close" />
-              <b-button
-                label="Create"
-                type="is-primary"
-                @click="createArea" />
+            <b-button
+              label="Close"
+              type="is-danger"
+              @click="closeModal"
+              v-if="canClose"
+            />
+            <b-button
+              label="Create"
+              type="is-primary"
+              @click="createArea" />
           </footer>
       </div>
   </form>
@@ -38,7 +41,11 @@
 <script>
 import axios from 'axios';
 
+
 export default {
+  props: {
+    canClose: Boolean,
+  },
   mounted() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -68,6 +75,9 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      this.$emit('close'); // Émet un événement "close" pour indiquer à Home de fermer le composant modal.
+    },
     async createArea() {
       console.log(this.formData.name);
       console.log(this.formData.description);
@@ -125,6 +135,7 @@ export default {
           },
         })
         console.log('Réponse du serveur 3 :', response3.data);
+        closeModal();
       } catch (error) {
         console.error(error)
       }
@@ -142,11 +153,10 @@ export default {
       })
       .then(response => {
         this.services = response.data;
-        this.getActions();
-        this.getReactions();
+        return Promise.all([this.getActions(), this.getReactions()]); // Appel asynchrone des deux fonctions
       })
       .catch(error => {
-        console.error('Erreur lors de la récupération des tâches :', error);
+        console.error('Erreur lors de la récupération des services :', error);
       })
       .finally(() => {
         // Cacher le spinner de chargement
@@ -211,46 +221,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-    .wrapper {
-      width: 100%;
-      height: 100vh;
-      font-size: 32px;
-      font-weight: bold;
-      position: relative;
-    }
-    .header-font {
-      font-size: 32px;
-      font-weight: bold;
-      color: black;
-    }
-    .arrow {
-      position: absolute;
-      top: 0;
-      margin-left: 60px;
-      width: 100px;
-      height: 100px;
-      padding: 20px;
-      transform:rotate(180deg);
-      cursor: pointer;
-    }
-
-    section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
-    .create-area-rectangle {
-      width: 300px;
-      height: 150px;
-      background-color: #9FCDA8;
-      border-radius: 20px;
-      align-items: center;
-      display: flex;
-      justify-content: center;
-    }
-
-  </style>

@@ -56,6 +56,7 @@ export default {
         logo_vert,
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
+        canClose: true,
       };
     },
     computed: {
@@ -124,13 +125,18 @@ export default {
           this.$router.push({ name: 'areaeditor', params: { id: areaId } });
         },
         moveToAreaCreator() {
-          // this.$router.push('/areacreator');
-          console.log("opennig modal")
+          console.log("opening modal")
+          this.canClose = true;
           this.$buefy.modal.open({
               parent: this,
               component: AreaCreatorForm,
               hasModalCard: true,
-            })
+              props : {
+                canClose: this.canClose,
+              },
+            }).$on('close', () => {
+              this.canClose = false;
+            });
         },
         getAreas() {
           const token = localStorage.getItem('token');
