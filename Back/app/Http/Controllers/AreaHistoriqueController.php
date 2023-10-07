@@ -64,12 +64,17 @@ class AreaHistoriqueController extends Controller
             return response()->json(['message' => 'Not found or unauthorized'], 404);
         }
 
-        $validatedData = $request->validate([
-            'areas_id' => 'required',
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'informations_random' => 'nullable|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'areas_id' => 'required',
+                'name' => 'nullable|string',
+                'description' => 'nullable|string',
+                'informations_random' => 'nullable|string',
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+            return response()->json(['message' => 'Validation failed', 'errors' => $errors], 401);
+        }
 
         $areaHistorique->update($validatedData);
         return response()->json($areaHistorique, 200);

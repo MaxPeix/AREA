@@ -30,4 +30,9 @@ class Area extends Model
     {
         return $this->hasMany(Reaction::class, 'actions_id', 'id');
     }
+
+    public function areaHistorique()
+    {
+        return $this->hasMany(AreaHistorique::class, 'areas_id', 'id');
+    }
 }
