@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
+    @State private var isActive: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -16,6 +17,19 @@ struct ContentView: View {
                 Color("background")
                     .ignoresSafeArea()
                 VStack {
+                    Button(action: {
+                        isActive = true
+                    }) {
+                        Color.clear
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(Rectangle())
+                    .fullScreenCover(isPresented: $isActive) {
+                        LoginView()
+                    }
+                    
+                    Spacer()
+
                     if colorScheme == .dark {
                         Image("LogoDark")
                             .resizable()
@@ -25,13 +39,6 @@ struct ContentView: View {
                             .resizable()
                             .frame(width: 100, height: 100)
                     }
-                    // Image
-                    
-                    // Form fields
-                    
-                    // Sign in button
-                    
-                    // Sign up button
                 }
             }
         }

@@ -27,14 +27,14 @@ struct InputView: View {
                     .frame(width: 300, height: 50)
                     .background(Color("BlocTwo"))
                     .cornerRadius(10)
-                    .foregroundColor(textColor)
+                    .foregroundColor(Color("TextColor"))
             } else {
                 TextField(placeholder, text: $text)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color("BlocTwo"))
                     .cornerRadius(10)
-                    .foregroundColor(textColor)
+                    .foregroundColor(Color("TextColor"))
             }
         }
     }

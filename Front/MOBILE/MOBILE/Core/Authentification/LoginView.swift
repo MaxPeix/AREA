@@ -12,6 +12,7 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -41,10 +42,8 @@ struct LoginView: View {
                     Button (action: {
                         authenticateUser { isAuthenticated, message in
                             if isAuthenticated {
-                                // Authentification réussie, passez à une autre vue ou effectuez d'autres actions
                                 print(message)
                             } else {
-                                // Authentification échouée, affichez un message d'erreur
                                 print(message)
                             }
                         }
@@ -52,15 +51,13 @@ struct LoginView: View {
                         HStack {
                             Text("Sign In")
                                 .foregroundColor(Color("TextColor"))
-                                .foregroundColor(.white)
                                 .frame(width: 300, height: 50)
                                 .background(Color("Bloc"))
                                 .cornerRadius(10)
                                 .font(.system(size: 24))
                         }
                     }
-                    
-//                    ButtonView(placeholder: "Sign In", consoleLog: "Log user in ..")
+
                     NavigationLink {
                         RegistrationView()
                             .navigationBarBackButtonHidden()
@@ -73,6 +70,7 @@ struct LoginView: View {
             }
         }
     }
+
     func authenticateUser(completion: @escaping (Bool, String) -> Void) {
         let parameters: [String: Any] = [
             "email": email,
@@ -83,14 +81,15 @@ struct LoginView: View {
             .validate()
             .responseDecodable(of: YourResponse.self) { response in
                 debugPrint(response)
-                
+
                 switch response.result {
                 case .success(let value):
                     print("Response: \(value)")
 
-                    // Vérifiez si l'authentification a réussi
-                    if value.success {
+                    if value.status == "success" {
                         completion(true, "Authentification réussie")
+                        isLoggedIn = true
+
                     } else {
                         completion(false, "Nom d'utilisateur ou mot de passe incorrect")
                     }
@@ -100,7 +99,6 @@ struct LoginView: View {
                 }
             }
     }
-
 }
 
 #Preview {
@@ -108,7 +106,20 @@ struct LoginView: View {
 }
 
 struct YourResponse: Decodable {
-    let success: Bool
+    let status: String
+    let user: User
+    let authorisation: Authorisation
+}
+
+struct User: Decodable {
+    let id: Int
+    let email: String
+    // ... autres propriétés du user que vous pouvez ajouter ici si nécessaire
+}
+
+struct Authorisation: Decodable {
+    let token: String
+    let type: String
 }
 
 struct UserLogin {

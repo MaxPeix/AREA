@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct MOBILEApp: App {
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isLoggedIn {
+                MyTabView()
+            } else {
+                ContentView()
+            }
         }
     }
 }

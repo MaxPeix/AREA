@@ -13,7 +13,7 @@ struct ServiceRowView: View {
     
     var body: some View {
         Button {
-            print("Sign out")
+            print("Bien cliquer t'aime ça")
         } label: {
             HStack(spacing: 12) {
                 Image(imageName)
