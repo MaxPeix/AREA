@@ -11,6 +11,7 @@ use App\Http\Controllers\ControllerReactions;
 use App\Http\Controllers\ControllerServices;
 use App\Http\Controllers\GoogleOAuthController;
 use App\Http\Controllers\SpotifyAuthController;
+use App\Http\Controllers\AreaHistoriqueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,13 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/services/reactions/{reactionId}', [ControllerServices::class, 'showReaction']);
     Route::post('/services', [ControllerServices::class, 'create']);
     Route::put('/services/{serviceId}', [ControllerServices::class, 'update']);
+
+    // area historique
+    Route::get('/areahistorique', [AreaHistoriqueController::class, 'index']);
+    Route::get('/areahistorique/{id}', [AreaHistoriqueController::class, 'show']);
+    Route::post('/areahistorique', [AreaHistoriqueController::class, 'create']);
+    Route::put('/areahistorique/{id}', [AreaHistoriqueController::class, 'update']);
+    Route::delete('/areahistorique/{id}', [AreaHistoriqueController::class, 'delete']);
 
     Route::get('/checktokens', [CheckTokenService::class, 'checkTokensValidity']);
 });

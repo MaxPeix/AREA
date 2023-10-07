@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('area_historique', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->constrained('users', 'id');
-            $table->foreignId('area_id')->constrained('area', 'id');
+            $table->foreignId('areas_id')->constrained('areas', 'id');
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->string('informations_random')->nullable();
             $table->timestamps();
         });
     }
