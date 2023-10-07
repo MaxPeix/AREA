@@ -6,14 +6,62 @@ use Illuminate\Http\Request;
 use App\Models\Area;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Action;
+use App\Models\Service;
+use App\Models\Reaction;
 
 class ControllerArea extends Controller
 {
-    // Récupérer tous les enregistrements
     public function index()
     {
-        $areas = Area::all();
-        return response()->json($areas);
+        $userId = Auth::id();
+
+        $areas = Area::with([
+            'actions.service',
+            'reactions.service'
+        ])
+        ->where('users_id', $userId)
+        ->get();
+
+        $to_return = $areas->map(function ($area) {
+            return [
+                'id' => $area->id,
+                'name' => $area->name,
+                'description' => $area->description,
+                'activated' => $area->activated,
+                'action' => $area->actions->map(function ($action) {
+                    return [
+                        'id' => $action->id,
+                        'name' => $action->name,
+                        'description' => $action->description,
+                        'activated' => $action->activated,
+                        'services' => [
+                            'id' => $action->service->id,
+                            'service_name' => $action->service->service_name,
+                            'service_description' => $action->service->service_description,
+                            'url' => $action->service->url,
+                            'working' => $action->service->working,
+                        ],
+                    ];
+                }),
+                'reaction' => $area->reactions->map(function ($reaction) {
+                    return [
+                        'id' => $reaction->id,
+                        'activated' => $reaction->activated,
+                        'action_id' => $reaction->actions_id,
+                        'services' => [
+                            'id' => $reaction->service->id,
+                            'service_name' => $reaction->service->service_name,
+                            'service_description' => $reaction->service->service_description,
+                            'url' => $reaction->service->url,
+                            'working' => $reaction->service->working,
+                        ],
+                    ];
+                }),
+            ];
+        })->toArray();
+
+        return response()->json($to_return);
     }
 
     // Créer un nouvel enregistrement
@@ -34,19 +82,57 @@ class ControllerArea extends Controller
         return response()->json($area, 201);
     }
 
-    // Récupérer un enregistrement spécifique
     public function show($id)
     {
         $userId = Auth::id();
-        $area = Area::find($id);
-        if (!$area) {
-            return response()->json(['message' => 'Area not found'], 404);
-        }
 
-        if ($area->users_id != $userId) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-        return response()->json($area);
+        $areas = Area::with([
+            'actions.service',
+            'reactions.service'
+        ])
+        ->where('id', $id)
+        ->where('users_id', $userId)
+        ->get();
+
+        $to_return = $areas->map(function ($area) {
+            return [
+                'id' => $area->id,
+                'name' => $area->name,
+                'description' => $area->description,
+                'activated' => $area->activated,
+                'action' => $area->actions->map(function ($action) {
+                    return [
+                        'id' => $action->id,
+                        'name' => $action->name,
+                        'description' => $action->description,
+                        'activated' => $action->activated,
+                        'services' => [
+                            'id' => $action->service->id,
+                            'service_name' => $action->service->service_name,
+                            'service_description' => $action->service->service_description,
+                            'url' => $action->service->url,
+                            'working' => $action->service->working,
+                        ],
+                    ];
+                }),
+                'reaction' => $area->reactions->map(function ($reaction) {
+                    return [
+                        'id' => $reaction->id,
+                        'activated' => $reaction->activated,
+                        'action_id' => $reaction->actions_id,
+                        'services' => [
+                            'id' => $reaction->service->id,
+                            'service_name' => $reaction->service->service_name,
+                            'service_description' => $reaction->service->service_description,
+                            'url' => $reaction->service->url,
+                            'working' => $reaction->service->working,
+                        ],
+                    ];
+                }),
+            ];
+        })->toArray();
+
+        return response()->json($to_return);
     }
 
     // Mettre à jour un enregistrement

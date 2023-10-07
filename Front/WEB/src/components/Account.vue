@@ -1,52 +1,48 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-      <img class="arrow" :src="arrow" @click="moveToTasks"/>
-      <div class="middle-rectangle">
-        <p style="color: #A7A7A7; font-size: 24px"> Hello, Jimmy Mcgill 👋</p>
+    <img class="arrow" :src="arrow" @click="moveToTasks"/>
+    <div class="middle-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+      <p style="font-size: 24px"> Hello, {{ username }} 👋</p>
+    </div>
+    <div class="middle-inferior-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+      <component :is="selectedContentComponent"></component>
+    </div>
+    <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+      <div class="logo-title-container">
+        <img class="logo" :src="currentLogo"/>
+        <p class="left-rectangle-title">Area Forbidden</p>
       </div>
-      <div class="middle-inferior-rectangle">
+      <div class="apps">
+        <div class="app-item" @click="selectContent('overview')">
+          <img :src="overview"/>
+          <span class="image-name">Overview</span>
+        </div>
+        <div class="app-item" @click="selectContent('google')">
+          <img :src="gmail"/>
+          <span class="image-name">Google</span>
+        </div>
+        <div class="app-item" @click="selectContent('discord')">
+          <img :src="discord"/>
+          <span class="image-name">Discord</span>
+        </div>
+        <div class="app-item" @click="selectContent('twitch')">
+          <img :src="twitch"/>
+          <span class="image-name">Twitch</span>
+        </div>
+        <div class="app-item" @click="selectContent('spotify')">
+          <img :src="spotify"/>
+          <span class="image-name">Spotify</span>
+        </div>
+        <div class="app-item" @click="selectContent('youtube')">
+          <img :src="youtube"/>
+          <span class="image-name">Youtube</span>
+        </div>
+        <div class="app-item" @click="selectContent('radio_france')">
+          <img :src="radio_france"/>
+          <span class="image-name">RadioFrance</span>
+        </div>
       </div>
-      <div class="left-rectangle">
-          <div class="logo-title-container">
-              <img class="logo" :src="currentLogo"/>
-              <p class="left-rectangle-title">Area Forbidden</p>
-          </div>
-          <p class="left-rectangle-subtitle">Main Menu</p>
-          <div class="apps">
-            <div class="app-item">
-              <img :src="overview"/>
-              <span class="image-name">Overview</span>
-            </div>
-            <div class="app-item">
-              <img :src="discord"/>
-              <span class="image-name">Discord</span>
-            </div>
-            <div class="app-item">
-              <img :src="twitch"/>
-              <span class="image-name">Twitch</span>
-            </div>
-            <div class="app-item">
-              <img :src="radio_france"/>
-              <span class="image-name">Radio France</span>
-            </div>
-            <div class="app-item">
-              <img :src="spotify"/>
-              <span class="image-name">Spotify</span>
-            </div>
-            <div class="app-item">
-              <img :src="youtube"/>
-              <span class="image-name">Youtube</span>
-            </div>
-            <div class="app-item">
-              <img :src="gmail"/>
-              <span class="image-name">Gmail</span>
-            </div>
-            <div class="app-item">
-              <img :src="google_drive"/>
-              <span class="image-name">Drive</span>
-            </div>
-          </div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -54,6 +50,15 @@
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive } from '../assets/index'
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
+import Overview from './AccountComponents/Overview.vue';
+import Google from './AccountComponents/Google.vue';
+import Spotify from './AccountComponents/Spotify.vue';
+import Discord from './AccountComponents/Discord.vue';
+import Twitch from './AccountComponents/Twitch.vue';
+import Youtube from './AccountComponents/Youtube.vue';
+import RadioFrance from './AccountComponents/RadioFrance.vue';
 
 export default {
   name: 'Account',
@@ -71,8 +76,24 @@ export default {
       youtube,
       gmail,
       google_drive,
-      backgroundColor: themes.dark.backgroundColor,
+      username: '',
+      email: '',
+      backgroundColor: themes.default.backgroundColor,
+      selectedContentComponent: null,
     };
+  },
+  mounted() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/login');
+    } else {
+      const decoded = jwt_decode(token);
+      const username = decoded.username;
+      const email = decoded.email;
+      this.username = username;
+      this.email = email;
+      this.selectedContentComponent = Overview;
+    }
   },
   computed: {
     currentLogo() {
@@ -99,6 +120,19 @@ export default {
     },
   },
   methods: {
+    selectContent(image) {
+      const contentMap = {
+        overview: Overview,
+        google: Google,
+        spotify: Spotify,
+        discord: Discord,
+        twitch: Twitch,
+        youtube: Youtube,
+        radio_france: RadioFrance,
+      };
+      this.selectedContentComponent = contentMap[image];
+      console.log(selectedContentComponent);
+    },
     moveToTasks() {
       this.$router.push('/home');
     },
@@ -112,7 +146,6 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  color: #FFF;
   font-family: Inter;
   font-size: 64px;
 }
@@ -122,21 +155,19 @@ export default {
   margin-top: 20px;
   width: 40%;
   height: 10%;
-  background-color: #ffffff;
-  border: black 2px solid;
   border-radius: 20px;
   align-items: center;
   display: flex;
   justify-content: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .middle-inferior-rectangle {
   position: absolute;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin-left: 25%;
-  margin-top: 120px;
-  width: 40%;
-  height: 30%;
-  background-color: #ffffff;
-  border: black 2px solid;
+  margin-top: 200px;
+  width: 60%;
+  height: 70%;
   border-radius: 20px;
   align-items: center;
   display: flex;
@@ -148,15 +179,12 @@ export default {
   top: 10%;
   width: 20%;
   height: 80%;
-  background-color: white;
-  border: black 2px solid;
   border-radius: 20px;
   flex-direction: column;
   display: flex;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .left-rectangle-title {
-  color: #A7A7A7;
-  font-family: Inter;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -165,8 +193,6 @@ export default {
   margin-left: 10px;
 }
 .left-rectangle-subtitle {
-  color: #A7A7A7;
-  font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -194,8 +220,6 @@ export default {
   width: 50px;
 }
 .image-name {
-  color: #A7A7A7;
-  font-family: Inter;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -218,7 +242,12 @@ export default {
   margin-right: auto;
   margin-left: 20px;
   cursor: pointer;
-  rotate: 180deg;
+  transform: rotate(180deg);
+}
+
+.small-success-button {
+  font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
+  padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
 }
 
 </style>

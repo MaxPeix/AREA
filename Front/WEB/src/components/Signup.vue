@@ -3,20 +3,21 @@
     <div class="left-content">
         <p class="title">Signup</p>
       <button class="member-button" @click="movetologin">Already a member ?</button>
-        <input class="inputs" type="text" placeholder="Email" />
+        <input class="inputs" type="text" placeholder="Username" v-model="usernameInput"/>
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="password" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
             <button class="show-button" @click.prevent="toggleShowPassword">
               {{ showPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
         <div class="password-wrapper">
-          <input class="inputs" :type="confirmPasswordType" v-model="confirmPassword" placeholder="Confirm Password" />
+          <input class="inputs" :type="confirmPasswordType" v-model="confirmPasswordInput" placeholder="Confirm Password" />
             <button class="show-button" @click.prevent="toggleShowConfirmPassword">
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
-      <button class="button">Signup</button>
+      <b-button class="button" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -25,6 +26,7 @@
 <script>
   import { themes } from '../themes/themes.js';
   import { logo_bleu, logo_gris, logo_vert } from './icons/index';
+  import axios from 'axios';
 
   export default {
     name: 'Signup',
@@ -33,12 +35,23 @@
         logo_bleu,
         logo_vert,
         logo_gris,
-        backgroundColor: themes.dark.backgroundColor,
+        backgroundColor: themes.default.backgroundColor,
         password: '',
         confirmPassword: '',
         showPassword: false,
         showConfirmPassword: false,
+        usernameInput: '',
+        emailInput: '',
+        passwordInput: '',
+        confirmPasswordInput: '',
+        loading: false,
       };
+    },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.$router.push('/home');
+      }
     },
     computed: {
       currentLogo() {
@@ -80,6 +93,47 @@
       movetologin() {
         this.$router.push('/login');
       },
+      moveToHome() {
+        if (this.passwordInput !== this.confirmPasswordInput) {
+          this.$buefy.notification.open({
+            message: 'Les mots de passe ne correspondent pas',
+            type: 'is-danger',
+            duration: 5000,
+          });
+          return;
+        }
+
+        // Si les mots de passe correspondent, continuez avec la requête POST
+        const apiUrl = 'http://localhost:8000/api/register';
+
+        const requestData = {
+          username: this.usernameInput,
+          email: this.emailInput,
+          password: this.passwordInput,
+        };
+        this.loading = true;
+        axios.post(apiUrl, requestData)
+          .then(response => {
+            localStorage.setItem('token', response.data.authorisation.token);
+            this.$buefy.notification.open({
+              message: 'Connexion réussie',
+              type: 'is-success',
+              duration: 5000,
+            });
+            this.$router.push('/home');
+          })
+          .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+            this.$buefy.notification.open({
+              message: 'Identifiants incorrects',
+              type: 'is-danger',
+              duration: 5000,
+            });
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
     },
   };
 </script>

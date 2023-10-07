@@ -10,9 +10,11 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
-        'activated',
+        'service_name',
+        'service_description',
+        'apikey',
+        'url',
+        'working',
     ];
 
     public function actions()

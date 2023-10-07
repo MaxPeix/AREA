@@ -2,23 +2,24 @@
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="columns">
       <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index" @click="moveToAreaEditor(area.id)">
           <div class="card-content">
-            <div class="card-header"> <!-- Nouvelle div pour le texte "Area" -->
-              <p class="area-text">{{ area }}</p>
+            <div class="card-header">
+              <p class="area-text">{{ area.name }}</p>
             </div>
             <div class="card-footer">
-              <b-switch :value="true" class="small-success-button">
+              <b-switch v-model="area.activated" class="small-success-button">
               </b-switch>
             </div>
           </div>
         </div>
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+        <b-button class="card-footer" :style="{ backgroundColor: currentTheme.buttons}" @click="testfunction">test bouton des tokens valides</b-button>
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
           <div class="card-content card-plus">+</div>
         </div>
       </div>
       <div class="column is-three-fifths">
-        <div class="center" @click="movetotasks">
+        <div class="center" @click="moveToAreas">
           <img class="logo" :src="currentLogo" />
           <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
@@ -39,9 +40,15 @@ import logo_bleu from '../components/icons/logo_bleu.png';
 import logo_vert from '../components/icons/logo_vert.png';
 import logo_gris from '../components/icons/logo_gris.png';
 import defaultpfp from '../assets/default_pfp.png';
+import axios from 'axios';
+import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
     name: 'Home',
+    props: ['areas'],
+    components: {
+      AreaCreatorForm,
+    },
     data() {
       return {
         defaultpfp,
@@ -49,7 +56,7 @@ export default {
         logo_vert,
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
-        areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs"]
+        canClose: true,
       };
     },
     computed: {
@@ -76,12 +83,82 @@ export default {
         }
       },
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+      }
+      this.getAreas();
+    },
     methods: {
-        movetotasks() {
-        this.$router.push('/tasks');
+        testfunction () {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            this.$router.push('/login');
+            return;
+          }
+          axios.get('http://localhost:8000/api/checktokens', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            this.$buefy.notification.open({
+              message: response.data,
+              type: 'is-success',
+              position: 'is-bottom-right',
+              duration: 5000,
+            });
+            console.log('Réponse du serveur :', response.data);
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des tâches :', error);
+          })
+        },
+        moveToAreas() {
+          this.$router.push({ name: 'areas', params: { areas: this.areas } });
         },
         moveToAccount() {
-        this.$router.push('/account');
+          this.$router.push('/account');
+        },
+        moveToAreaEditor(areaId) {
+          this.$router.push({ name: 'areaeditor', params: { id: areaId } });
+        },
+        moveToAreaCreator() {
+          console.log("opening modal")
+          this.canClose = true;
+          this.$buefy.modal.open({
+              parent: this,
+              component: AreaCreatorForm,
+              hasModalCard: true,
+              props : {
+                canClose: this.canClose,
+              },
+            }).$on('close', () => {
+              this.canClose = false;
+            });
+        },
+        getAreas() {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            this.$router.push('/login');
+            return; // Arrêter la fonction si le token n'est pas disponible
+          }
+          axios.get('http://localhost:8000/api/area', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            console.log('Réponse du serveur :', response.data);
+            this.areas = response.data;
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des tâches :', error);
+          })
+          .finally(() => {
+            // Cacher le spinner de chargement
+          });
         },
     }
 };
@@ -136,6 +213,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  box-shadow: none;
   margin-bottom: 40px; /* Espace sous le texte "Area" */
   margin-top: -40px;
   margin-left: -30px;

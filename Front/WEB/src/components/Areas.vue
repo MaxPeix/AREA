@@ -3,11 +3,11 @@
     <button class="back-button" @click="movetohome" :style="{ color: currentTheme.buttons }">Retour à l'accueil</button>
     <b-container class="cards-container">
       <b-row v-for="(group, rowIndex) in areaGroups" :key="rowIndex">
-        <b-col v-for="(area, colIndex) in group" :key="colIndex">
-          <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+        <b-col v-for="(areas, colIndex) in group" :key="colIndex">
+          <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaEditor(areas.id)">
             <div class="card-content">
               <div class="card-header">
-                <p class="area-text">{{ area }}</p>
+                <p class="area-text">{{ areas.name }}</p>
               </div>
               <div class="card-footer">
                 <b-switch :value="true" class="small-success-button"></b-switch>
@@ -16,7 +16,7 @@
           </div>
         </b-col>
       </b-row>
-      <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
+      <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
         <div class="card-content card-plus">+</div>
       </div>
     </b-container>
@@ -28,13 +28,16 @@
 
 <script>
 import { themes } from '../themes/themes.js';
-import logo_bleu from '../components/icons/logo_bleu.png';
-import logo_vert from '../components/icons/logo_vert.png';
-import logo_gris from '../components/icons/logo_gris.png';
+import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
+import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
-  name: 'Tasks',
+  name: 'Areas',
+  props: ['areas'],
+  components: {
+      AreaCreatorForm,
+    },
   data() {
     return {
       defaultpfp,
@@ -42,7 +45,6 @@ export default {
       logo_vert,
       logo_gris,
       backgroundColor: themes.default.backgroundColor,
-      areas: ["Area 1", "Area 2", "Area 3", "area 5", "area 6", "areaaaa", "etsufhs", "etsufhs", "etsufhs", "etsufhs", "etsufhs"]
     };
   },
   computed: {
@@ -73,17 +75,62 @@ export default {
       for (let i = 0; i < this.areas.length; i += 3) {
         groupedAreas.push(this.areas.slice(i, i + 3));
       }
-      return groupedAreas.slice(0, 4); // Afficher seulement 3 lignes
+      return groupedAreas.slice(0, 4);
+    },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+      }
     },
   },
   methods: {
     movetohome() {
-      this.$router.push('/home');
+      this.$router.push({ name: 'home', params: { areas: this.areas } });
     },
     moveToAccount() {
       this.$router.push('/account');
     },
-  }
+    moveToAreaEditor(areaId) {
+      this.$router.push({ name: 'areaeditor', params: { id: areaId } });
+    },
+    moveToAreaCreator() {
+      console.log("opening modal")
+      this.canClose = true;
+      this.$buefy.modal.open({
+        parent: this,
+        component: AreaCreatorForm,
+        hasModalCard: true,
+        props : {
+          canClose: this.canClose,
+        },
+      }).$on('close', () => {
+        this.canClose = false;
+      });
+    },
+    getAreas() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+        return; // Arrêter la fonction si le token n'est pas disponible
+      }
+      axios.get('http://localhost:8000/api/area', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log('Réponse du serveur :', response.data);
+        this.areas = response.data;
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        // Cacher le spinner de chargement
+      });
+    },
+  },
 };
 </script>
 
@@ -95,13 +142,14 @@ export default {
     font-size: 32px;
     font-weight: bold;
     position: relative;
-    padding-top: 100px; /* Déplace le contenu vers le bas de la page */
+    padding-top: 100px;
   }
 
   .cards-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center; /* Centre les cartes verticalement */
+    align-items: center;
+    margin-left: 120px;
   }
   
   .back-button {
@@ -129,29 +177,30 @@ export default {
     padding: 20px;
     border-radius: 16px;
     width: 300px;
-    height: 180px; /* Vous pouvez également ajuster la hauteur ici si nécessaire */
+    height: 180px;
   }
   
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    box-shadow: none;
     margin-left: -30px;
   }
   
 
   .small-success-button {
-    font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
-    padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
+    font-size: 30px;
+    padding: 2px 4px;
   }
   
   .card-plus {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 80px; /* Adjust the font size as needed */
-    padding: 12px; /* Adjust the padding as needed */
-    border-radius: 16px; /* Adjust the border radius to match other cards */
+    font-size: 80px;
+    padding: 12px;
+    border-radius: 16px;
     margin-top: 0px;
   }
 
@@ -159,7 +208,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 20px; /* Marge pour un espacement du bord de la page */
+  margin: 20px;
 }
 
 .pfp {
