@@ -55,6 +55,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy Laravel application files into the container
 COPY . /var/www/html
 
+# Installez Python
+RUN apt-get update && \
+    apt-get install -y python3
+
 # Install Laravel dependencies
 RUN composer install
 
@@ -62,4 +66,13 @@ RUN composer install
 EXPOSE 8000
 
 # Start Laravel application
-CMD php artisan serve --host=0.0.0.0 --port=8000
+# CMD php artisan serve --host=0.0.0.0 --port=8000
+
+# Copiez le script start.sh dans le conteneur
+COPY start.sh /start.sh
+
+# Rendez le script exécutable
+RUN chmod +x /start.sh
+
+# Utilisez le script comme commande de démarrage
+CMD ["/start.sh"]
