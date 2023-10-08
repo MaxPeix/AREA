@@ -78,7 +78,7 @@ class CheckTokenService extends Controller
         }
     }
 
-    public function checkTokensValidity () {
+    public function checkTokensValidity ($user = null) {
         $user = Auth::user();
         $google = $this->checkGoogleToken($user);
         $spotify = $this->checkSpotifyToken($user);
