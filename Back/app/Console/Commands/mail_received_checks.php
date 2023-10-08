@@ -54,28 +54,47 @@ class mail_received_checks extends Command
         }
     }
 
+    public function encode($v) {
+        return base64_encode($v);
+    }
+
+// Crée le message
+    public function create_message($fromEmail, $toEmail) {
+        $subject = "=?utf-8?B?" . $this->encode("[AREA] reaction") . "?=";
+        $date = date('r');
+        $message = "To: $toEmail\r\n";
+        $message .= "From: $fromEmail\r\n";
+        $message .= "Subject: $subject\r\n";
+        $message .= "Date: $date\r\n";
+        $message .= "Content-Type: multipart/alternative; boundary=boundaryboundary\r\n\r\n";
+        $message .= "--boundaryboundary\r\n";
+        $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $message .= "Content-Transfer-Encoding: base64\r\n\r\n";
+        $message .= $this->encode("La réaction a correctement été executé à la réception d'un mail.") . "\r\n\r\n";
+        $message .= "--boundaryboundary";
+
+        return $message;
+    }
+
     public function execute_reaction($reactions, $user)
     {
         Log::info("execute reaction");
+        Log::info("user: " . $user);
         $reaction = $reactions[0];
         $service = $reaction->service;
         Log::info('service: ' . $service);
-        Log::info("Recipient Email: " . $user->gmail_address);
+        Log::info("Recipient Email: " . $user->gmail_adress);
     
         if ($service->id == 14) {
             Log::info("envoies d'un mail");
             Log::info($service->service_name);
     
-            $recipientEmail = $user->gmail_address;
-            $rawMessage = "To: {$recipientEmail}\r\n";
-            $rawMessage .= "Subject: Test Subject\r\n";
-            $rawMessage .= "MIME-Version: 1.0\r\n";
-            $rawMessage .= "Content-Type: text/plain; charset=utf-8\r\n";
-            $rawMessage .= "\r\n";
-            $rawMessage .= "This is a test message.";
-    
+            $recipientEmail = $user->gmail_adress;
+            \Log::info("Recipient Email: " . $recipientEmail);
+            $rawMessage = $this->create_message($recipientEmail, $recipientEmail);
+
             $base64RawMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
-    
+
             $postData = json_encode(['raw' => $base64RawMessage]);
     
             $ch = curl_init();
