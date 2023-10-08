@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./Back/  # Remplacez par le chemin vers le Dockerfile du backend
+    ports:
+      - "8000:8000"  # Mappez le port du conteneur à un port sur l'hôte
+    volumes:
+      - ./Back:/var/www/html  # Montez le code source du backend dans le conteneur
+    depends_on:
+      - frontend  # Assurez-vous que le service frontend est démarré avant le backend
+
+  frontend:
+    build:
+      context: ./Front/WEB/  # Remplacez par le chemin vers le Dockerfile du frontend
+    ports:
+      - "8080:8080"  # Mappez le port du conteneur à un port sur l'hôte
+    volumes:
+      - ./Front/WEB:/app  # Montez le code source du frontend dans le conteneur
