@@ -50,6 +50,22 @@ class GoogleOAuthController extends Controller
                 if ($user) {
                     $user->google_token = $credentials['access_token'];
                     $user->save();
+                    $accessToken = $credentials['access_token'];
+                    $ch = curl_init("https://www.googleapis.com/oauth2/v1/userinfo?access_token={$accessToken}");
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $userInfo = curl_exec($ch);
+                    curl_close($ch);
+                    
+                    $userInfo = json_decode($userInfo, true);
+                    
+                    if (isset($userInfo['email'])) {
+                        $email = $userInfo['email'];
+                        $user->gmail_adress = $email;
+                        $user->save();
+                    } else {
+                        \Log::warning("Impossible de récupérer l'adresse e-mail");
+                    }
                 } else {
                     \Log::warning("Aucun utilisateur trouvé avec l'ID: " . $id);
                 }

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Area;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class mail_received_checks extends Command
 {
@@ -55,12 +56,50 @@ class mail_received_checks extends Command
 
     public function execute_reaction($reactions, $user)
     {
-        try {
-            for ($i = 0; $i < count($reactions); $i++) {
-                \Log::info("reaction: " . $reactions[$i]);
+        Log::info("execute reaction");
+        $reaction = $reactions[0];
+        $service = $reaction->service;
+        Log::info('service: ' . $service);
+        Log::info("Recipient Email: " . $user->gmail_address);
+    
+        if ($service->id == 14) {
+            Log::info("envoies d'un mail");
+            Log::info($service->service_name);
+    
+            $recipientEmail = $user->gmail_address;
+            $rawMessage = "To: {$recipientEmail}\r\n";
+            $rawMessage .= "Subject: Test Subject\r\n";
+            $rawMessage .= "MIME-Version: 1.0\r\n";
+            $rawMessage .= "Content-Type: text/plain; charset=utf-8\r\n";
+            $rawMessage .= "\r\n";
+            $rawMessage .= "This is a test message.";
+    
+            $base64RawMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
+    
+            $postData = json_encode(['raw' => $base64RawMessage]);
+    
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages/send");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $user->google_token,
+                'Content-Type: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    
+            $response = curl_exec($ch);
+    
+            if (curl_errno($ch)) {
+                Log::info("cURL error: " . curl_error($ch));
+                curl_close($ch);
+                return response()->json(['message' => 'An error occurred while sending the mail'], 500);
             }
-        } catch (\Throwable $th) {
-            \Log::info($th);
+    
+            curl_close($ch);
+            $body = json_decode($response, true);
+            Log::info($body);
         }
     }
 
@@ -87,11 +126,9 @@ class mail_received_checks extends Command
                                 $validity = $this->checkGoogleToken($user);
                                 if ($validity) {
                                     $googleToken = $user->google_token;
-                                    \Log::info($googleToken);
-                                    \Log::info("google token is valid for user: " . $user->id . " - " . $user->name);
 
                                     $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages");
+                                    curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=10");
                                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                                         'Authorization: Bearer ' . $googleToken
                                     ]);
@@ -100,7 +137,7 @@ class mail_received_checks extends Command
                                     $response = curl_exec($ch);
     
                                     if (curl_errno($ch)) {
-                                        \Log::info("cURL error: " . curl_error($ch));
+                                        Log::info("cURL error: " . curl_error($ch));
                                         curl_close($ch);
                                         continue;
                                     }
@@ -110,18 +147,15 @@ class mail_received_checks extends Command
 
                                     if (isset($body['messages']) && count($body['messages']) > 0) {
                                         $newestMailId = $body['messages'][2]['id'];
-                                        \Log::info("last mail id: " . $user->gmail_last_mail_id);
-                                        \Log::info("new mail id: " . $newestMailId);
-    
+
                                         if ($newestMailId !== $user->gmail_last_mail_id) {
-                                            \Log::info("New mail received.");
                                             $user->gmail_last_mail_id = $newestMailId;
                                             $user->save();
                                             $this->execute_reaction($action->reactions, $user);
                                         }
                                     }
                                 } else {
-                                    \Log::info("google token not is valid for user: " . $user->id . " - " . $user);
+                                    Log::info("google token not is valid for user: " . $user->id . " - " . $user);
                                 }
                             }
                         }
