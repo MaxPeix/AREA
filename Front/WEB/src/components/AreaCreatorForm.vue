@@ -71,6 +71,7 @@ export default {
     createReaction(area_id, service_id, token, actions_id_created) {
       axios.post('http://localhost:8000/api/reactions/' + area_id, {
         services_id: service_id,
+        actions_id: actions_id_created,
         activated: true
       }, {
         headers: {
@@ -97,7 +98,7 @@ export default {
         console.log(response.data);
         const actions_id_created = response.data.id;
         console.log("action id created:", actions_id_created);
-        this.createReaction(area_id_created, this.selectedReaction.id, token, actions_id_created);
+        this.createReaction(area_id, this.selectedReaction.id, token, actions_id_created);
       })
       .catch(error => {
         console.error('Erreur lors de la création de l\'action :', error);
@@ -113,7 +114,6 @@ export default {
         this.$router.push('/login');
         return;
       }
-      let area_id_created = null;
       this.loading = true;
       axios.post('http://localhost:8000/api/area', {
         name: this.name,
@@ -125,7 +125,7 @@ export default {
         },
       })
       .then(response => {
-        area_id_created = response.data.id;
+        let area_id_created = response.data.id;
         console.log("area id created:", area_id_created);
         this.createAction(area_id_created, this.selectedAction.id, token);
       })
