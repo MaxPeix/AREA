@@ -5,7 +5,7 @@
       <p style="font-size: 24px"> Hello, {{ username }} 👋</p>
     </div>
     <div class="middle-inferior-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
-      <component :is="selectedContentComponent"></component>
+      <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
     <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
       <div class="logo-title-container">
@@ -80,6 +80,8 @@ export default {
       email: '',
       backgroundColor: themes.default.backgroundColor,
       selectedContentComponent: null,
+      serviceStates: {},
+      selectedServiceState: null,
     };
   },
   mounted() {
@@ -93,6 +95,7 @@ export default {
       this.username = username;
       this.email = email;
       this.selectedContentComponent = Overview;
+      this.getServices();
     }
   },
   computed: {
@@ -132,9 +135,30 @@ export default {
       };
       this.selectedContentComponent = contentMap[image];
       console.log(selectedContentComponent);
+      this.selectedServiceState = this.serviceStates[image];
+      console.log(selectedServiceState);
     },
     moveToTasks() {
       this.$router.push('/home');
+    },
+    getServices () {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+        return;
+      }
+      axios.get('http://localhost:8000/api/checktokens', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log('Réponse du serveur :', response.data);
+        this.serviceStates = response.data;
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
     },
   }
 };

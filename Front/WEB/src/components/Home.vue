@@ -13,7 +13,6 @@
             </div>
           </div>
         </div>
-        <b-button class="card-footer" :style="{ backgroundColor: currentTheme.buttons}" @click="testfunction">test bouton des tokens valides</b-button>
         <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
           <div class="card-content card-plus">+</div>
         </div>
@@ -91,30 +90,6 @@ export default {
       this.getAreas();
     },
     methods: {
-        testfunction () {
-          const token = localStorage.getItem('token');
-          if (!token) {
-            this.$router.push('/login');
-            return;
-          }
-          axios.get('http://localhost:8000/api/checktokens', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(response => {
-            this.$buefy.notification.open({
-              message: response.data,
-              type: 'is-success',
-              position: 'is-bottom-right',
-              duration: 5000,
-            });
-            console.log('Réponse du serveur :', response.data);
-          })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des tâches :', error);
-          })
-        },
         moveToAreas() {
           this.$router.push({ name: 'areas', params: { areas: this.areas } });
         },

@@ -1,28 +1,27 @@
 <template>
-    <div>
-      <h1>{{ title }}</h1>
-      <p>{{ content }}</p>
-      <button @click="connect">Se connecter</button>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        title: 'RadioFrance',
-        content: 'Contenu personnalisé pour l\'aperçu.',
-      };
-    },
-    methods: {
-      connect() {
-        // Gérez la logique de connexion ici
+  <div>
+    <button @click="connect">Se connecter</button>
+    <b-switch v-model="serviceStates.radio_france" class="small-success-button"></b-switch>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+export default {
+  props: {
+    serviceStates: {},
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+    connect() {
       },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* Ajoutez des styles CSS spécifiques si nécessaire */
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+/* Ajoutez des styles CSS spécifiques si nécessaire */
+</style>
