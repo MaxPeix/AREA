@@ -14,13 +14,7 @@ class ControllerServices extends Controller
 
     public function index()
     {
-        $userId = Auth::id();
-        $actions = Action::whereHas('area', function ($query) use ($userId) {
-            $query->where('users_id', $userId);
-        })->get();
-        $reactions = Reaction::whereIn('actions_id', $actions->pluck('id'))->get();
-        $serviceIds = $reactions->pluck('services_id')->toArray();
-        $services = Service::whereIn('id', $serviceIds)->get();
+        $services = Service::all();
         return response()->json($services);
     }
 

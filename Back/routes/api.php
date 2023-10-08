@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckTokenService;
 use App\Http\Controllers\ControllerArea;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ControllerActions;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ControllerServices;
 use App\Http\Controllers\GoogleOAuthController;
 use App\Http\Controllers\SpotifyAuthController;
 use App\Http\Controllers\TwitchAuthController;
+use App\Http\Controllers\AreaHistoriqueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,7 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/area/{id}', [ControllerArea::class, 'show']);
     Route::post('/area', [ControllerArea::class, 'create']);
     Route::delete('/area/{id}', [ControllerArea::class, 'delete']);
+    Route::put('/area/{id}', [ControllerArea::class, 'update']);
 
     // actions
     Route::get('/actions', [ControllerActions::class, 'index']);
@@ -56,6 +59,15 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/services/reactions/{reactionId}', [ControllerServices::class, 'showReaction']);
     Route::post('/services', [ControllerServices::class, 'create']);
     Route::put('/services/{serviceId}', [ControllerServices::class, 'update']);
+
+    // area historique
+    Route::get('/areahistorique', [AreaHistoriqueController::class, 'index']);
+    Route::get('/areahistorique/{id}', [AreaHistoriqueController::class, 'show']);
+    Route::post('/areahistorique', [AreaHistoriqueController::class, 'create']);
+    Route::put('/areahistorique/{id}', [AreaHistoriqueController::class, 'update']);
+    Route::delete('/areahistorique/{id}', [AreaHistoriqueController::class, 'delete']);
+
+    Route::get('/checktokens', [CheckTokenService::class, 'checkTokensValidity']);
 });
 
 Route::get('/oauth2callback', [GoogleOAuthController::class, 'oauth2callback']);

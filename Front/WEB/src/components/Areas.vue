@@ -30,10 +30,14 @@
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
+import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
   name: 'Areas',
   props: ['areas'],
+  components: {
+      AreaCreatorForm,
+    },
   data() {
     return {
       defaultpfp,
@@ -73,6 +77,12 @@ export default {
       }
       return groupedAreas.slice(0, 4);
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+      }
+    },
   },
   methods: {
     movetohome() {
@@ -85,9 +95,42 @@ export default {
       this.$router.push({ name: 'areaeditor', params: { id: areaId } });
     },
     moveToAreaCreator() {
-      this.$router.push('/areacreator');
+      console.log("opening modal")
+      this.canClose = true;
+      this.$buefy.modal.open({
+        parent: this,
+        component: AreaCreatorForm,
+        hasModalCard: true,
+        props : {
+          canClose: this.canClose,
+        },
+      }).$on('close', () => {
+        this.canClose = false;
+      });
     },
-  }
+    getAreas() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+        return; // Arrêter la fonction si le token n'est pas disponible
+      }
+      axios.get('http://localhost:8000/api/area', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log('Réponse du serveur :', response.data);
+        this.areas = response.data;
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        // Cacher le spinner de chargement
+      });
+    },
+  },
 };
 </script>
 

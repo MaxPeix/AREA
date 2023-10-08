@@ -7,24 +7,46 @@
           <p class="header-font" v-for="item in area" :key="item.id">{{ item.name }}</p>
         </div>
         <div class="card-footer" v-if="!loading">
-          <b-switch v-model="area[0].activated" class="small-success-button"></b-switch>
+          <b-switch v-model="area[0].activated" class="small-success-button" v-if="!loading" @click="test"></b-switch>
         </div>
       </div>
     </div>
-    <div class="action-reaction-rectangle" :style="{ left:'25%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> {{ area[0].action.name }} </button>
+    <div class="action-reaction-rectangle" :style="{ left:'20%' }">
+      <button class="action-reaction-button header-font" v-if="!loading"> Current name: {{ area[0].name }} </button>
+      <input
+        class="action-reaction-input header-font"
+        v-model="nameInput"
+        placeholder="Saisissez le nouveau nom ici"
+        v-if="!loading"
+      />
     </div>
-    <div class="action-reaction-rectangle" :style="{ left: '50%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> {{ area[0].action.name }}</button>
+    <div class="action-reaction-rectangle" :style="{ left: '52%' }">
+      <button class="action-reaction-button header-font" v-if="!loading"> Current description: {{ area[0].description }}</button>
+      <input
+        class="action-reaction-input header-font"
+        v-model="descriptionInput"
+        placeholder="Saisissez la nouvelle description ici"
+        v-if="!loading"
+      />
     </div>
     <div class="logs">
       <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">Logs</p>
+      <div v-if="!loading">
+        <div v-for="(log, index) in area[0].historique" :key="index">
+          <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">{{ log.informations_random }} - {{ log.created_at }}</p>
+        </div>
+      </div>
     </div>
-
-    <!-- Écran de chargement -->
     <div v-if="loading" class="loading-indicator">
       Chargement en cours...
     </div>
+    <div class="update">
+      <b-button
+        label="Update"
+        type="is-primary"
+        @click="updateArea" />
+    </div>
+    <button class="delete-button" @click="deleteArea">Delete</button>
   </div>
 </template>
 
@@ -41,7 +63,9 @@ export default {
       arrow,
       backgroundColor: themes.light.backgroundColor,
       area: [],
-      loading: true, // Ajout de la variable de chargement
+      loading: true,
+      nameInput: "",
+      descriptionInput: "",
     };
   },
   computed: {
@@ -65,6 +89,9 @@ export default {
     this.getArea();
   },
   methods: {
+    test() {
+      console.log(area[0].activated);
+    },
     movetohome() {
       this.$router.push('/home');
     },
@@ -74,109 +101,175 @@ export default {
         this.$router.push('/login');
         return; // Arrêter la fonction si le token n'est pas disponible
       }
-      axios
-        .get('http://localhost:8000/api/area/' + this.id, {
+      axios.get('http://localhost:8000/api/area/' + this.id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data);
+        this.area = response.data;
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        this.loading = false; // Définir loading sur false lorsque la requête est terminée
+      });
+    },
+    updateArea() {
+      const token = localStorage.getItem('token');
+      axios.put('http://localhost:8000/api/area/' + this.id, {
+        name: this.nameInput,
+        description: this.descriptionInput,
+        activated: this.area[0].activated,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+      });
+    },
+    deleteArea() {
+      if (confirm("Êtes-vous sûr de vouloir supprimer cet élément ?")) {
+        const token = localStorage.getItem('token');
+        axios.delete('http://localhost:8000/api/area/' + this.id, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           console.log('Réponse du serveur :', response.data);
-          this.area = response.data;
         })
         .catch((error) => {
           console.error('Erreur lors de la récupération des tâches :', error);
         })
         .finally(() => {
-          this.loading = false; // Définir loading sur false lorsque la requête est terminée
         });
+      }
     },
   }
 };
 </script>
 
 <style scoped>
-  .wrapper {
-    width: 100%;
-    height: 100vh;
-    font-size: 32px;
-    font-weight: bold;
-    position: relative;
-    padding-top: 100px;
-  }
-  .header-font {
-    font-size: 32px;
-    font-weight: bold;
-    color: black;
-  }
-  .arrow {
-    position: absolute;
-    top: 0;
-    margin-left: 60px;
-    width: 100px;
-    height: 100px;
-    padding: 20px;
-    transform:rotate(180deg);
-    cursor: pointer;
-  }
-  .card-footer {
-    text-align: left;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 8px;
-  }
-  .card {
-    margin: 10px;
-    padding: 20px;
-    margin-left: 75px;
-    border-radius: 16px;
-    width: 300px;
-    height: 180px;
-  }
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-left: -30px;
-    box-shadow: none;
-  }
-  .small-success-button {
-    font-size: 30px;
-    padding: 2px 4px;
-  }
-  .action-reaction-rectangle {
-    position: absolute;
-    top: 50%;
-    width: 300px;
-    height: 150px;
-    background-color: #9FCDA8;
-    border-radius: 20px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-  .action-reaction-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  .logs {
-    position: absolute;
-    top: 20px;
-    right: 15px;
-    width: 300px;
-    height: 700px;
-    background-color: #9FCDA8;
-    border-radius: 16px;
-  }
 
-  .loading-indicator {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-  }
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  font-size: 32px;
+  font-weight: bold;
+  position: relative;
+  padding-top: 100px;
+}
+
+.header-font {
+  font-size: 32px;
+  font-weight: bold;
+  color: black;
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+  margin-left: 60px;
+  width: 100px;
+  height: 100px;
+  padding: 20px;
+  transform:rotate(180deg);
+  cursor: pointer;
+}
+
+.card-footer {
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px;
+}
+
+.card {
+  margin: 10px;
+  padding: 20px;
+  margin-left: 75px;
+  border-radius: 16px;
+  width: 300px;
+  height: 180px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-left: -30px;
+  box-shadow: none;
+}
+
+.small-success-button {
+  font-size: 30px;
+  padding: 2px 4px;
+}
+
+.action-reaction-rectangle {
+  position: absolute;
+  top: 50%;
+  width: 500px;
+  height: 300px;
+  background-color: #9FCDA8;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-reaction-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.logs {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  width: 300px;
+  height: 700px;
+  background-color: #9FCDA8;
+  border-radius: 16px;
+}
+
+.loading-indicator {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.update {
+  position: absolute;
+  top: 90%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 24px;
+  padding: 5px 10px;
+  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
+  color: #fff; /* Couleur du texte du bouton de suppression */
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
 
 </style>

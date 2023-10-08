@@ -17,7 +17,7 @@
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
-      <button class="button" @click="moveToHome">Signup</button>
+      <b-button class="button" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -35,7 +35,7 @@
         logo_bleu,
         logo_vert,
         logo_gris,
-        backgroundColor: themes.dark.backgroundColor,
+        backgroundColor: themes.default.backgroundColor,
         password: '',
         confirmPassword: '',
         showPassword: false,
@@ -44,7 +44,14 @@
         emailInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+        loading: false,
       };
+    },
+    mounted() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.$router.push('/home');
+      }
     },
     computed: {
       currentLogo() {
@@ -87,6 +94,16 @@
         this.$router.push('/login');
       },
       moveToHome() {
+        if (this.passwordInput !== this.confirmPasswordInput) {
+          this.$buefy.notification.open({
+            message: 'Les mots de passe ne correspondent pas',
+            type: 'is-danger',
+            duration: 5000,
+          });
+          return;
+        }
+
+        // Si les mots de passe correspondent, continuez avec la requête POST
         const apiUrl = 'http://localhost:8000/api/register';
 
         const requestData = {
@@ -94,14 +111,27 @@
           email: this.emailInput,
           password: this.passwordInput,
         };
-
+        this.loading = true;
         axios.post(apiUrl, requestData)
           .then(response => {
-            console.log('Réponse du serveur :', response.data);
+            localStorage.setItem('token', response.data.authorisation.token);
+            this.$buefy.notification.open({
+              message: 'Connexion réussie',
+              type: 'is-success',
+              duration: 5000,
+            });
             this.$router.push('/home');
           })
           .catch(error => {
             console.error('Erreur lors de la requête :', error);
+            this.$buefy.notification.open({
+              message: 'Identifiants incorrects',
+              type: 'is-danger',
+              duration: 5000,
+            });
+          })
+          .finally(() => {
+            this.loading = false;
           });
       }
     },

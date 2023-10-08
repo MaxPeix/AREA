@@ -27,7 +27,7 @@ class Action extends Model
 
     public function reactions()
     {
-        return $this->hasMany(Reaction::class);
+        return $this->hasMany(Reaction::class, 'actions_id', 'id');
     }
 
     public function users()

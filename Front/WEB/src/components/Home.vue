@@ -40,10 +40,14 @@ import logo_vert from '../components/icons/logo_vert.png';
 import logo_gris from '../components/icons/logo_gris.png';
 import defaultpfp from '../assets/default_pfp.png';
 import axios from 'axios';
+import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
     name: 'Home',
     props: ['areas'],
+    components: {
+      AreaCreatorForm,
+    },
     data() {
       return {
         defaultpfp,
@@ -51,6 +55,7 @@ export default {
         logo_vert,
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
+        canClose: true,
       };
     },
     computed: {
@@ -95,7 +100,18 @@ export default {
           this.$router.push({ name: 'areaeditor', params: { id: areaId } });
         },
         moveToAreaCreator() {
-          this.$router.push('/areacreator');
+          console.log("opening modal")
+          this.canClose = true;
+          this.$buefy.modal.open({
+              parent: this,
+              component: AreaCreatorForm,
+              hasModalCard: true,
+              props : {
+                canClose: this.canClose,
+              },
+            }).$on('close', () => {
+              this.canClose = false;
+            });
         },
         getAreas() {
           const token = localStorage.getItem('token');
