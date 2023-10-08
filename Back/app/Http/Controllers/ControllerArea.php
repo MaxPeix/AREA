@@ -18,6 +18,7 @@ class ControllerArea extends Controller
 
         $areas = Area::with([
             'actions.service',
+            'actions.reactions',
             'reactions.service',
             'areaHistorique'
         ])
@@ -43,20 +44,20 @@ class ControllerArea extends Controller
                             'url' => $action->service->url,
                             'working' => $action->service->working,
                         ],
-                    ];
-                }),
-                'reaction' => $area->reactions->map(function ($reaction) {
-                    return [
-                        'id' => $reaction->id,
-                        'activated' => $reaction->activated,
-                        'action_id' => $reaction->actions_id,
-                        'services' => [
-                            'id' => $reaction->service->id,
-                            'service_name' => $reaction->service->service_name,
-                            'service_description' => $reaction->service->service_description,
-                            'url' => $reaction->service->url,
-                            'working' => $reaction->service->working,
-                        ],
+                        'reactions' => $action->reactions->map(function ($reaction) {
+                            return [
+                                'id' => $reaction->id,
+                                'activated' => $reaction->activated,
+                                'action_id' => $reaction->actions_id,
+                                'services' => [
+                                    'id' => $reaction->service->id,
+                                    'service_name' => $reaction->service->service_name,
+                                    'service_description' => $reaction->service->service_description,
+                                    'url' => $reaction->service->url,
+                                    'working' => $reaction->service->working,
+                                ],
+                            ];
+                        }),
                     ];
                 }),
                 'historique' => $area->areaHistorique->map(function ($areaHistorique) {
@@ -98,6 +99,7 @@ class ControllerArea extends Controller
 
         $areas = Area::with([
             'actions.service',
+            'actions.reactions',
             'reactions.service',
             'areaHistorique'
         ])
@@ -124,20 +126,20 @@ class ControllerArea extends Controller
                             'url' => $action->service->url,
                             'working' => $action->service->working,
                         ],
-                    ];
-                }),
-                'reaction' => $area->reactions->map(function ($reaction) {
-                    return [
-                        'id' => $reaction->id,
-                        'activated' => $reaction->activated,
-                        'action_id' => $reaction->actions_id,
-                        'services' => [
-                            'id' => $reaction->service->id,
-                            'service_name' => $reaction->service->service_name,
-                            'service_description' => $reaction->service->service_description,
-                            'url' => $reaction->service->url,
-                            'working' => $reaction->service->working,
-                        ],
+                        'reactions' => $action->reactions->map(function ($reaction) {
+                            return [
+                                'id' => $reaction->id,
+                                'activated' => $reaction->activated,
+                                'action_id' => $reaction->actions_id,
+                                'services' => [
+                                    'id' => $reaction->service->id,
+                                    'service_name' => $reaction->service->service_name,
+                                    'service_description' => $reaction->service->service_description,
+                                    'url' => $reaction->service->url,
+                                    'working' => $reaction->service->working,
+                                ],
+                            ];
+                        }),
                     ];
                 }),
                 'historique' => $area->areaHistorique->map(function ($areaHistorique) {
