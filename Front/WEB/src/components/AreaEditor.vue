@@ -1,52 +1,52 @@
 <template>
-  <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-    <img class="arrow" :src="arrow" @click="movetohome"/>
-    <div class="card" :style="{ backgroundColor: currentTheme.buttons }">
-      <div class="card-content">
-        <div class="card-header" v-if="!loading">
-          <p class="header-font" v-for="item in area" :key="item.id">{{ item.name }}</p>
-        </div>
-        <div class="card-footer" v-if="!loading">
-          <b-switch v-model="area[0].activated" class="small-success-button" v-if="!loading" @click="test"></b-switch>
+  <div class="section full-height full-width" :style="{ backgroundColor: currentTheme.backgroundColor }">
+    <!-- Utilisation de 'columns' et 'column' pour centrer la carte -->
+    <div class="columns is-centered">
+      <div class="column is-one-third">
+        <div class="card">
+          <div class="card-content">
+            <div class="content is-size-4 has-text-weight-bold" v-if="!loading">
+              <p v-for="item in area" :key="item.id">{{ item.name }}</p>
+            </div>
+            <div class="content" v-if="!loading">
+              <b-switch v-model="area[0].activated" :disabled="areaupdating" v-if="!loading" @input="updateAreaActivation" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="action-reaction-rectangle" :style="{ left:'20%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> Current name: {{ area[0].name }} </button>
-      <input
-        class="action-reaction-input header-font"
-        v-model="nameInput"
-        placeholder="Saisissez le nouveau nom ici"
-        v-if="!loading"
-      />
+
+    <div class="box has-background-success columns">
+      <div class="column is-half">
+        <h1 class="title is-4 has-text-weight-bold" v-if="!loading">Current name: {{ area[0].name }}</h1>
+        <input class="input is-size-4" v-model="nameInput" placeholder="Saisissez le nouveau nom ici" v-if="!loading" />
+      </div>
+      <div class="column is-half">
+        <h1 class="title is-4 has-text-weight-bold" v-if="!loading">Current description: {{ area[0].description }}</h1>
+        <input class="input is-size-4" v-model="descriptionInput" placeholder="Saisissez la nouvelle description ici" v-if="!loading" />
+      </div>
     </div>
-    <div class="action-reaction-rectangle" :style="{ left: '52%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> Current description: {{ area[0].description }}</button>
-      <input
-        class="action-reaction-input header-font"
-        v-model="descriptionInput"
-        placeholder="Saisissez la nouvelle description ici"
-        v-if="!loading"
-      />
-    </div>
-    <div class="logs">
-      <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">Logs</p>
+
+    <div class="box has-background-success">
+      <p class="title is-4 has-text-centered has-text-weight-bold">Logs</p>
       <div v-if="!loading">
         <div v-for="(log, index) in area[0].historique" :key="index">
-          <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">{{ log.informations_random }} - {{ log.created_at }}</p>
+          <p class="subtitle is-4 has-text-centered has-text-weight-bold">{{ log.informations_random }} - {{ log.created_at }}</p>
         </div>
       </div>
     </div>
-    <div v-if="loading" class="loading-indicator">
+
+    <div v-if="loading" class="has-text-centered is-size-4 has-text-weight-bold">
       Chargement en cours...
     </div>
-    <div class="update">
-      <b-button
-        label="Update"
-        type="is-primary"
-        @click="updateArea" />
+
+    <div class="buttons is-centered">
+      <b-button label="Update" type="is-primary" @click="updateArea" />
+      <b-button type="is-danger" @click="deleteArea">Delete the area</b-button>
+      <b-button type="is-info" @click="movetohome">Back to home</b-button>
     </div>
-    <button class="delete-button" @click="deleteArea">Delete</button>
+
+    <b-loading :is-full-page="true" v-model="loading" :can-cancel="false"></b-loading>
   </div>
 </template>
 
@@ -66,6 +66,7 @@ export default {
       loading: true,
       nameInput: "",
       descriptionInput: "",
+      areaupdating: false
     };
   },
   computed: {
@@ -114,7 +115,31 @@ export default {
         console.error('Erreur lors de la récupération des tâches :', error);
       })
       .finally(() => {
-        this.loading = false; // Définir loading sur false lorsque la requête est terminée
+        this.loading = false;
+      });
+    },
+    updateAreaActivation() {
+      this.areaupdating = true;
+      const token = localStorage.getItem('token');
+      axios.put('http://localhost:8000/api/area/' + this.id, {
+        activated: this.area[0].activated,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data)
+        this.$buefy.snackbar.open({
+          message: this.area[0].name + ' a été ' + (this.area[0].activated ? 'activé' : 'désactivé'),
+          type: this.area[0].activated ? 'is-success' : 'is-danger',
+        });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        this.areaupdating = false;
       });
     },
     updateArea() {
@@ -161,115 +186,17 @@ export default {
 
 <style scoped>
 
-.wrapper {
+.full-height {
+  min-height: 100vh; /* vh représente les Viewport Heights, 100vh indique 100% de la hauteur du viewport */
+}
+
+.full-width {
   width: 100%;
-  height: 100vh;
-  font-size: 32px;
-  font-weight: bold;
-  position: relative;
-  padding-top: 100px;
 }
 
-.header-font {
-  font-size: 32px;
-  font-weight: bold;
-  color: black;
+/* Assure que les inputs ne prennent pas toute la largeur de l'écran */
+.input.is-size-4 {
+  max-width: 100%;
+  box-sizing: border-box;
 }
-
-.arrow {
-  position: absolute;
-  top: 0;
-  margin-left: 60px;
-  width: 100px;
-  height: 100px;
-  padding: 20px;
-  transform:rotate(180deg);
-  cursor: pointer;
-}
-
-.card-footer {
-  text-align: left;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 8px;
-}
-
-.card {
-  margin: 10px;
-  padding: 20px;
-  margin-left: 75px;
-  border-radius: 16px;
-  width: 300px;
-  height: 180px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-left: -30px;
-  box-shadow: none;
-}
-
-.small-success-button {
-  font-size: 30px;
-  padding: 2px 4px;
-}
-
-.action-reaction-rectangle {
-  position: absolute;
-  top: 50%;
-  width: 500px;
-  height: 300px;
-  background-color: #9FCDA8;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-}
-
-.action-reaction-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.logs {
-  position: absolute;
-  top: 20px;
-  right: 15px;
-  width: 300px;
-  height: 700px;
-  background-color: #9FCDA8;
-  border-radius: 16px;
-}
-
-.loading-indicator {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
-}
-
-.update {
-  position: absolute;
-  top: 90%;
-  left: 49%;
-  transform: translate(-50%, -50%);
-}
-
-.delete-button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-size: 24px;
-  padding: 5px 10px;
-  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
-  color: #fff; /* Couleur du texte du bouton de suppression */
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
 </style>

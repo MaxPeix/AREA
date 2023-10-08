@@ -22,7 +22,7 @@
       setTimeout(() => {
         this.showWelcome = false;
         this.$router.push('/login');
-      }, 3000);
+      }, 1500);
     },
     computed: {
       currentLogo() {

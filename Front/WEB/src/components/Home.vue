@@ -1,35 +1,51 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="columns">
-      <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index" @click="moveToAreaEditor(area.id)">
-          <div class="card-content">
+      <div class="column column1 scrollable-area">
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
+          <b-loading :is-full-page="false" v-model="area.isLoading" :can-cancel="true"></b-loading>
+          <div class="card-content" v-if="!area.isLoading">
             <div class="card-header">
-              <p class="area-text">{{ area.name }}</p>
+              <div class="header-container">
+                <p class="area-text">{{ area.name }}</p>
+              </div>
             </div>
-            <div class="card-footer">
-              <b-switch v-model="area.activated" class="small-success-button">
-              </b-switch>
+            <!-- Boutons déplacés vers le card-content -->
+            <div class="button-container">
+              <b-button v-if="area.activated" type="is-success">
+                ON
+              </b-button>
+              <b-button v-else type="is-danger">
+                OFF
+              </b-button>
+              <b-button @click="moveToAreaEditor(area.id)" type="is-info">
+                Edit
+              </b-button>
             </div>
           </div>
         </div>
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
+        <b-button class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
           <div class="card-content card-plus">+</div>
-        </div>
+        </b-button>
       </div>
-      <div class="column is-three-fifths">
+      <!-- <div class="column is-three-fifths">
         <div class="center" @click="moveToAreas">
-          <img class="logo" :src="currentLogo" />
-          <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
-      </div>
+      </div> -->
       <div class="column">  
         <div></div>
       </div>
     </div>
-    <div class="pfp-container">
-      <img :src="defaultpfp" class="pfp" @click="moveToAccount"/>
-    </div>
+    <img class="logo" :src="currentLogo" />
+    <b-button class="pfp-container2" @click="moveToAreas"
+      type="is-info"
+    >
+      See my areas
+    </b-button>
+    <b-button class="pfp-container" @click="moveToAccount" type="is-dark">
+      My account
+    </b-button>
+    <b-loading :is-full-page="true" v-model="loadingareas" :can-cancel="true"></b-loading>
   </div>
 </template>
 
@@ -56,6 +72,7 @@ export default {
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
         canClose: true,
+        loadingareas: false
       };
     },
     computed: {
@@ -119,6 +136,7 @@ export default {
             this.$router.push('/login');
             return; // Arrêter la fonction si le token n'est pas disponible
           }
+          this.loadingareas = true;
           axios.get('http://localhost:8000/api/area', {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -132,7 +150,7 @@ export default {
             console.error('Erreur lors de la récupération des tâches :', error);
           })
           .finally(() => {
-            // Cacher le spinner de chargement
+            this.loadingareas = false;
           });
         },
     }
@@ -140,6 +158,38 @@ export default {
 </script>
 
 <style scoped>
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 3px 8px; /* taille réduite */
+  border-radius: 5px;
+  font-size: 12px; /* taille de texte réduite */
+}
+
+.active-status {
+  background-color: green;
+  color: white;
+}
+
+.inactive-status {
+  background-color: #FF7F7F; /* rouge moins agressif */
+  color: white;
+}
 
 .center {
   display: flex;
@@ -162,8 +212,13 @@ export default {
   font-size: 64px;
 }
 .logo {
-  width: 200px;
-  height: 200px;
+  position: absolute;
+  width: 40%;
+  height: 60%;
+  top: 50px;
+  right: 80px;
+  margin: 10px;
+  z-index: 10; /* Assurez-vous qu'il est au-dessus des autres éléments, si nécessaire */
 }
 
 /* Positionner le bouton en bas à gauche */
@@ -181,7 +236,8 @@ export default {
   margin: 10px;
   padding: 20px;
   border-radius: 16px; /* Coins arrondis de la carte */
-  width: 80%;
+  width: 60%; /* Réduction de la largeur */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ajout d'une petite ombre pour plus de profondeur */
 }
 
 .card-header {
@@ -245,7 +301,14 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 20px; /* Marge pour un espacement du bord de la page */
+  margin: 20px;
+}
+
+.pfp-container2 {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  margin: 20px;
 }
 
 .pfp {
