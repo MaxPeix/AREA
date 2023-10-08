@@ -130,6 +130,7 @@ export default {
       })
       .then((response) => {
         console.log('Réponse du serveur :', response.data);
+        this.movetohome();
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération des tâches :', error);
@@ -147,6 +148,7 @@ export default {
         })
         .then((response) => {
           console.log('Réponse du serveur :', response.data);
+          this.movetohome();
         })
         .catch((error) => {
           console.error('Erreur lors de la récupération des tâches :', error);
