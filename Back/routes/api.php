@@ -11,6 +11,7 @@ use App\Http\Controllers\ControllerReactions;
 use App\Http\Controllers\ControllerServices;
 use App\Http\Controllers\GoogleOAuthController;
 use App\Http\Controllers\SpotifyAuthController;
+use App\Http\Controllers\TwitchAuthController;
 use App\Http\Controllers\AreaHistoriqueController;
 
 /*
@@ -71,6 +72,7 @@ Route::middleware('custom.auth')->group(function () {
 
 Route::get('/oauth2callback', [GoogleOAuthController::class, 'oauth2callback']);
 Route::get('/spotify-callback', [SpotifyAuthController::class, 'spotifyCallback']);
+Route::get('/twitch-callback', [TwitchAuthController::class, 'twitchCallback']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
