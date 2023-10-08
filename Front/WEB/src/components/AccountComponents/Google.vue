@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="connectGoogle">Se connecter</button>
-    <b-switch v-model="serviceStates.google" class="small-success-button"></b-switch>
+    <button @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
+    <b-switch disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
   </div>
 </template>
   
@@ -44,10 +44,5 @@ export default {
 
 <style scoped>
 /* Ajoutez des styles CSS spécifiques si nécessaire */
-
-.small-success-button {
-  font-size: 20px;
-  padding: 2px 4px;
-}
 
 </style>

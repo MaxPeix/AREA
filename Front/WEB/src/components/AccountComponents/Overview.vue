@@ -9,7 +9,7 @@
             <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.google" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
             <p class="area-text">Discord</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.discord" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
             <p class="area-text">Twitch</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.twitch" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
             <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.spotify" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.spotify" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
             <p class="area-text">Youtube</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.youtube" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.youtube" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@
             <p class="area-text">RadioFrance</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.radiofrance" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.radiofrance" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
             <p class="area-text">tmp</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.tmp" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@
             <p class="area-text">tmp</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.tmp" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
             <p class="area-text">tmp</p>
           </div>
           <div class="card-footer">
-            <b-switch v-model="serviceStates.tmp" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>

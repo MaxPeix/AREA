@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="connect">Se connecter</button>
-    <b-switch v-model="serviceStates.radio_france" class="small-success-button"></b-switch>
+    <button @click="connect" v-if="!serviceStates.radio_france">Se connecter</button>
+    <b-switch disabled v-model="serviceStates.radio_france" class="small-success-button"></b-switch>
   </div>
 </template>
 
