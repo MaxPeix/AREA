@@ -53,6 +53,17 @@ class mail_received_checks extends Command
         }
     }
 
+    public function execute_reaction($reactions, $user)
+    {
+        try {
+            for ($i = 0; $i < count($reactions); $i++) {
+                \Log::info("reaction: " . $reactions[$i]);
+            }
+        } catch (\Throwable $th) {
+            \Log::info($th);
+        }
+    }
+
     /**
      * Execute the console command.
      */
@@ -61,12 +72,13 @@ class mail_received_checks extends Command
         $areas = Area::with([
             'user',
             'actions.service',
-            'actions.reactions',
-            'reactions.service'
+            'actions.reactions.service',
         ])->get();
 
         foreach ($areas as $area) {
             $user = User::find($area->users_id);
+            // $this->action_is_valid($area, $user);
+
             if ($area->activated) {
                 foreach ($area->actions as $action) {
                     if ($action->activated) {
@@ -76,7 +88,7 @@ class mail_received_checks extends Command
                                 if ($validity) {
                                     $googleToken = $user->google_token;
                                     \Log::info($googleToken);
-                                    \Log::info("google token is valid");
+                                    \Log::info("google token is valid for user: " . $user->id . " - " . $user->name);
 
                                     $ch = curl_init();
                                     curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages");
@@ -105,10 +117,11 @@ class mail_received_checks extends Command
                                             \Log::info("New mail received.");
                                             $user->gmail_last_mail_id = $newestMailId;
                                             $user->save();
+                                            $this->execute_reaction($action->reactions, $user);
                                         }
                                     }
                                 } else {
-                                    \Log::info("google token is not valid");
+                                    \Log::info("google token not is valid for user: " . $user->id . " - " . $user);
                                 }
                             }
                         }
