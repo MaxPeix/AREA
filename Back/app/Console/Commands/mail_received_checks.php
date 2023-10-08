@@ -29,6 +29,7 @@ class mail_received_checks extends Command
     {
         $areas = Area::with([
             'actions.service',
+            'actions.reactions',
             'reactions.service'
         ])->get();
         \Log::info('mail_received_checks: ' . $areas);
