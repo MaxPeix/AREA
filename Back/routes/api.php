@@ -36,6 +36,7 @@ Route::middleware('custom.auth')->group(function () {
     Route::get('/area/{id}', [ControllerArea::class, 'show']);
     Route::post('/area', [ControllerArea::class, 'create']);
     Route::delete('/area/{id}', [ControllerArea::class, 'delete']);
+    Route::put('/area/{id}', [ControllerArea::class, 'update']);
 
     // actions
     Route::get('/actions', [ControllerActions::class, 'index']);
