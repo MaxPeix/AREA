@@ -58,7 +58,6 @@ class mail_received_checks extends Command
         return base64_encode($v);
     }
 
-// Crée le message
     public function create_message($fromEmail, $toEmail) {
         $subject = "=?utf-8?B?" . $this->encode("[AREA] reaction") . "?=";
         $date = date('r');
@@ -90,7 +89,7 @@ class mail_received_checks extends Command
             Log::info($service->service_name);
     
             $recipientEmail = $user->gmail_adress;
-            \Log::info("Recipient Email: " . $recipientEmail);
+            Log::info("Recipient Email: " . $recipientEmail);
             $rawMessage = $this->create_message($recipientEmail, $recipientEmail);
 
             $base64RawMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
