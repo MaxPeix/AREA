@@ -60,13 +60,12 @@ class mail_received_checks extends Command
         $reaction = $reactions[0];
         $service = $reaction->service;
         Log::info('service: ' . $service);
-        Log::info("Recipient Email: " . $user->gmail_address);  // Debugging line
+        Log::info("Recipient Email: " . $user->gmail_address);
     
         if ($service->id == 14) {
             Log::info("envoies d'un mail");
             Log::info($service->service_name);
     
-            // Construction du message
             $recipientEmail = $user->gmail_address;
             $rawMessage = "To: {$recipientEmail}\r\n";
             $rawMessage .= "Subject: Test Subject\r\n";
