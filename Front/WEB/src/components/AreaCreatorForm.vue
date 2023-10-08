@@ -6,19 +6,19 @@
           </header>
           <section class="modal-card-body">
               <b-field label="Name">
-                <b-input v-model="formData.name" type="name" placeholder="Name of the area" required></b-input>
+                <b-input v-model="name" type="name" placeholder="Name of the area" required></b-input>
               </b-field>
               <b-field label="Description">
-                <b-input v-model="formData.description" type="description" placeholder="Description of the area" required></b-input>
+                <b-input v-model="description" type="description" placeholder="Description of the area" required></b-input>
               </b-field>
               <b-field label="Action">
-                <b-select v-model="formData.selectedAction" placeholder="Select an action">
-                  <option v-for="action in currentActions" :value="action">{{ action.serviceName }}</option>
+                <b-select v-model="selectedAction" placeholder="Select an action">
+                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name }}</option>
                 </b-select>
               </b-field>
-              <b-field label="Reaction">
-                <b-select v-model="formData.selectedReaction" placeholder="Select a reaction">
-                  <option v-for="reaction in currentReactions" :value="reaction">{{ reaction.serviceName }}</option>
+              <b-field label="Reactions">
+                <b-select v-model="selectedReaction" placeholder="Select a reaction">
+                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name }}</option>
                 </b-select>
               </b-field>
           </section>
@@ -32,6 +32,7 @@
             <b-button
               label="Create"
               type="is-primary"
+              :loading="loading"
               @click="createArea" />
           </footer>
       </div>
@@ -53,92 +54,92 @@ export default {
     }
     this.getServices();
   },
-  computed: {
-    currentReactions() {
-        return this.reactions;
-    },
-    currentActions() {
-        return this.actions;
-    },
-  },
   data() {
     return {
-      formData: {
-        name: "",
-        description: "",
-        selectedAction: "",
-        selectedReaction: "",
-      },
-      actions: [],
-      reactions: [],
-      services: []
+      name: null,
+      description: null,
+      selectedAction: null,
+      selectedReaction: null,
+      services: [],
+      loading: false,
     };
   },
   methods: {
     closeModal() {
-      this.$emit('close'); // Émet un événement "close" pour indiquer à Home de fermer le composant modal.
+      this.$emit('close');
     },
-    async createArea() {
-      console.log(this.formData.name);
-      console.log(this.formData.description);
-      console.log(this.formData.selectedAction);
-      console.log(this.formData.selectedReaction);
+    createReaction(area_id, service_id, token, actions_id_created) {
+      axios.post('http://localhost:8000/api/reactions/' + area_id, {
+        services_id: service_id,
+        activated: true
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la création de la réaction :', error);
+      })
+    },
+    createAction(area_id, service_id, token) {
+      axios.post('http://localhost:8000/api/actions/' + area_id, {
+        services_id: service_id,
+        activated: true
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        const actions_id_created = response.data.id;
+        console.log("action id created:", actions_id_created);
+        this.createReaction(area_id_created, this.selectedReaction.id, token, actions_id_created);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la création de l\'action :', error);
+      })
+    },
+    createArea() {
+      console.log(this.name);
+      console.log(this.description);
+      console.log("selected actions service id:", this.selectedAction.id);
+      console.log("selected reactions service id:", this.selectedReaction.id);
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
         return;
       }
-      let area_new_id = "";
-      let action_new_id = "";
-      const apiUrl = 'http://localhost:8000/api/area';
-      const requestData = {
-        name: this.formData.name,
-        description: this.formData.description,
-        activated: "true"
-      };
-      try {
-        /* Area */
-        const response = await axios.post(apiUrl, requestData, {
-          headers: {
-              Authorization: `Bearer ${token}`
-          },
-        })
-        console.log('Réponse du serveur :', response.data);
-        area_new_id = response.data.id;
-
-        /* Action */
-        const apiUrlAction = 'http://localhost:8000/api/actions/' + area_new_id;
-        const requestDataAction = {
-          services_id: this.formData.selectedAction.services_id,
-          activated: "true"
-        };
-        console.log(apiUrlAction);
-
-        const response2 = await axios.post(apiUrlAction, requestDataAction, {
-          headers: {
-              Authorization: `Bearer ${token}`
-          },
-        })
-        console.log('Réponse du serveur 2 :', response2.data);
-        action_new_id = response2.data.id;
-
-        /* Reaction */
-        const apiUrlReaction = 'http://localhost:8000/api/reactions/' + area_new_id;
-        const requestDataReaction = {
-          actions_id: action_new_id,
-          services_id: this.formData.selectedReaction.services_id,
-          activated: "true"
-        };
-        const response3 = await axios.post(apiUrlReaction, requestDataReaction, {
-          headers: {
-              Authorization: `Bearer ${token}`
-          },
-        })
-        console.log('Réponse du serveur 3 :', response3.data);
-        closeModal();
-      } catch (error) {
-        console.error(error)
-      }
+      let area_id_created = null;
+      this.loading = true;
+      axios.post('http://localhost:8000/api/area', {
+        name: this.name,
+        description: this.description,
+        activated: true
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        area_id_created = response.data.id;
+        console.log("area id created:", area_id_created);
+        this.createAction(area_id_created, this.selectedAction.id, token);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la création de l\'area :', error);
+      })
+      .finally(() => {
+        this.loading = false;
+        this.$buefy.notification.open({
+          message: 'Area created',
+          type: 'is-success',
+        });
+        this.closeModal();
+      });
     },
     getServices() {
       const token = localStorage.getItem('token');
@@ -153,62 +154,9 @@ export default {
       })
       .then(response => {
         this.services = response.data;
-        return Promise.all([this.getActions(), this.getReactions()]); // Appel asynchrone des deux fonctions
       })
       .catch(error => {
         console.error('Erreur lors de la récupération des services :', error);
-      })
-      .finally(() => {
-        // Cacher le spinner de chargement
-      });
-    },
-    getActions() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-        return;
-      }
-      axios.get('http://localhost:8000/api/actions', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log('Réponse du serveur :', response.data);
-        this.actions = response.data.map(action => ({
-          ...action,
-          serviceName: this.findServiceName(action.services_id),
-        }));
-        console.log("actions : ", this.actions)
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des tâches :', error);
-      })
-      .finally(() => {
-        // Cacher le spinner de chargement
-      });
-    },
-    getReactions() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-        return;
-      }
-      axios.get('http://localhost:8000/api/reactions', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log('Réponse du serveur reactions:', response.data);
-        this.reactions = response.data.map(reaction => ({
-          ...reaction,
-          serviceName: this.findServiceName(reaction.services_id),
-        }));
-        console.log("reactions: ", this.reactions)
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des tâches :', error);
       })
       .finally(() => {
         // Cacher le spinner de chargement

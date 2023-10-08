@@ -19,7 +19,7 @@
           aria-modal
       >
           <template #default="props">
-            <modal-form :form-data="formProps" :actions="actions" :reactions="reactions" @close="isComponentModalActive = false" @create="createArea"></modal-form>
+            <modal-form :form-data="formProps" :actions="actions" :reactions="reactions" :services="services" @close="isComponentModalActive = false" @create="createArea"></modal-form>
           </template>
       </b-modal>
     </section>
@@ -33,7 +33,7 @@ import axios from 'axios';
 
 
 const ModalForm = {
-      props: ['formData', 'actions', 'reactions'],
+      props: ['formData', 'actions', 'reactions', 'services'],
       template: `
           <form action="">
               <div class="modal-card" style="width: 700px">
@@ -53,12 +53,12 @@ const ModalForm = {
                       </b-field>
                       <b-field label="Action">
                         <b-select v-model="formData.selectedAction" placeholder="Select an action">
-                          <option v-for="action in actions" :value="action">{{ action.serviceName }}</option>
+                          <option v-for="service in services" :value="action">{{ service.service_name }}</option>
                         </b-select>
                       </b-field>
                       <b-field label="Reaction">
                         <b-select v-model="formData.selectedReaction" placeholder="Select a reaction">
-                          <option v-for="reaction in reactions" :value="reaction">{{ reaction.serviceName }}</option>
+                          <option v-for="service in services" :value="reaction">{{ service.service_name }}</option>
                         </b-select>
                       </b-field>
                   </section>
@@ -92,8 +92,6 @@ export default {
           selectedAction: "",
           selectedReaction: "",
       },
-      actions: ['Action 1', 'Action 2', 'Action 3'], // Remplacez par vos propres données
-      reactions: ['Reaction 1', 'Reaction 2', 'Reaction 3'], // Remplacez par vos propres données
       services: [],
     };
   },
@@ -116,8 +114,6 @@ export default {
       this.$router.push('/login');
     }
     this.getServices();
-    this.getActions();
-    this.getReactions();
   },
   methods: {
     movetohome() {
@@ -205,60 +201,6 @@ export default {
       .finally(() => {
         // Cacher le spinner de chargement
       });
-    },
-    getActions() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-        return;
-      }
-      axios.get('http://localhost:8000/api/actions', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log('Réponse du serveur :', response.data);
-        this.actions = response.data.map(action => ({
-          ...action,
-          serviceName: this.findServiceName(action.services_id),
-        }));
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des tâches :', error);
-      })
-      .finally(() => {
-        // Cacher le spinner de chargement
-      });
-    },
-    getReactions() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-        return; // Arrêter la fonction si le token n'est pas disponible
-      }
-      axios.get('http://localhost:8000/api/reactions', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log('Réponse du serveur :', response.data);
-        this.reactions = response.data.map(reaction => ({
-          ...reaction,
-          serviceName: this.findServiceName(reaction.services_id),
-        }));
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des tâches :', error);
-      })
-      .finally(() => {
-        // Cacher le spinner de chargement
-      });
-    },
-    findServiceName(serviceId) {
-      const service = this.services.find(s => s.id === serviceId);
-      return service ? service.service_name : 'Service non trouvé';
     },
   }
 };
