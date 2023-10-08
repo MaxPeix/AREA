@@ -7,28 +7,36 @@
           <p class="header-font" v-for="item in area" :key="item.id">{{ item.name }}</p>
         </div>
         <div class="card-footer" v-if="!loading">
-          <b-switch v-model="area[0].activated" class="small-success-button" v-if="!loading"></b-switch>
+          <b-switch v-model="area[0].activated" class="small-success-button" v-if="!loading" @click="test"></b-switch>
         </div>
       </div>
     </div>
     <div class="action-reaction-rectangle" :style="{ left:'20%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> Current : {{ area[0].action[0].name }} </button>
-      <b-select v-model="selectedAction" placeholder="Select an action" v-if="!loading">
-        <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name }}</option>
-      </b-select>
+      <button class="action-reaction-button header-font" v-if="!loading"> Current name: {{ area[0].name }} </button>
+      <input
+        class="action-reaction-input header-font"
+        v-model="nameInput"
+        placeholder="Saisissez le nouveau nom ici"
+        v-if="!loading"
+      />
     </div>
     <div class="action-reaction-rectangle" :style="{ left: '52%' }">
-      <button class="action-reaction-button header-font" v-if="!loading"> Current : {{ area[0].action[0].reactions[0].services.service_name }}</button>
-      <b-select v-model="selectedReaction" placeholder="Select a reaction" v-if="!loading">
-        <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name }}</option>
-      </b-select>
+      <button class="action-reaction-button header-font" v-if="!loading"> Current description: {{ area[0].description }}</button>
+      <input
+        class="action-reaction-input header-font"
+        v-model="descriptionInput"
+        placeholder="Saisissez la nouvelle description ici"
+        v-if="!loading"
+      />
     </div>
     <div class="logs">
       <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">Logs</p>
-      <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }" v-if="!loading"> {{ area[0].historique }}</p>
+      <div v-if="!loading">
+        <div v-for="(log, index) in area[0].historique" :key="index">
+          <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">{{ log.informations_random }} - {{ log.created_at }}</p>
+        </div>
+      </div>
     </div>
-
-    <!-- Écran de chargement -->
     <div v-if="loading" class="loading-indicator">
       Chargement en cours...
     </div>
@@ -38,6 +46,7 @@
         type="is-primary"
         @click="updateArea" />
     </div>
+    <button class="delete-button" @click="deleteArea">Delete</button>
   </div>
 </template>
 
@@ -54,10 +63,9 @@ export default {
       arrow,
       backgroundColor: themes.light.backgroundColor,
       area: [],
-      loading: true, // Ajout de la variable de chargement
-      services: [],
-      selectedAction: null,
-      selectedReaction: null,
+      loading: true,
+      nameInput: "",
+      descriptionInput: "",
     };
   },
   computed: {
@@ -79,9 +87,11 @@ export default {
       this.$router.push('/login');
     }
     this.getArea();
-    this.getServices();
   },
   methods: {
+    test() {
+      console.log(area[0].activated);
+    },
     movetohome() {
       this.$router.push('/home');
     },
@@ -91,46 +101,59 @@ export default {
         this.$router.push('/login');
         return; // Arrêter la fonction si le token n'est pas disponible
       }
-      axios
-        .get('http://localhost:8000/api/area/' + this.id, {
+      axios.get('http://localhost:8000/api/area/' + this.id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data);
+        this.area = response.data;
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        this.loading = false; // Définir loading sur false lorsque la requête est terminée
+      });
+    },
+    updateArea() {
+      const token = localStorage.getItem('token');
+      axios.put('http://localhost:8000/api/area/' + this.id, {
+        name: this.nameInput,
+        description: this.descriptionInput,
+        activated: this.area[0].activated,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+      });
+    },
+    deleteArea() {
+      if (confirm("Êtes-vous sûr de vouloir supprimer cet élément ?")) {
+        const token = localStorage.getItem('token');
+        axios.delete('http://localhost:8000/api/area/' + this.id, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           console.log('Réponse du serveur :', response.data);
-          this.area = response.data;
         })
         .catch((error) => {
           console.error('Erreur lors de la récupération des tâches :', error);
         })
         .finally(() => {
-          this.loading = false; // Définir loading sur false lorsque la requête est terminée
         });
-    },
-    getServices() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-        return;
       }
-      axios.get('http://localhost:8000/api/services', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        this.services = response.data;
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des services :', error);
-      })
-      .finally(() => {
-        // Cacher le spinner de chargement
-      });
-    },
-    updateArea() {
-
     },
   }
 };
@@ -203,7 +226,6 @@ export default {
   background-color: #9FCDA8;
   border-radius: 20px;
   align-items: center;
-  display: flex;
   justify-content: center;
 }
 
@@ -235,6 +257,19 @@ export default {
   top: 90%;
   left: 49%;
   transform: translate(-50%, -50%);
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 24px;
+  padding: 5px 10px;
+  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
+  color: #fff; /* Couleur du texte du bouton de suppression */
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 </style>
