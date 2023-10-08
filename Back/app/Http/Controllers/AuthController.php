@@ -28,7 +28,8 @@ class AuthController extends Controller
         }
         $credentials = $request->only('email', 'password');
 
-        $token = Auth::attempt($credentials);
+        $minutes = 90 * 24 * 60;
+        $token = Auth::setTTL($minutes)->attempt($credentials);
 
         if (!$token) {
             return response()->json([
@@ -38,7 +39,7 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $newToken = Auth::claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
+        $newToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
@@ -84,7 +85,8 @@ class AuthController extends Controller
                 'message' => 'User creation failed',
             ], 500);
         }
-        $newToken = Auth::claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
+        $minutes = 90 * 24 * 60;
+        $newToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
 
         return response()->json([
             'status' => 'success',

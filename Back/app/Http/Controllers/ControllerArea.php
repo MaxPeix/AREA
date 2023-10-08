@@ -18,7 +18,8 @@ class ControllerArea extends Controller
 
         $areas = Area::with([
             'actions.service',
-            'reactions.service'
+            'reactions.service',
+            'areaHistorique'
         ])
         ->where('users_id', $userId)
         ->get();
@@ -58,6 +59,15 @@ class ControllerArea extends Controller
                         ],
                     ];
                 }),
+                'historique' => $area->areaHistorique->map(function ($areaHistorique) {
+                    return [
+                        'id' => $areaHistorique->id,
+                        'name' => $areaHistorique->name,
+                        'description' => $areaHistorique->description,
+                        'informations_random' => $areaHistorique->informations_random,
+                        'created_at' => $areaHistorique->created_at,
+                    ];
+                }),
             ];
         })->toArray();
 
@@ -88,7 +98,8 @@ class ControllerArea extends Controller
 
         $areas = Area::with([
             'actions.service',
-            'reactions.service'
+            'reactions.service',
+            'areaHistorique'
         ])
         ->where('id', $id)
         ->where('users_id', $userId)
@@ -127,6 +138,15 @@ class ControllerArea extends Controller
                             'url' => $reaction->service->url,
                             'working' => $reaction->service->working,
                         ],
+                    ];
+                }),
+                'historique' => $area->areaHistorique->map(function ($areaHistorique) {
+                    return [
+                        'id' => $areaHistorique->id,
+                        'name' => $areaHistorique->name,
+                        'description' => $areaHistorique->description,
+                        'informations_random' => $areaHistorique->informations_random,
+                        'created_at' => $areaHistorique->created_at,
                     ];
                 }),
             ];
