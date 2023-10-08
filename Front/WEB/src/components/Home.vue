@@ -45,7 +45,7 @@
     <b-button class="pfp-container" @click="moveToAccount" type="is-dark">
       My account
     </b-button>
-    <b-loading :is-full-page="true" v-model="loadingareas" :can-cancel="true"></b-loading>
+    <!-- <b-loading :is-full-page="true" v-model="loadingareas" :can-cancel="true"></b-loading> -->
   </div>
 </template>
 
