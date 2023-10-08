@@ -164,8 +164,7 @@ class mail_received_checks extends Command
                                     $body = json_decode($response, true);
 
                                     if (isset($body['messages']) && count($body['messages']) > 0) {
-                                        $newestMailId = $body['messages'][2]['id'];
-
+                                        $newestMailId = $body['messages'][0]['id'];
                                         if ($newestMailId !== $user->gmail_last_mail_id) {
                                             $user->gmail_last_mail_id = $newestMailId;
                                             $user->save();
