@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-    <img class="arrow" :src="arrow" @click="moveToTasks"/>
+    <img class="arrow" :src="arrow" @click="moveToHome"/>
     <div class="middle-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
       <p style="font-size: 24px"> Hello, {{ username }} 👋</p>
     </div>
@@ -143,7 +143,7 @@ export default {
       this.selectedServiceState = this.serviceStates[image];
       console.log(selectedServiceState);
     },
-    moveToTasks() {
+    moveToHome() {
       this.$router.push('/home');
     },
     getServices () {
@@ -274,19 +274,14 @@ export default {
   transform: rotate(180deg);
 }
 
-.small-success-button {
-  font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
-  padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
-}
-
 .delete-button {
   position: absolute;
   bottom: 10px;
   left: 10px;
   font-size: 24px;
   padding: 5px 10px;
-  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
-  color: #fff; /* Couleur du texte du bouton de suppression */
+  background-color: #ff0000;
+  color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 8px;

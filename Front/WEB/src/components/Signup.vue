@@ -102,8 +102,6 @@
           });
           return;
         }
-
-        // Si les mots de passe correspondent, continuez avec la requête POST
         const apiUrl = 'http://localhost:8000/api/register';
 
         const requestData = {

@@ -17,11 +17,10 @@ export default {
   },
   methods: {
     connect() {
-      },
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Ajoutez des styles CSS spécifiques si nécessaire */
 </style>

@@ -123,7 +123,7 @@ export default {
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
-        return; // Arrêter la fonction si le token n'est pas disponible
+        return;
       }
       axios.get('http://localhost:8000/api/area/' + this.id, {
         headers: {
@@ -138,7 +138,7 @@ export default {
         console.error('Erreur lors de la récupération des tâches :', error);
       })
       .finally(() => {
-        this.loading = false; // Définir loading sur false lorsque la requête est terminée
+        this.loading = false;
       });
     },
     updateArea() {
@@ -297,8 +297,8 @@ export default {
   left: 10px;
   font-size: 24px;
   padding: 5px 10px;
-  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
-  color: #fff; /* Couleur du texte du bouton de suppression */
+  background-color: #ff0000;
+  color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 8px;

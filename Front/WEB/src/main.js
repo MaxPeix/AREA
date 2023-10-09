@@ -10,7 +10,6 @@ import Welcome from './components/Welcome.vue'
 import Signup from './components/Signup.vue'
 import Home from './components/Home.vue'
 import Account from './components/Account.vue'
-import Areas from './components/Areas.vue'
 import AreaEditor from './components/AreaEditor.vue';
 
 Vue.config.productionTip = false
@@ -24,7 +23,6 @@ const routes = [
   { path: '/home', component: Home, name: 'home', props: true},
   { path: '/account', component: Account, name: 'account' },
   { path: '/areaeditor', component: AreaEditor, name: 'areaeditor', props: true},
-  { path: '/areas', component: Areas, name: 'areas', props: true},
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
