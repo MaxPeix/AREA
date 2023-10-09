@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <button class="delete-button" @click="logout">Logout</button>
   </div>
 </template>
 
@@ -123,6 +124,10 @@ export default {
     },
   },
   methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    },
     selectContent(image) {
       const contentMap = {
         overview: Overview,
@@ -272,6 +277,19 @@ export default {
 .small-success-button {
   font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
   padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 24px;
+  padding: 5px 10px;
+  background-color: #ff0000; /* Couleur de fond du bouton de suppression */
+  color: #fff; /* Couleur du texte du bouton de suppression */
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 </style>
