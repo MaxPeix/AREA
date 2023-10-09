@@ -135,6 +135,7 @@ export default {
             },
           }).$on('close', () => {
             this.canClose = false;
+            this.getAreas();
           });
       },
       getAreas() {
