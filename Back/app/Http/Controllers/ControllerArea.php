@@ -185,7 +185,19 @@ class ControllerArea extends Controller
         if ($area->users_id != $userId) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
+
+        $action = Action::where('areas_id', $id)->first();
+        if ($action) {
+            $reaction = Reaction::where('actions_id', $action->id)->first();
+            if ($reaction) {
+                $reaction->delete();
+            }
+
+            $action->delete();
+        }
+    
         $area->delete();
-        return response()->json(['message' => 'Area deleted'], 200);
+
+        return response()->json(['message' => 'Area and associated records deleted'], 200);
     }
 }
