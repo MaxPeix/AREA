@@ -42,7 +42,6 @@
 <script>
 import axios from 'axios';
 
-
 export default {
   props: {
     canClose: Boolean,
@@ -159,7 +158,6 @@ export default {
         console.error('Erreur lors de la récupération des services :', error);
       })
       .finally(() => {
-        // Cacher le spinner de chargement
       });
     },
     findServiceName(serviceId) {

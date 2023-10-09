@@ -2,7 +2,6 @@
   <div class="overview">
     <div class="overview-header">Overview</div>
     <div class="card-row">
-      <!-- Première rangée de cartes -->
       <div class="card">
         <div class="card-content">
           <div class="card-header">
@@ -35,7 +34,6 @@
       </div>
     </div>
     <div class="card-row">
-      <!-- Deuxième rangée de cartes -->
       <div class="card">
         <div class="card-content">
           <div class="card-header">
@@ -68,7 +66,6 @@
       </div>
     </div>
     <div class="card-row">
-      <!-- Troisième rangée de cartes -->
       <div class="card">
         <div class="card-content">
           <div class="card-header">
@@ -142,15 +139,15 @@ export default {
 }
 
 .overview-header {
-  font-size: 24px; /* Augmentez la taille de la police si nécessaire */
-  margin: 10px; /* Ajoutez un espacement au-dessus du texte "Overview" si nécessaire */
+  font-size: 24px;
+  margin: 10px;
 }
 
 .card {
   margin: 10px;
   padding: 20px;
   border-radius: 16px;
-  width: 300px; /* Adjust the width as needed */
+  width: 300px;
 }
 
 .card-header {

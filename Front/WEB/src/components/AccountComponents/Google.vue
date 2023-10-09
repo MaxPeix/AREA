@@ -18,31 +18,28 @@ export default {
     };
   },
   methods: {
-      connectGoogle() {
+    connectGoogle() {
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
-          return; // Arrêter la fonction si le token n'est pas disponible
+          return;
       }
       axios.get('http://127.0.0.1:8000/api/oauth2callback', {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-          })
-          .then((response) => {
-          console.log(response.data);
-          // redirect to url in response.data
-          window.location.replace(response.data);
-          })
-          .catch((error) => {
-          console.log(error);
-          });
-      },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        })
+        .then((response) => {
+        console.log(response.data);
+        window.location.replace(response.data);
+        })
+        .catch((error) => {
+        console.log(error);
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Ajoutez des styles CSS spécifiques si nécessaire */
-
 </style>

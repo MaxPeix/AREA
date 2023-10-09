@@ -17,9 +17,8 @@
         </div>
       </div>
       <div class="column is-three-fifths">
-        <div class="center" @click="moveToAreas">
+        <div class="center">
           <img class="logo" :src="currentLogo" />
-          <div class="text_areas" :style="{ color: currentTheme.buttons }">See my areas</div>
         </div>
       </div>
       <div class="column">  
@@ -34,9 +33,7 @@
 
 <script>
 import { themes } from '../themes/themes.js';
-import logo_bleu from '../components/icons/logo_bleu.png';
-import logo_vert from '../components/icons/logo_vert.png';
-import logo_gris from '../components/icons/logo_gris.png';
+import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
 import axios from 'axios';
 import AreaCreatorForm from './AreaCreatorForm.vue';
@@ -115,9 +112,6 @@ export default {
           this.areaupdating = false;
         });
       },
-      moveToAreas() {
-        this.$router.push({ name: 'areas', params: { areas: this.areas } });
-      },
       moveToAccount() {
         this.$router.push('/account');
       },
@@ -143,7 +137,7 @@ export default {
         const token = localStorage.getItem('token');
         if (!token) {
           this.$router.push('/login');
-          return; // Arrêter la fonction si le token n'est pas disponible
+          return;
         }
         axios.get('http://localhost:8000/api/area', {
           headers: {
@@ -158,7 +152,6 @@ export default {
           console.error('Erreur lors de la récupération des tâches :', error);
         })
         .finally(() => {
-          // Cacher le spinner de chargement
         });
       },
     }
@@ -177,7 +170,6 @@ export default {
 }
 
 .wrapper {
-  /* width: 100%; */
   height: 102vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
@@ -190,23 +182,22 @@ export default {
 .logo {
   width: 200px;
   height: 200px;
+  margin-top: 180%;
 }
 
-/* Positionner le bouton en bas à gauche */
 .card-footer {
   text-align: left;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 8px; /* Espace autour du bouton */
+  padding: 8px;
 }
 
-/* Reduire la taille de la carte */
 .card {
   margin: 10px;
   padding: 20px;
-  border-radius: 16px; /* Coins arrondis de la carte */
+  border-radius: 16px;
   width: 80%;
 }
 
@@ -215,19 +206,19 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   box-shadow: none;
-  margin-bottom: 40px; /* Espace sous le texte "Area" */
+  margin-bottom: 40px;
   margin-top: -40px;
   margin-left: -30px;
 }
 
 .small-success-button {
-  font-size: 30px; /* Ajustez la taille de la police selon vos préférences */
-  padding: 2px 4px; /* Ajustez le rembourrage selon vos préférences */
+  font-size: 30px;
+  padding: 2px 4px;
 }
 
 .area-text {
-  font-size: 22px; /* Ajustez la taille de la police selon vos préférences */
-  margin-bottom: 4px; /* Espace sous le texte "Area" */
+  font-size: 22px;
+  margin-bottom: 4px;
 }
 
 .column {
@@ -246,32 +237,31 @@ export default {
 
 .scrollable-area {
   overflow-y: auto;
-  max-height: 100vh; /* Ajustez la hauteur maximale selon vos besoins */
+  max-height: 100vh;
 }
 
-/* Cacher la scrollbar dans WebKit (Chrome et Safari) */
 .scrollable-area::-webkit-scrollbar {
-  width: 0.1em; /* Largeur de la scrollbar minimale */
+  width: 0.1em;
 }
 
 .scrollable-area::-webkit-scrollbar-thumb {
-  background-color: transparent; /* Couleur du bouton de défilement transparente */
+  background-color: transparent;
 }
 
 .card-plus {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 36px; /* Adjust the font size as needed */
-  padding: 12px; /* Adjust the padding as needed */
-  border-radius: 16px; /* Adjust the border radius to match other cards */
+  font-size: 36px;
+  padding: 12px;
+  border-radius: 16px;
 }
 
 .pfp-container {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 20px; /* Marge pour un espacement du bord de la page */
+  margin: 20px;
 }
 
 .pfp {

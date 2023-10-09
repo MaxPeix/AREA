@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
 import axios from 'axios';
 export default {
   props: {
@@ -17,11 +18,10 @@ export default {
   },
   methods: {
     connect() {
-      },
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Ajoutez des styles CSS spécifiques si nécessaire */
 </style>
