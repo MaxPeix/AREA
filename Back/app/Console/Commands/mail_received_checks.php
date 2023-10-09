@@ -14,7 +14,7 @@ class mail_received_checks extends Command
      *
      * @var string
      */
-    protected $signature = 'app:mail_received_checks';
+    protected $signature = 'app:mail_received_checks {user}';
 
     /**
      * The console command description.
@@ -54,132 +54,47 @@ class mail_received_checks extends Command
         }
     }
 
-    public function encode($v) {
-        return base64_encode($v);
-    }
-
-    public function create_message($fromEmail, $toEmail) {
-        $subject = "=?utf-8?B?" . $this->encode("[AREA] reaction") . "?=";
-        $date = date('r');
-        $message = "To: $toEmail\r\n";
-        $message .= "From: $fromEmail\r\n";
-        $message .= "Subject: $subject\r\n";
-        $message .= "Date: $date\r\n";
-        $message .= "Content-Type: multipart/alternative; boundary=boundaryboundary\r\n\r\n";
-        $message .= "--boundaryboundary\r\n";
-        $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
-        $message .= "Content-Transfer-Encoding: base64\r\n\r\n";
-        $message .= $this->encode("La réaction a correctement été executé à la réception d'un mail.") . "\r\n\r\n";
-        $message .= "--boundaryboundary";
-
-        return $message;
-    }
-
-    public function execute_reaction($reactions, $user)
-    {
-        Log::info("execute reaction");
-        Log::info("user: " . $user);
-        $reaction = $reactions[0];
-        $service = $reaction->service;
-        Log::info('service: ' . $service);
-        Log::info("Recipient Email: " . $user->gmail_adress);
-    
-        if ($service->id == 14) {
-            Log::info("envoies d'un mail");
-            Log::info($service->service_name);
-    
-            $recipientEmail = $user->gmail_adress;
-            Log::info("Recipient Email: " . $recipientEmail);
-            $rawMessage = $this->create_message($recipientEmail, $recipientEmail);
-
-            $base64RawMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
-
-            $postData = json_encode(['raw' => $base64RawMessage]);
-    
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages/send");
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Authorization: Bearer ' . $user->google_token,
-                'Content-Type: application/json'
-            ]);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    
-            $response = curl_exec($ch);
-    
-            if (curl_errno($ch)) {
-                Log::info("cURL error: " . curl_error($ch));
-                curl_close($ch);
-                return response()->json(['message' => 'An error occurred while sending the mail'], 500);
-            }
-    
-            curl_close($ch);
-            $body = json_decode($response, true);
-            Log::info($body);
-        }
-    }
-
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $areas = Area::with([
-            'user',
-            'actions.service',
-            'actions.reactions.service',
-        ])->get();
+        $userId = $this->argument('user');
+        $user = User::find($userId);
+        if (!$user) {
+            Log::error('User not found');
+            return 1;
+        }
+        $validity = $this->checkGoogleToken($user);
+        if (!$validity) {
+            Log::info("google token not is valid for user: " . $user->id . " - " . $user);
+            return 1;
+        }
+        $googleToken = $user->google_token;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=10");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $googleToken
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
 
-        foreach ($areas as $area) {
-            $user = User::find($area->users_id);
-            // $this->action_is_valid($area, $user);
-
-            if ($area->activated) {
-                foreach ($area->actions as $action) {
-                    if ($action->activated) {
-                        if ($action->service) {
-                            if ($action->service->id == 2) {
-                                $validity = $this->checkGoogleToken($user);
-                                if ($validity) {
-                                    $googleToken = $user->google_token;
-
-                                    $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=10");
-                                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                                        'Authorization: Bearer ' . $googleToken
-                                    ]);
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                                    $response = curl_exec($ch);
-    
-                                    if (curl_errno($ch)) {
-                                        Log::info("cURL error: " . curl_error($ch));
-                                        curl_close($ch);
-                                        continue;
-                                    }
-
-                                    curl_close($ch);
-                                    $body = json_decode($response, true);
-
-                                    if (isset($body['messages']) && count($body['messages']) > 0) {
-                                        $newestMailId = $body['messages'][0]['id'];
-                                        if ($newestMailId !== $user->gmail_last_mail_id) {
-                                            $user->gmail_last_mail_id = $newestMailId;
-                                            $user->save();
-                                            $this->execute_reaction($action->reactions, $user);
-                                        }
-                                    }
-                                } else {
-                                    Log::info("google token not is valid for user: " . $user->id . " - " . $user);
-                                }
-                            }
-                        }
-                    }
-                }
+        if (curl_errno($ch)) {
+            Log::info("cURL error: " . curl_error($ch));
+            curl_close($ch);
+            return 1;
+        }
+        curl_close($ch);
+        $body = json_decode($response, true);
+        if (isset($body['messages']) && count($body['messages']) > 0) {
+            $newestMailId = $body['messages'][0]['id'];
+            if ($newestMailId !== $user->gmail_last_mail_id) {
+                $user->gmail_last_mail_id = $newestMailId;
+                $user->save();
+                return 0;
             }
         }
-        return 0;
+        return 1;
     }
 }
