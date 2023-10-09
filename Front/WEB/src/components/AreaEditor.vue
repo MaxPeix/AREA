@@ -7,7 +7,7 @@
           <p class="header-font" v-for="item in area" :key="item.id">{{ item.name }}</p>
         </div>
         <div class="card-footer" v-if="!loading">
-          <b-switch v-model="area[0].activated" class="small-success-button" v-if="!loading" @click="test"></b-switch>
+          <b-switch v-model="area[0].activated" class="small-success-button" :disabled="areaupdating" v-if="!loading" @input="updateAreaActivation"/>
         </div>
       </div>
     </div>
@@ -66,6 +66,7 @@ export default {
       loading: true,
       nameInput: "",
       descriptionInput: "",
+      areaupdating: false,
     };
   },
   computed: {
@@ -89,8 +90,29 @@ export default {
     this.getArea();
   },
   methods: {
-    test() {
-      console.log(area[0].activated);
+    updateAreaActivation() {
+      this.areaupdating = true;
+      const token = localStorage.getItem('token');
+      axios.put('http://localhost:8000/api/area/' + this.id, {
+        activated: this.area[0].activated,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data)
+        this.$buefy.snackbar.open({
+          message: this.area[0].name + ' a été ' + (this.area[0].activated ? 'activé' : 'désactivé'),
+          type: this.area[0].activated ? 'is-success' : 'is-danger',
+        });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        this.areaupdating = false;
+      });
     },
     movetohome() {
       this.$router.push('/home');

@@ -4,13 +4,13 @@
     <b-container class="cards-container">
       <b-row v-for="(group, rowIndex) in areaGroups" :key="rowIndex">
         <b-col v-for="(areas, colIndex) in group" :key="colIndex">
-          <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaEditor(areas.id)">
+          <div class="card" :style="{ backgroundColor: currentTheme.buttons}">
             <div class="card-content">
-              <div class="card-header">
+              <div class="card-header"  @click="moveToAreaEditor(areas.id)">
                 <p class="area-text">{{ areas.name }}</p>
               </div>
               <div class="card-footer">
-                <b-switch :value="true" class="small-success-button"></b-switch>
+                <b-switch v-model="areas.activated" :disabled="areaupdating" class="small-success-button" @input="updateAreaActivation(areas)"/>
               </div>
             </div>
           </div>
@@ -31,6 +31,7 @@ import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
 import AreaCreatorForm from './AreaCreatorForm.vue';
+import axios from 'axios';
 
 export default {
   name: 'Areas',
@@ -45,6 +46,7 @@ export default {
       logo_vert,
       logo_gris,
       backgroundColor: themes.default.backgroundColor,
+      areaupdating: false,
     };
   },
   computed: {
@@ -85,6 +87,30 @@ export default {
     },
   },
   methods: {
+    updateAreaActivation(area) {
+      this.areaupdating = true;
+      const token = localStorage.getItem('token');
+      axios.put('http://localhost:8000/api/area/' + area.id, {
+        activated: area.activated,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('Réponse du serveur :', response.data)
+        this.$buefy.snackbar.open({
+          message: area.name + ' a été ' + (area.activated ? 'activé' : 'désactivé'),
+          type: area.activated ? 'is-success' : 'is-danger',
+        });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des tâches :', error);
+      })
+      .finally(() => {
+        this.areaupdating = false;
+      });
+    },
     movetohome() {
       this.$router.push({ name: 'home', params: { areas: this.areas } });
     },

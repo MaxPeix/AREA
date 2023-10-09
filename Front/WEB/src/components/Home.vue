@@ -2,14 +2,13 @@
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
     <div class="columns">
       <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index" @click="moveToAreaEditor(area.id)">
+        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
           <div class="card-content">
-            <div class="card-header">
+            <div class="card-header" @click="moveToAreaEditor(area.id)">
               <p class="area-text">{{ area.name }}</p>
             </div>
             <div class="card-footer">
-              <b-switch v-model="area.activated" class="small-success-button">
-              </b-switch>
+              <b-switch v-model="area.activated" :disabled="areaupdating" class="small-success-button" @input="updateAreaActivation(area)"/>
             </div>
           </div>
         </div>
@@ -56,6 +55,7 @@ export default {
         logo_gris,
         backgroundColor: themes.default.backgroundColor,
         canClose: true,
+        areaupdating: false,
       };
     },
     computed: {
@@ -90,51 +90,75 @@ export default {
       this.getAreas();
     },
     methods: {
-        moveToAreas() {
-          this.$router.push({ name: 'areas', params: { areas: this.areas } });
-        },
-        moveToAccount() {
-          this.$router.push('/account');
-        },
-        moveToAreaEditor(areaId) {
-          this.$router.push({ name: 'areaeditor', params: { id: areaId } });
-        },
-        moveToAreaCreator() {
-          console.log("opening modal")
-          this.canClose = true;
-          this.$buefy.modal.open({
-              parent: this,
-              component: AreaCreatorForm,
-              hasModalCard: true,
-              props : {
-                canClose: this.canClose,
-              },
-            }).$on('close', () => {
-              this.canClose = false;
-            });
-        },
-        getAreas() {
-          const token = localStorage.getItem('token');
-          if (!token) {
-            this.$router.push('/login');
-            return; // Arrêter la fonction si le token n'est pas disponible
-          }
-          axios.get('http://localhost:8000/api/area', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(response => {
-            console.log('Réponse du serveur :', response.data);
-            this.areas = response.data;
-          })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des tâches :', error);
-          })
-          .finally(() => {
-            // Cacher le spinner de chargement
+      updateAreaActivation(area) {
+        this.areaupdating = true;
+        const token = localStorage.getItem('token');
+        axios.put('http://localhost:8000/api/area/' + area.id, {
+          activated: area.activated,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log('Réponse du serveur :', response.data)
+          this.$buefy.snackbar.open({
+            message: area.name + ' a été ' + (area.activated ? 'activé' : 'désactivé'),
+            type: area.activated ? 'is-success' : 'is-danger',
           });
-        },
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération des tâches :', error);
+        })
+        .finally(() => {
+          this.areaupdating = false;
+        });
+      },
+      moveToAreas() {
+        this.$router.push({ name: 'areas', params: { areas: this.areas } });
+      },
+      moveToAccount() {
+        this.$router.push('/account');
+      },
+      moveToAreaEditor(areaId) {
+        this.$router.push({ name: 'areaeditor', params: { id: areaId } });
+      },
+      moveToAreaCreator() {
+        console.log("opening modal")
+        this.canClose = true;
+        this.$buefy.modal.open({
+            parent: this,
+            component: AreaCreatorForm,
+            hasModalCard: true,
+            props : {
+              canClose: this.canClose,
+            },
+          }).$on('close', () => {
+            this.canClose = false;
+          });
+      },
+      getAreas() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          this.$router.push('/login');
+          return; // Arrêter la fonction si le token n'est pas disponible
+        }
+        axios.get('http://localhost:8000/api/area', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          console.log('Réponse du serveur :', response.data);
+          this.areas = response.data;
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération des tâches :', error);
+        })
+        .finally(() => {
+          // Cacher le spinner de chargement
+        });
+      },
     }
 };
 </script>
