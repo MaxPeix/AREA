@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,11 +23,19 @@ struct ProfileView: View {
                             Spacer()
                             Text("Alpha")
                         }
-                        Button {
-                            print("Sign out")
-                        } label: {
+                        Button (action: {
+                            UserDefaults.resetStandardUserDefaults()
+                            isLoggedIn = false
+                        }) {
+                        HStack {
                             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out")
+                            }
                         }
+//                        Button {
+//                            print("Sign out")
+//                        } label: {
+//                            SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out")
+//                        }
                         
                     }
                     

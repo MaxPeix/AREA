@@ -49,7 +49,7 @@ struct LoginView: View {
                         }
                     }) {
                         HStack {
-                            Text("Sign In")
+                            Text("Log In")
                                 .foregroundColor(Color("TextColor"))
                                 .frame(width: 300, height: 50)
                                 .background(Color("Bloc"))
@@ -88,6 +88,9 @@ struct LoginView: View {
 
                     if value.status == "success" {
                         completion(true, "Authentification réussie")
+
+                        let token = value.authorisation.token
+                        UserDefaults.standard.set(token, forKey: "AuthToken")
                         isLoggedIn = true
 
                     } else {

@@ -12,7 +12,7 @@ struct AddCard: View {
 
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(Color.green)
+            .fill(Color("Button"))
             .frame(width: 350, height: 100)
             .overlay(
                 Button(action: addAction) {

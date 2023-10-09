@@ -6,14 +6,26 @@
 //
 
 import SwiftUI
+import Alamofire
 
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var cards: [Int] = [1]
+    @State private var isDataLoaded = false
 
     var body: some View {
         NavigationStack {
             ZStack {
+                if !isDataLoaded {
+                    Text("Loading ...")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding(.top, 30)
+                        .onAppear {
+                            getAllArea()
+                            isDataLoaded = true
+                        }
+                }
                 Color("background")
                     .ignoresSafeArea()
 
@@ -43,6 +55,44 @@ struct HomeView: View {
             }
         }
     }
+
+    func getAllArea() {
+        let apiURL = "http://localhost:8000/api/area"
+
+        struct YourResponse: Decodable {
+                    let status: String
+                    let user: User
+                    let authorisation: Authorisation
+                    let data: [Area]
+        }
+        
+        if let authToken = AuthManager.getAuthToken() {
+            let headers: HTTPHeaders = [
+                "Authorization": "Bearer " + authToken
+            ]
+
+            AF.request(apiURL, method: .get, headers: headers)
+                .validate()
+                .responseDecodable(of: [Area].self) { response in
+                    
+                    switch response.result {
+                    case.success(let yourResponse):
+                        print("Succès : \(yourResponse)")
+                        
+                    case.failure(let error):
+                        print("Erreur de requête : \(error)")
+                        
+                        if let statusCode = response.response?.statusCode {
+                            print("Statut de la réponse : \(statusCode)")
+                        }
+                    }
+                }
+
+        } else {
+            print("AuthToken est nul")
+        }
+    }
+
     
     func addCard() {
         let newCardNum = (cards.last ?? 0) + 1
@@ -60,3 +110,41 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
+struct Area: Decodable {
+    let id: Int
+    let name: String
+    let description: String
+    let activated: Bool
+    let action: [Action]
+    let historique: [History]  // Define Historique if it has content
+}
+
+struct Action: Decodable {
+    let id: Int
+    let name: String?
+    let description: String?
+    let activated: Bool
+    let services: Service
+    let reactions: [Reaction]
+}
+
+struct Reaction: Decodable {
+    let id: Int
+    let activated: Bool
+    let action_id: Int
+    let services: Service  // using same Service model since structure matches
+}
+
+struct Service: Decodable {
+    let id: Int
+    let service_name: String
+    let service_description: String
+    let url: String
+    let working: Bool
+
+    // Autres propriétés et méthodes nécessaires
+}
+
+struct History: Decodable {
+    let pastRequest: String
+}
