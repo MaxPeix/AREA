@@ -9,6 +9,8 @@
         <div class="card-footer" v-if="!loading">
           <b-switch v-model="area[0].activated" class="small-success-button" :disabled="areaupdating" v-if="!loading" @input="updateAreaActivation"/>
         </div>
+        <p class="subheader-font" v-if="!loading && area && area[0] && area[0].action[0] && area[0].action[0].services && area[0].action[0].services.service_name"> Action : {{ area[0].action[0].services.service_name }} </p>
+        <p class="subheader-font" v-if="!loading && area && area[0] && area[0].action[0] && area[0].action[0].reactions[0] && area[0].action[0].reactions[0].services && area[0].action[0].reactions[0].services.service_name"> Reaction : {{ area[0].action[0].reactions[0].services.service_name }} </p>
       </div>
     </div>
     <div class="action-reaction-rectangle" :style="{ left:'20%' }">
@@ -200,6 +202,12 @@ export default {
   color: black;
 }
 
+.subheader-font {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
 .arrow {
   position: absolute;
   top: 0;
@@ -225,8 +233,8 @@ export default {
   padding: 20px;
   margin-left: 75px;
   border-radius: 16px;
-  width: 300px;
-  height: 180px;
+  width: 500px;
+  height: 250px;
 }
 
 .card-header {
