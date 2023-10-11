@@ -117,7 +117,6 @@ struct YourResponse: Decodable {
 struct User: Decodable {
     let id: Int
     let email: String
-    // ... autres propriétés du user que vous pouvez ajouter ici si nécessaire
 }
 
 struct Authorisation: Decodable {

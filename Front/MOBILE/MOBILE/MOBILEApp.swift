@@ -27,6 +27,4 @@ class AuthManager {
     static func getAuthToken() -> String? {
         return UserDefaults.standard.string(forKey: "AuthToken")
     }
-
-    
 }

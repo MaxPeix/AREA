@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @State private var showGoogleConnect: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -43,6 +44,12 @@ struct ProfileView: View {
                         ServiceRowView(imageName: "LogoDiscord", title: "Discord")
                         ServiceRowView(imageName: "LogoYoutube", title: "Youtube")
                         ServiceRowView(imageName: "LogoDrive", title: "Drive")
+                            .onTapGesture {
+                                showGoogleConnect.toggle()
+                            }
+                        .sheet(isPresented: $showGoogleConnect) {
+                            GoogleConnectView()
+                        }
                         ServiceRowView(imageName: "LogoGmail", title: "Gmail")
                         ServiceRowView(imageName: "LogoTwitch", title: "Twitch")
                         ServiceRowView(imageName: "LogoSpotify", title: "Spotify")

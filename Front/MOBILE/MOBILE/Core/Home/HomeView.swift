@@ -92,7 +92,6 @@ struct HomeView: View {
             print("AuthToken est nul")
         }
     }
-
     
     func addCard() {
         let newCardNum = (cards.last ?? 0) + 1
@@ -116,7 +115,7 @@ struct Area: Decodable {
     let description: String
     let activated: Bool
     let action: [Action]
-    let historique: [History]  // Define Historique if it has content
+    let historique: [History]
 }
 
 struct Action: Decodable {
@@ -132,7 +131,7 @@ struct Reaction: Decodable {
     let id: Int
     let activated: Bool
     let action_id: Int
-    let services: Service  // using same Service model since structure matches
+    let services: Service
 }
 
 struct Service: Decodable {
@@ -141,8 +140,6 @@ struct Service: Decodable {
     let service_description: String
     let url: String
     let working: Bool
-
-    // Autres propriétés et méthodes nécessaires
 }
 
 struct History: Decodable {
