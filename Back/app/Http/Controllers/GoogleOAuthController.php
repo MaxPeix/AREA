@@ -59,7 +59,6 @@ class GoogleOAuthController extends Controller
             } else {
                 $decodedState = null;
             }
-            Log::info("decodedState: " . json_encode($decodedState) . " receivedState: " . $receivedState . " code: " . $code);
 
             if (!$code) {
                 if (Auth::check()) {
