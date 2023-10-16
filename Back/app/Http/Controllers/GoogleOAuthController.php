@@ -59,7 +59,6 @@ class GoogleOAuthController extends Controller
             } else {
                 $decodedState = null;
             }
-            Log::info("decodedState: " . json_encode($decodedState) . " receivedState: " . $receivedState . " code: " . $code);
 
             if (!$code) {
                 if (Auth::check()) {
@@ -83,22 +82,20 @@ class GoogleOAuthController extends Controller
                 if (!isset($userInfo['email'])) {
                     return 'Error decoding userInfo[email]';
                 }
-                Log::info("userInfo: " . json_encode($userInfo));
                 $email = $userInfo['email'];
                 $username = $userInfo['given_name'] ?? $user_info['name'] ?? $email ?? null;
+                $picture = $userInfo['picture'] ?? 'no_picture_ko';
                 if ($username == null)
                     return 'Error decoding userInfo[given_name] or userInfo[name] or userInfo[email]';
                 $user = User::where('email', $email)->first();
-                Log::info("ici3"); 
                 if ($user) {
                     if ($user instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject) {
-                        $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email])->fromUser($user);
+                        $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email, 'picture' => $picture])->fromUser($user);
                         return redirect("http://localhost:8080/home?jwt={$jwtToken}");
                     } else {
                         return 'Error decoding user please contact site admin';
                     }
                 } else {
-                    Log::info("ici5");
                     $user = User::create([
                         'email' => $email,
                         'roles' => 'user',
@@ -113,7 +110,7 @@ class GoogleOAuthController extends Controller
                         ], 500);
                     }
                     $minutes = 90 * 24 * 60;
-                    $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
+                    $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email, 'picture' => $picture])->fromUser($user);
                     return redirect("http://localhost:8080/home?jwt={$jwtToken}?fromregister=true");
                 }
             } else {
