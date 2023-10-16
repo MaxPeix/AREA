@@ -95,11 +95,8 @@ class GoogleOAuthController extends Controller
                         $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email])->fromUser($user);
                         return redirect("http://localhost:8080/home?jwt={$jwtToken}");
                     } else {
-                        // gestion de l'erreur
+                        return 'Error decoding user please contact site admin';
                     }
-                    // $user = Auth::user();
-                    // $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email])->fromUser($user);
-                    // return redirect("http://localhost:8080/home?jwt={$jwtToken}");
                 } else {
                     Log::info("ici5");
                     $user = User::create([
@@ -119,7 +116,6 @@ class GoogleOAuthController extends Controller
                     $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
                     return redirect("http://localhost:8080/home?jwt={$jwtToken}?fromregister=true");
                 }
-                return "ok user non connecté";
             } else {
                 $id = $decodedState['id'] ?? null;
                 $credentials = $this->requestGoogleToken($code, $clientIdGoogle, $clientIdSecretGoogle, $redirectUri);
