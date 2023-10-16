@@ -11,6 +11,8 @@
           </button>
         </div>
       <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button">Log in</b-button>
+      <!-- add a button login with google -->
+      <b-button :loading="is_loadingoogle" class="button" @click="loginwithgoogle">Log in with Google</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -33,7 +35,8 @@
         showPassword: false,
         emailInput: '',
         passwordInput: '',
-        is_loading: false
+        is_loading: false,
+        is_loadingoogle: false
       };
     },
     computed: {
@@ -70,6 +73,16 @@
       }
     },
     methods: {
+      loginwithgoogle () {
+        this.is_loadingoogle = true;
+        axios.get("http://127.0.0.1:8000/api/oauth2callback")
+          .then(response => {
+            window.location.href = response.data;
+          })
+          .finally(() => {
+            this.is_loadingoogle = false;
+          });
+      },
       toggleShowPassword() {
         this.showPassword = !this.showPassword;
       },

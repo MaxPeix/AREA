@@ -80,6 +80,12 @@ export default {
       },
     },
     mounted() {
+      const jwtToken = this.$route.query.jwt;
+      if (jwtToken) {
+        localStorage.setItem('token', jwtToken);
+        this.$router.push('/');
+      }
+
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
