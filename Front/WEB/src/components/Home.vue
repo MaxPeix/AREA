@@ -54,12 +54,12 @@ export default {
         backgroundColor: themes.default.backgroundColor,
         canClose: true,
         areaupdating: false,
-        picture: null
+        google_picture: null
       };
     },
     computed: {
       currentPfp() {
-        return this.picture || this.defaultpfp;
+        return this.google_picture || this.defaultpfp;
       },
     currentLogo() {
         if (this.backgroundColor === themes.default.backgroundColor) {
@@ -95,7 +95,7 @@ export default {
         this.$router.push('/login');
       }
       const decoded = jwt_decode(token);
-      this.picture = decoded.picture ?? 'ko';
+      this.google_picture = decoded.picture ?? null;
       this.getAreas();
     },
     methods: {
