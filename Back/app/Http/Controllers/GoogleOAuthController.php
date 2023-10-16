@@ -83,13 +83,11 @@ class GoogleOAuthController extends Controller
                 if (!isset($userInfo['email'])) {
                     return 'Error decoding userInfo[email]';
                 }
-                Log::info("userInfo: " . json_encode($userInfo));
                 $email = $userInfo['email'];
                 $username = $userInfo['given_name'] ?? $user_info['name'] ?? $email ?? null;
                 if ($username == null)
                     return 'Error decoding userInfo[given_name] or userInfo[name] or userInfo[email]';
                 $user = User::where('email', $email)->first();
-                Log::info("ici3"); 
                 if ($user) {
                     if ($user instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject) {
                         $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email])->fromUser($user);
@@ -98,7 +96,6 @@ class GoogleOAuthController extends Controller
                         return 'Error decoding user please contact site admin';
                     }
                 } else {
-                    Log::info("ici5");
                     $user = User::create([
                         'email' => $email,
                         'roles' => 'user',
