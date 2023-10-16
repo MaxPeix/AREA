@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class GoogleOAuthController extends Controller
 {
@@ -100,7 +101,7 @@ class GoogleOAuthController extends Controller
                         'email' => $email,
                         'roles' => 'user',
                         'username' => $username,
-                        'password' => 'connected with google',
+                        'password' => Hash::make('connected;withxgoogle;' . Str::random(15))
                     ]);
 
                     if (!$user) {
