@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="pfp-container">
-      <img :src="defaultpfp" class="pfp" @click="moveToAccount"/>
+      <img :src="currentPfp" class="pfp" @click="moveToAccount"/>
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@ import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
 import defaultpfp from '../assets/default_pfp.png';
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 import AreaCreatorForm from './AreaCreatorForm.vue';
 
 export default {
@@ -53,9 +54,13 @@ export default {
         backgroundColor: themes.default.backgroundColor,
         canClose: true,
         areaupdating: false,
+        picture: null
       };
     },
     computed: {
+      currentPfp() {
+        return this.picture || this.defaultpfp;
+      },
     currentLogo() {
         if (this.backgroundColor === themes.default.backgroundColor) {
           return this.logo_bleu;
@@ -85,11 +90,12 @@ export default {
         localStorage.setItem('token', jwtToken);
         this.$router.push('/');
       }
-
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
       }
+      const decoded = jwt_decode(token);
+      this.picture = decoded.picture ?? 'ko';
       this.getAreas();
     },
     methods: {

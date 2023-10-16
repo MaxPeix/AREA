@@ -84,12 +84,13 @@ class GoogleOAuthController extends Controller
                 }
                 $email = $userInfo['email'];
                 $username = $userInfo['given_name'] ?? $user_info['name'] ?? $email ?? null;
+                $picture = $userInfo['picture'] ?? 'no_picture_ko';
                 if ($username == null)
                     return 'Error decoding userInfo[given_name] or userInfo[name] or userInfo[email]';
                 $user = User::where('email', $email)->first();
                 if ($user) {
                     if ($user instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject) {
-                        $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email])->fromUser($user);
+                        $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email, 'picture' => $picture])->fromUser($user);
                         return redirect("http://localhost:8080/home?jwt={$jwtToken}");
                     } else {
                         return 'Error decoding user please contact site admin';
@@ -109,7 +110,7 @@ class GoogleOAuthController extends Controller
                         ], 500);
                     }
                     $minutes = 90 * 24 * 60;
-                    $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email])->fromUser($user);
+                    $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email, 'picture' => $picture])->fromUser($user);
                     return redirect("http://localhost:8080/home?jwt={$jwtToken}?fromregister=true");
                 }
             } else {
