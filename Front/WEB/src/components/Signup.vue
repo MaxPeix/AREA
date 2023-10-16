@@ -18,11 +18,12 @@
             </button>
         </div>
       <b-button class="button" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
+      <b-button :loading="is_loadingoogle" class="button" @click="signupwithgoogle">Sign up with Google</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
   </template>
-  
+
 <script>
   import { themes } from '../themes/themes.js';
   import { logo_bleu, logo_gris, logo_vert } from './icons/index';
@@ -45,6 +46,7 @@
         passwordInput: '',
         confirmPasswordInput: '',
         loading: false,
+        is_loadingoogle: false
       };
     },
     mounted() {
@@ -84,6 +86,16 @@
       },
     },
     methods: {
+      signupwithgoogle () {
+        this.is_loadingoogle = true;
+        axios.get("http://127.0.0.1:8000/api/oauth2callback")
+          .then(response => {
+            window.location.href = response.data;
+          })
+          .finally(() => {
+            this.is_loadingoogle = false;
+          });
+      },
       toggleShowPassword() {
         this.showPassword = !this.showPassword;
       },
