@@ -13,6 +13,8 @@ use App\Http\Controllers\GoogleOAuthController;
 use App\Http\Controllers\SpotifyAuthController;
 use App\Http\Controllers\TwitchAuthController;
 use App\Http\Controllers\AreaHistoriqueController;
+use App\Http\Controllers\DiscordAuthController;
+use App\Http\Controllers\RadioFranceAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +75,8 @@ Route::middleware('custom.auth')->group(function () {
 Route::get('/oauth2callback', [GoogleOAuthController::class, 'oauth2callback']);
 Route::get('/spotify-callback', [SpotifyAuthController::class, 'spotifyCallback']);
 Route::get('/twitch-callback', [TwitchAuthController::class, 'twitchCallback']);
+Route::get('/discord-callback', [DiscordAuthController::class, 'discordCallback']);
+Route::get('/radioFrance-callback', [RadioFranceAuthController::class, 'radioFranceCallback']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

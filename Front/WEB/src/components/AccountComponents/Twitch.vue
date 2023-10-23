@@ -17,6 +17,23 @@ export default {
   },
   methods: {
     connect() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+          this.$router.push('/login');
+          return;
+      }
+      axios.get('https://127.0.0.1:8000/api/twitch-callback', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        })
+        .then((response) => {
+        console.log(response.data);
+        window.location.replace(response.data);
+        })
+        .catch((error) => {
+        console.log(error);
+      });
     },
   },
 };

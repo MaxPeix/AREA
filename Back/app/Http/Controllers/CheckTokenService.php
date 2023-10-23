@@ -68,13 +68,47 @@ class CheckTokenService extends Controller
         }
     }
 
+    public function checkDiscordToken(User $user)
+    {
+        $discordToken = $user->discord_token;
+
+        if (!$discordToken) {
+            Log::info('No discord token');
+            return false;
+        }
+        \Log::info("discord token: " . $discordToken);
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $discordToken,
+            ])
+            ->withOptions([
+                'verify' => false
+            ])
+            ->get('https://discord.com/api/users/@me');
+            Log::info($response);
+
+            if ($response->status() != 200) {
+                return false;
+            }
+
+            return true;
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return false;
+        }
+    }
+
     public function checkTokensValidity ($user = null) {
         $user = Auth::user();
         $google = $this->checkGoogleToken($user);
         $spotify = $this->checkSpotifyToken($user);
+        $discord = $this->checkDiscordToken($user);
         return [
             'google' => $google,
-            'spotify' => $spotify
+            'spotify' => $spotify,
+            'discord' => $discord
         ];
     }
 }
