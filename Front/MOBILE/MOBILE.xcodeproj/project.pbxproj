@@ -25,6 +25,7 @@
 		1BEFEBE72AC1C87A00DCFE9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */; };
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
 		F8918EA02AD4353500FBE1F1 /* GoogleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */; };
+		F8B2B3F32AE6ABFC00FEFF49 /* SpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */; };
 		F8DE10AA2ACC3BB50053F76E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10A92ACC3BB50053F76E /* CardView.swift */; };
 		F8DE10AF2ACC3E340053F76E /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AE2ACC3E340053F76E /* AddCardView.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleView.swift; sourceTree = "<group>"; };
+		F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView.swift; sourceTree = "<group>"; };
 		F8DE10A92ACC3BB50053F76E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		F8DE10AE2ACC3E340053F76E /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +77,7 @@
 				1BB565FF2ACC12C800A3738A /* ServiceRowView.swift */,
 				1B35FFA72AD1777A004E9BC5 /* CustomTabView.swift */,
 				F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */,
+				F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				F8918EA02AD4353500FBE1F1 /* GoogleView.swift in Sources */,
 				1B62E2D02ACAC9F400CE05AB /* RegistrationView.swift in Sources */,
 				1BA4D0082AC457D600F21586 /* InputView.swift in Sources */,
+				F8B2B3F32AE6ABFC00FEFF49 /* SpotifyView.swift in Sources */,
 				1BA4D0042AC4561E00F21586 /* LoginView.swift in Sources */,
 				1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */,
 				1B35FFA82AD1777A004E9BC5 /* CustomTabView.swift in Sources */,

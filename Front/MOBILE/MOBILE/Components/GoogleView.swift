@@ -19,7 +19,15 @@ struct GoogleConnectView: View {
     var body: some View {
         VStack {
             if !isConnectedToGoogle {
-                Button("Se connecter", action: connectGoogle)
+                Button("Se connecter") {
+                    connectGoogle { success in
+                        if success {
+                            self.isConnectedToGoogle = true
+                        } else {
+                            self.isConnectedToGoogle = false
+                        }
+                    }
+                }
                 if let error = errorMessage {
                     Text(error).foregroundColor(.red)
                 }
@@ -50,25 +58,27 @@ struct GoogleConnectView: View {
         }
     }
     
-    func connectGoogle() {
+    func connectGoogle(completion: @escaping (Bool) -> Void) {
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer " + authToken
             ]
             
             AF.request("http://127.0.0.1:8000/api/oauth2callback", method: .get, headers: headers)
-                .responseString { response in
-                    switch response.result {
-                    case .success(let urlString):
-                        if let urlObj = URL(string: urlString) {
-                            UIApplication.shared.open(urlObj)
-                        } else {
-                            self.errorMessage = "URL non valide"
+                    .responseString { response in
+                        switch response.result {
+                        case .success(let urlString):
+                            if let urlObj = URL(string: urlString) {
+                                UIApplication.shared.open(urlObj)
+                                completion(true)
+                            } else {
+                                self.errorMessage = "URL non valide"
+                                completion(false)
+                            }
+                        case .failure:
+                            completion(false)
                         }
-                    case .failure(let error):
-                        errorMessage = "Erreur lors de la connexion à Google: \(error.localizedDescription)"
                     }
-                }
         } else {
             errorMessage = "AuthToken est nul"
         }

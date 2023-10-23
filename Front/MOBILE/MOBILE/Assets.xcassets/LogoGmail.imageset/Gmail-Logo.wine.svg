@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="-13.2 -16.50405 114.4 99.0243"><path fill="#4285f4" d="M6 66.0162h14v-34l-20-15v43c0 3.315 2.685 6 6 6z"/><path fill="#34a853" d="M68 66.0162h14c3.315 0 6-2.685 6-6v-43l-20 15z"/><path fill="#fbbc04" d="M68 6.0162v26l20-15v-8c0-7.415-8.465-11.65-14.4-7.2z"/><path fill="#ea4335" d="M20 32.0162v-26l24 18 24-18v26l-24 18z"/><path fill="#c5221f" d="M0 9.0162v8l20 15v-26l-5.6-4.2c-5.935-4.45-14.4-.215-14.4 7.2z"/></svg>
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 68" width="90" height="68">
+	<title>Gmail-Logo</title>
+	<style>
+		.s0 { fill: #4285f4 } 
+		.s1 { fill: #34a853 } 
+		.s2 { fill: #fbbc04 } 
+		.s3 { fill: #ea4335 } 
+		.s4 { fill: #c5221f } 
+	</style>
+	<path id="Layer" class="s0" d="m7 67h14v-34l-20-15v43c0 3.3 2.7 6 6 6z"/>
+	<path id="Layer" class="s1" d="m69 67h14c3.3 0 6-2.7 6-6v-43l-20 15z"/>
+	<path id="Layer" class="s2" d="m69 7v26l20-15v-8c0-7.4-8.5-11.6-14.4-7.2z"/>
+	<path id="Layer" class="s3" d="m21 33v-26l24 18 24-18v26l-24 18z"/>
+	<path id="Layer" class="s4" d="m1 10v8l20 15v-26l-5.6-4.2c-5.9-4.4-14.4-0.2-14.4 7.2z"/>
+</svg>
