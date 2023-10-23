@@ -43,6 +43,12 @@ struct ProfileView: View {
                     Section("Overview") {
                         ServiceRowView(imageName: "LogoDiscord", title: "Discord")
                         ServiceRowView(imageName: "LogoYoutube", title: "Youtube")
+                            .onTapGesture {
+                                showGoogleConnect.toggle()
+                            }
+                            .sheet(isPresented: $showGoogleConnect) {
+                                GoogleConnectView()
+                            }
                         ServiceRowView(imageName: "LogoDrive", title: "Drive")
                             .onTapGesture {
                                 showGoogleConnect.toggle()
@@ -51,6 +57,12 @@ struct ProfileView: View {
                             GoogleConnectView()
                         }
                         ServiceRowView(imageName: "LogoGmail", title: "Gmail")
+                            .onTapGesture {
+                                showGoogleConnect.toggle()
+                            }
+                        .sheet(isPresented: $showGoogleConnect) {
+                            GoogleConnectView()
+                        }
                         ServiceRowView(imageName: "LogoTwitch", title: "Twitch")
                         ServiceRowView(imageName: "LogoSpotify", title: "Spotify")
                         ServiceRowView(imageName: "LogoFranceInter", title: "Radio France")
