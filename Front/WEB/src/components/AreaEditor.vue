@@ -187,121 +187,94 @@ export default {
 
 <style scoped>
 
+/* Base styling */
 .wrapper {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   height: 100vh;
-  font-size: 32px;
-  font-weight: bold;
-  position: relative;
-  padding-top: 100px;
+  background-color: #F0F0F0;
+  padding-top: 20px;
 }
 
-.header-font {
-  font-size: 32px;
-  font-weight: bold;
-  color: black;
+.header-font, .subheader-font {
+  color: #333;
 }
 
-.subheader-font {
-  font-size: 24px;
-  font-weight: bold;
-  color: black;
-}
-
+/* Arrow styling */
+/* Arrow styling */
 .arrow {
   position: absolute;
-  top: 0;
-  margin-left: 60px;
-  width: 100px;
-  height: 100px;
-  padding: 20px;
-  transform:rotate(180deg);
+  top: 20px;
+  left: 20px;
+  width: 50px;
   cursor: pointer;
+  transform: rotate(180deg);
 }
 
-.card-footer {
-  text-align: left;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 8px;
-}
-
+/* Card styling */
 .card {
-  margin: 10px;
+  background-color: #FFFFFF;
+  border-radius: 8px;
   padding: 20px;
-  margin-left: 75px;
-  border-radius: 16px;
-  width: 500px;
-  height: 250px;
+  width: 80%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-.card-header {
+.card-header, .card-footer {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-left: -30px;
-  box-shadow: none;
 }
 
+/* Switch button */
 .small-success-button {
-  font-size: 30px;
-  padding: 2px 4px;
+  font-size: 1rem;
 }
 
+/* Action-Reaction styling */
 .action-reaction-rectangle {
-  position: absolute;
-  top: 50%;
-  width: 500px;
-  height: 300px;
-  background-color: #9FCDA8;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
+  background-color: #EAEAEA;
+  border-radius: 8px;
+  padding: 20px;
+  width: 80%;
+  margin-bottom: 20px;
 }
 
-.action-reaction-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.action-reaction-button, .action-reaction-input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
+/* Logs styling */
 .logs {
-  position: absolute;
-  top: 20px;
-  right: 15px;
-  width: 300px;
-  height: 700px;
-  background-color: #9FCDA8;
-  border-radius: 16px;
+  background-color: #EAEAEA;
+  border-radius: 8px;
+  padding: 20px;
+  width: 80%;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
 }
 
-.loading-indicator {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
+/* Loading and Update Button */
+.loading-indicator, .update {
   margin-top: 20px;
 }
 
-.update {
-  position: absolute;
-  top: 90%;
-  left: 49%;
-  transform: translate(-50%, -50%);
-}
-
+/* Delete Button */
 .delete-button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-size: 24px;
-  padding: 5px 10px;
-  background-color: #ff0000;
-  color: #fff;
+  background-color: #FF4C4C;
+  color: white;
+  padding: 10px 20px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 8px;
+  margin-top: 20px;
 }
 
 </style>

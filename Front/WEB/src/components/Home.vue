@@ -221,6 +221,7 @@ export default {
   margin-bottom: 40px;
   margin-top: -40px;
   margin-left: -30px;
+  cursor: pointer;
 }
 
 .small-success-button {
@@ -267,6 +268,7 @@ export default {
   font-size: 36px;
   padding: 12px;
   border-radius: 16px;
+  cursor: pointer;
 }
 
 .pfp-container {
@@ -274,6 +276,7 @@ export default {
   bottom: 0;
   right: 0;
   margin: 20px;
+  cursor: pointer;
 }
 
 .pfp {
