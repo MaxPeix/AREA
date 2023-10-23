@@ -11,7 +11,6 @@ class CheckTokenService extends Controller
 {
     public function checkGoogleToken(User $user)
     {
-        $user = Auth::user();
         $googleToken = $user->google_token;
 
         if (!$googleToken) {
@@ -43,7 +42,6 @@ class CheckTokenService extends Controller
 
     public function checkSpotifyToken(User $user)
     {
-        $user = Auth::user();
         $spotifyToken = $user->spotify_token;
 
         if (!$spotifyToken) {
