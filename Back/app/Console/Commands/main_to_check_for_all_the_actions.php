@@ -55,14 +55,13 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
-            // voir si le nombre de follower
+            // voir si le nombre de follower a changé
             if ($action->service->id == 16) {
                 $exitCode = Artisan::call('app:spotify_follower_count_change_check', [
                     'user' => $user->id,
                 ]);
 
                 if ($exitCode === 0) {
-                    Log::info("il y a eu un changement de nombre de follower pour l'user" . $user->id);
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
                         'user' => $user->id

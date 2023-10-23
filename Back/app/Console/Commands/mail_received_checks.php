@@ -67,7 +67,6 @@ class mail_received_checks extends Command
         }
         $validity = $this->checkGoogleToken($user);
         if (!$validity) {
-            Log::info("google token is not valid for user: " . $user->id . " - " . $user);
             return 1;
         }
         $googleToken = $user->google_token;

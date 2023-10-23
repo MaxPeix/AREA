@@ -46,7 +46,7 @@ class spotify_follower_count_change_check extends Command
                 return false;
             }
 
-            return true;
+            return $response->json();
 
         } catch (\Exception $e) {
             return false;
@@ -64,11 +64,21 @@ class spotify_follower_count_change_check extends Command
             Log::error('User not found');
             return 1;
         }
-        $validity = $this->checkSpotifyToken($user);
-        if (!$validity) {
+        $response = $this->checkSpotifyToken($user);
+        if (!$response) {
             Log::info("spotify token is not valid for user: " . $user->id . " - " . $user);
             return 1;
         }
-        return 0;
+        if (!$user->followers_total_spotify) {
+            $user->followers_total_spotify = $response['followers']['total'];
+            $user->save();
+            return 1;
+        }
+        if ($user->followers_total_spotify != $response['followers']['total']) {
+            $user->followers_total_spotify = $response['followers']['total'];
+            $user->save();
+            return 0;
+        }
+        return 1;
     }
 }
