@@ -4,7 +4,7 @@
     <div class="middle-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
       <p style="font-size: 24px"> Hello, {{ username }} 👋</p>
     </div>
-    <div class="middle-inferior-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+    <div class="middle-inferior-rectangle">
       <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
     <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
