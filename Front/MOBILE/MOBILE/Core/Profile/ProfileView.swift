@@ -29,13 +29,21 @@ struct ServiceRowView2: View {
     }
 }
 
+import SwiftUI
 
 struct ProfileView: View {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @State private var showGoogleConnect: Bool = false
+    @State private var showSpotifyConnect: Bool = false
+    @State private var isConnectedToGoogle: Bool = false
+    @State private var isConnectedToSpotify: Bool = false
 
-    func isConnectedToGoogle() -> Bool {
-        return true
+    func onGoogleConnectViewDismiss() {
+        self.isConnectedToGoogle = true
+    }
+
+    func onSpotifyConnectViewDismiss() {
+        self.isConnectedToSpotify = true
     }
 
     var body: some View {
@@ -61,23 +69,28 @@ struct ProfileView: View {
                     }
                     Section(header: Text("Overview")) {
                         ServiceRowView2(imageName: "LogoDiscord", title: "Discord", isConnected: false)
-                        ServiceRowView2(imageName: "LogoDrive", title: "Drive", isConnected: isConnectedToGoogle())
+                        ServiceRowView2(imageName: "LogoDrive", title: "Drive", isConnected: isConnectedToGoogle)
                             .onTapGesture {
                                 showGoogleConnect.toggle()
                             }
-                            .sheet(isPresented: $showGoogleConnect) {
+                            .sheet(isPresented: $showGoogleConnect, onDismiss: onGoogleConnectViewDismiss) {
                                 GoogleConnectView()
                             }
-
-                        ServiceRowView2(imageName: "LogoGmail", title: "Gmail", isConnected: isConnectedToGoogle())
+                        ServiceRowView2(imageName: "LogoGmail", title: "Gmail", isConnected: isConnectedToGoogle)
                             .onTapGesture {
                                 showGoogleConnect.toggle()
                             }
-                            .sheet(isPresented: $showGoogleConnect) {
+                            .sheet(isPresented: $showGoogleConnect, onDismiss: onGoogleConnectViewDismiss) {
                                 GoogleConnectView()
                             }
                         ServiceRowView2(imageName: "LogoTwitch", title: "Twitch", isConnected: false)
-                        ServiceRowView2(imageName: "LogoSpotify", title: "Spotify", isConnected: false)
+                        ServiceRowView2(imageName: "LogoSpotify", title: "Spotify", isConnected: isConnectedToSpotify)
+                            .onTapGesture {
+                                showSpotifyConnect.toggle()
+                            }
+                            .sheet(isPresented: $showSpotifyConnect, onDismiss: onSpotifyConnectViewDismiss) {
+                                SpotifyConnectView()
+                            }
                         ServiceRowView2(imageName: "LogoFranceInter", title: "Radio France", isConnected: false)
                     }
                 }
