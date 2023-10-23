@@ -79,6 +79,9 @@ class main_to_check_for_all_the_actions extends Command
         $areas = $this->get_all_areas();
 
         foreach ($areas as $area) {
+            if ($area->activated == false) {
+                continue;
+            }
             $user = User::find($area->users_id);
             if (!$user) {
                 Log::info("User introuvable sur l'area " . $area->id);
