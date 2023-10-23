@@ -95,7 +95,7 @@ export default {
         this.$router.push('/login');
       }
       const decoded = jwt_decode(token);
-      this.google_picture = decoded.picture ?? null;
+      this.$set(this, 'google_picture', decoded.picture ?? null);
       this.getAreas();
     },
     methods: {
