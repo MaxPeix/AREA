@@ -68,6 +68,19 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
+            // voir si le nombre de follower a changé
+            if ($action->service->id == 18) {
+                $exitCode = Artisan::call('app:check_for_hour_expected', [
+                    'user' => $user->id,
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
         }  
     }
 
@@ -79,6 +92,9 @@ class main_to_check_for_all_the_actions extends Command
         $areas = $this->get_all_areas();
 
         foreach ($areas as $area) {
+            if (!$area->activated) {
+                continue;
+            }
             $user = User::find($area->users_id);
             if (!$user) {
                 Log::info("User introuvable sur l'area " . $area->id);

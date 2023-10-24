@@ -30,7 +30,8 @@ class User extends Authenticatable implements JWTSubject
         'followers_total_spotify',
         'username',
         'gmail_last_mail_id',
-        'gmail_adress'
+        'gmail_adress',
+        'hour_selected'
     ];
 
     /**
