@@ -8,16 +8,71 @@ use App\Models\Service;
 use App\Models\Action;
 use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CheckTokenService;
 
 class ControllerServices extends Controller
 {
 
-    public function index()
+    protected $checkTokenService;
+
+    public function __construct(CheckTokenService $checkTokenService)
     {
-        $services = Service::all();
-        return response()->json($services);
+        $this->checkTokenService = $checkTokenService;
     }
 
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+        $validity = $this->checkTokenService->checkTokensValidity($user);
+
+        // return response()->json(['validity' => $validity]);
+        // return response()->json(['validity' => $validity]);
+        $services = Service::all();
+
+        $services_filtered = [];
+
+        for ($i = 0; $i < count($services); $i++) {
+            $serviceNameLower = strtolower($services[$i]->service_name);
+            if (
+                strpos($serviceNameLower, 'google') !== false &&
+                array_key_exists('google', $validity) &&
+                !$validity['google']
+            ) {
+                continue;
+            }
+            if (
+                strpos($serviceNameLower, 'spotify') !== false &&
+                array_key_exists('spotify', $validity) &&
+                !$validity['spotify']
+            ) {
+                continue;
+            }
+            if (
+                strpos($serviceNameLower, 'discord') !== false &&
+                array_key_exists('discord', $validity) &&
+                !$validity['discord']
+            ) {
+                continue;
+            }
+            if (
+                strpos($serviceNameLower, 'twitch') !== false &&
+                array_key_exists('twitch', $validity) &&
+                !$validity['twitch']
+            ) {
+                continue;
+            }
+            if (
+                strpos($serviceNameLower, 'github') !== false &&
+                array_key_exists('github', $validity) &&
+                !$validity['github']
+            ) {
+                continue;
+            }
+            array_push($services_filtered, $services[$i]);
+        }
+
+        return response()->json($services_filtered);
+    }
 
     // Récupérer un service spécifique lié à une action
     public function showAction($actionId)
