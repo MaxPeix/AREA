@@ -35,6 +35,9 @@ struct CardView: View {
                     .padding(20),
                 alignment: .bottomTrailing
             )
+            .onTapGesture {
+                print("Card \(title) a été cliquée.")
+            }
     }
 }
 

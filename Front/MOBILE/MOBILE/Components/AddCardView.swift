@@ -19,7 +19,7 @@ struct AddCard: View {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color("Bar"))
                 },
                 alignment: .center
             )

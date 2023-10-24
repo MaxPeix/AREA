@@ -11,7 +11,9 @@ import Alamofire
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var cards: [Int] = [1]
+    @State private var areas: [Area] = []
     @State private var isDataLoaded = false
+    @State private var isActivate: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -28,26 +30,29 @@ struct HomeView: View {
                 }
                 Color("background")
                     .ignoresSafeArea()
-
                 VStack(spacing: 20) {
                     Text("Current Areas")
                         .font(.headline)
                         .foregroundColor(Color.black)
                         .padding(.top, 30)
-
                     List {
-                        ForEach(cards, id: \.self) { num in
-                            CardView(title: "Area \(num)")
+                        ForEach(areas, id: \.id) { area in
+                            CardView(title: area.name)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
+                            //                                .onTapGesture {
+                            //                                    print("Card \(num) a été cliquée.")
+                            //                                }
                         }
-                        .onDelete(perform: removeCard)
+//                        .onDelete(perform: removeCard)
                     }
                     .listStyle(PlainListStyle())
                     .background(Color.clear)
 
                     AddCard {
-                        addCard()
+                        NavigationLink(destination: CreateAreaView()) {
+                            Text("Create Area")
+                        }
                     }
                     .offset(y: -10)
                 }
@@ -60,12 +65,12 @@ struct HomeView: View {
         let apiURL = "http://localhost:8000/api/area"
 
         struct YourResponse: Decodable {
-                    let status: String
-                    let user: User
-                    let authorisation: Authorisation
-                    let data: [Area]
+            let status: String
+            let user: User
+            let authorisation: Authorisation
+            let data: [Area]
         }
-        
+
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer " + authToken
@@ -74,34 +79,29 @@ struct HomeView: View {
             AF.request(apiURL, method: .get, headers: headers)
                 .validate()
                 .responseDecodable(of: [Area].self) { response in
-                    
+
                     switch response.result {
                     case.success(let yourResponse):
                         print("Succès : \(yourResponse)")
-                        
+                        areas = yourResponse
+
                     case.failure(let error):
                         print("Erreur de requête : \(error)")
-                        
+
                         if let statusCode = response.response?.statusCode {
                             print("Statut de la réponse : \(statusCode)")
                         }
                     }
                 }
-
         } else {
             print("AuthToken est nul")
         }
     }
-    
-    func addCard() {
-        let newCardNum = (cards.last ?? 0) + 1
-        cards.append(newCardNum)
-    }
-    
-    func removeCard(at offsets: IndexSet) {
-        cards.remove(atOffsets: offsets)
-    }
 }
+
+//    func removeCard(at offsets: IndexSet) {
+//        cards.remove(atOffsets: offsets)
+//    }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
