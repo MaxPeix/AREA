@@ -67,47 +67,7 @@ export default {
     closeModal() {
       this.$emit('close');
     },
-    createReaction(area_id, service_id, token, actions_id_created) {
-      axios.post('http://localhost:8000/api/reactions/' + area_id, {
-        services_id: service_id,
-        actions_id: actions_id_created,
-        activated: true
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la création de la réaction :', error);
-      })
-    },
-    createAction(area_id, service_id, token) {
-      axios.post('http://localhost:8000/api/actions/' + area_id, {
-        services_id: service_id,
-        activated: true
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        const actions_id_created = response.data.id;
-        console.log("action id created:", actions_id_created);
-        this.createReaction(area_id, this.selectedReaction.id, token, actions_id_created);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la création de l\'action :', error);
-      })
-    },
     createArea() {
-      console.log(this.name);
-      console.log(this.description);
-      console.log("selected actions service id:", this.selectedAction.id);
-      console.log("selected reactions service id:", this.selectedReaction.id);
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
@@ -117,6 +77,14 @@ export default {
       axios.post('http://localhost:8000/api/area', {
         name: this.name,
         description: this.description,
+        service_action_id: this.selectedAction.id,
+        service_reaction_id: this.selectedReaction.id,
+        config: [
+          "",
+          "",
+          "",
+          ""
+        ],
         activated: true
       }, {
         headers: {
@@ -124,20 +92,18 @@ export default {
         },
       })
       .then(response => {
-        let area_id_created = response.data.id;
-        console.log("area id created:", area_id_created);
-        this.createAction(area_id_created, this.selectedAction.id, token);
+        console.log(response.data);
+        this.$buefy.notification.open({
+          message: 'Area created',
+          type: 'is-success',
+        });
+        this.closeModal();
       })
       .catch(error => {
         console.error('Erreur lors de la création de l\'area :', error);
       })
       .finally(() => {
         this.loading = false;
-        this.$buefy.notification.open({
-          message: 'Area created',
-          type: 'is-success',
-        });
-        this.closeModal();
       });
     },
     getServices() {
