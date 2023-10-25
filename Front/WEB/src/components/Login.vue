@@ -11,8 +11,10 @@
           </button>
         </div>
       <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button">Log in</b-button>
-      <!-- add a button login with google -->
-      <b-button :loading="is_loadingoogle" class="button" @click="loginwithgoogle">Log in with Google</b-button>
+      <b-button :loading="is_loadingoogle" class="google-button" @click="loginwithgoogle">
+        <img :src="google" alt="Google logo" class="google-logo"/>
+        <span>Google</span>
+      </b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -20,7 +22,7 @@
 
 <script>
   import { themes } from '../themes/themes.js';
-  import { logo_bleu, logo_gris, logo_vert } from './icons/index';
+  import { logo_bleu, logo_gris, logo_vert, google } from './icons/index';
   import axios from 'axios';
 
   export default {
@@ -30,6 +32,7 @@
         logo_bleu,
         logo_vert,
         logo_gris,
+        google,
         backgroundColor: themes.default.backgroundColor,
         password: '',
         showPassword: false,
@@ -124,7 +127,7 @@
   };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .logo {
   width: 237px;
   height: 247px;
@@ -158,6 +161,35 @@
   cursor: pointer;
   border-radius: 100px;
   background: #137C8B;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  width: 300px;
+  height: 50px;
+  color : #000000;
+  border: none;
+  margin: 10px;
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 100px;
+  background: #ffffff;
+
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-bottom: -4px;
+  margin-right: 8px;
+  justify-content: center;
+  align-items: center;
 }
 
 .no-acccount-button {
