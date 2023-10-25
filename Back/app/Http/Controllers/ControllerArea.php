@@ -80,17 +80,49 @@ class ControllerArea extends Controller
     {
         $userId = Auth::id();
         try {
-            $request->validate([
-                'name' => 'required',
-                'description' => 'required',
-                'activated' => 'required',
-            ]);
-        } catch (ValidationException $e) {
-            $errors = $e->validator->errors()->getMessages();
-            return response()->json(['message' => 'Invalid data', 'errors' => $errors], 401);
+            try {
+                $request->validate([
+                    'name' => 'required',
+                    'description' => 'required',
+                    'service_action_id' => 'required|int',
+                    'config' => 'required|array',
+                    'service_reaction_id' => 'required|int',
+                    'activated' => 'required',
+                ]);
+            } catch (ValidationException $e) {
+                $errors = $e->validator->errors()->getMessages();
+                return response()->json(['message' => 'Invalid data', 'errors' => $errors], 401);
+            }
+            $area = Area::create(array_merge($request->all(), ['users_id' => $userId]));
+
+            $actionData = [
+                'services_id' => $request->service_action_id,
+                'areas_id' => $area->id,
+                'first_parameter' => $request->config[0] ?? null,
+                'second_parameter' => $request->config[1] ?? null,
+                'activated' => $request->activated
+            ];
+            $action = Action::create($actionData);
+
+            $reactionData = [
+                'actions_id' => $action->id,
+                'services_id' => $request->service_reaction_id,
+                'first_parameter' => $request->config[2] ?? null,
+                'second_parameter' => $request->config[3] ?? null,
+                'activated' => $request->activated
+            ];
+            $reaction = Reaction::create($reactionData);
+
+            $finalResult = [
+                'area' => $area,
+                'action' => $action,
+                'reaction' => $reaction,
+            ];
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Message: ' . $th->getMessage()], 401);
         }
-        $area = Area::create(array_merge($request->all(), ['users_id' => $userId]));
-        return response()->json($area, 201);
+
+        return response()->json($finalResult, 201);
     }
 
     public function show($id)
