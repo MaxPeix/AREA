@@ -14,7 +14,7 @@ class DiscordAuthController extends Controller
             $clientId = env('DISCORD_CLIENT_ID');
             $clientSecret = env('DISCORD_CLIENT_SECRET');
             $redirectUri = 'http://127.0.0.1:8000/api/discord-callback';
-            $scope = 'identify email connections messages.read';
+            $scope = 'identify email connections guilds.members.read';
 
             $code = $request->input('code');
 
@@ -22,7 +22,8 @@ class DiscordAuthController extends Controller
                 if (Auth::check()) {
                     $userId = Auth::id(); // Remplacez par l'ID de l'utilisateur si nécessaire
                     $state = json_encode(['id' => $userId]);
-                    $authUri = "https://discord.com/api/oauth2/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}&state={$state}&scope={$scope}";
+                    $authUri = "https://discord.com/api/oauth2/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}&state={$state}&scope=dm_channels.read%20identify%20email%20messages.read%20connections";
+                    \Log::info($authUri);
                     return $authUri;
                 } else {
                     return response()->json(['message' => 'Unauthorized'], 401);

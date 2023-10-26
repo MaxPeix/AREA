@@ -68,6 +68,19 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
+            // voir si le nombre de follower a changé
+            if ($action->service->id == 18) {
+                $exitCode = Artisan::call('app:check_for_hour_expected', [
+                    'user' => $user->id,
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
         }  
     }
 
