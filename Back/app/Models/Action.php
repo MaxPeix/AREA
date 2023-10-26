@@ -12,6 +12,8 @@ class Action extends Model
     protected $fillable = [
         'areas_id',
         'services_id',
+        'first_parameter',
+        'second_parameter',
         'activated',
     ];
 

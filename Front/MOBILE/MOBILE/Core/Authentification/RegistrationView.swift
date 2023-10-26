@@ -14,7 +14,8 @@ struct RegistrationView: View {
     @State private var password = ""
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    
     var body: some View {
         ZStack {
             Color("background")
@@ -93,6 +94,10 @@ struct RegistrationView: View {
 
                     if value.status == "success" {
                         completion(true, "Registration successful")
+                        
+                        let token = value.authorisation.token
+                        UserDefaults.standard.set(token, forKey: "AuthToken")
+                        isLoggedIn = true
 
                     } else {
                         completion(false, "Can't register")

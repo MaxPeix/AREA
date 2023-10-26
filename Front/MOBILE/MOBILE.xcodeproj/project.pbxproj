@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B28DD842AD8332000C17778 /* CreateAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B28DD832AD8332000C17778 /* CreateAreaView.swift */; };
 		1B35FFA82AD1777A004E9BC5 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B35FFA72AD1777A004E9BC5 /* CustomTabView.swift */; };
 		1B35FFAA2AD17B1F004E9BC5 /* AreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B35FFA92AD17B1F004E9BC5 /* AreaView.swift */; };
 		1B62E2D02ACAC9F400CE05AB /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B62E2CF2ACAC9F400CE05AB /* RegistrationView.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B28DD832AD8332000C17778 /* CreateAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaView.swift; sourceTree = "<group>"; };
 		1B35FFA72AD1777A004E9BC5 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		1B35FFA92AD17B1F004E9BC5 /* AreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaView.swift; sourceTree = "<group>"; };
 		1B62E2CF2ACAC9F400CE05AB /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B28DD822AD8330E00C17778 /* Area */ = {
+			isa = PBXGroup;
+			children = (
+				1B28DD832AD8332000C17778 /* CreateAreaView.swift */,
+			);
+			path = Area;
+			sourceTree = "<group>";
+		};
 		1BA4CFFE2AC4556900F21586 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		1BA4CFFF2AC4558300F21586 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1B28DD822AD8330E00C17778 /* Area */,
 				1BD8C79B2ACB5F6300A98950 /* Home */,
 				1BA4D0002AC4558A00F21586 /* Authentification */,
 				1BA4D0012AC4559400F21586 /* Profile */,
@@ -259,6 +270,7 @@
 				1B35FFAA2AD17B1F004E9BC5 /* AreaView.swift in Sources */,
 				F8DE10AA2ACC3BB50053F76E /* CardView.swift in Sources */,
 				F8DE10AF2ACC3E340053F76E /* AddCardView.swift in Sources */,
+				1B28DD842AD8332000C17778 /* CreateAreaView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
