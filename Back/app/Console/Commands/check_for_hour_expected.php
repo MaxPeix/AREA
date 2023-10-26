@@ -33,23 +33,33 @@ class check_for_hour_expected extends Command
     {
         $userId = $this->argument('user');
         $user = User::find($userId);
-    
+        $heureParis = Carbon::now('Europe/Paris');
+        
         if (!$user) {
             Log::error('User not found');
             return 1;
         }
-
         if (!$user->hour_selected) {
             Log::error('User has not selected an hour');
             return 1;
         }
-        $hour_selected = $user->hour_selected;
+        
+        // Obtenir l'heure et les minutes de l'heure sélectionnée de l'utilisateur
+        list($hour, $minutes) = explode(':', $user->hour_selected);
 
-        $heureParis = Carbon::now('Europe/Paris');
-        \Log::info("heureParis: " . $heureParis);
-        return 1;
-
-        return 0;
+        // Obtenir l'heure et les minutes de l'heure actuelle à Paris
+        $currentHour = $heureParis->hour;
+        $currentMinutes = $heureParis->minute;
+        
+        // Comparer les heures et les minutes
+        if ($currentHour > $hour || ($currentHour == $hour && $currentMinutes >= $minutes)) {
+            Log::info('Hour reached  !!!!!!!');
+            Log::info('Reaction ready for deployment');
+            return 0;
+        } else {
+            Log::info('Hour not still reached!');
+            return 1;
+        }
     }
 
 }
