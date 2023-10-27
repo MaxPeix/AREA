@@ -83,6 +83,8 @@ class ControllerServices extends Controller
                 $services[$i]['options'] = [
                     "hour selected"
                 ];
+            } else {
+                $services[$i]['options'] = [];
             }
             array_push($services_filtered, $services[$i]);
         }
