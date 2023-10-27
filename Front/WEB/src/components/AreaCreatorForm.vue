@@ -118,6 +118,7 @@ export default {
         },
       })
       .then(response => {
+        console.log('Réponse du serveur :', response.data);
         this.services = response.data;
       })
       .catch(error => {
