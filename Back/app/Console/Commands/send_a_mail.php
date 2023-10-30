@@ -51,7 +51,6 @@ class send_a_mail extends Command
 
         $recipientEmail = $reaction->first_parameter;
         $content = $reaction->second_parameter;
-        Log::info("envoyé depuis " . $user->gmail_adress . " vers " . $recipientEmail . " avec le contenu " . $content);
         $rawMessage = $this->create_message($user->gmail_adress, $recipientEmail, $content);
 
         $base64RawMessage = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
@@ -79,6 +78,7 @@ class send_a_mail extends Command
 
         curl_close($ch);
         $body = json_decode($response, true);
+        Log::info("envoyé depuis " . $user->gmail_adress . " vers " . $recipientEmail . " avec le contenu " . $content);
         Log::info($body);
     }
 

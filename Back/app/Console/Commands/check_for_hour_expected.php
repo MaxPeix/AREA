@@ -55,7 +55,6 @@ class check_for_hour_expected extends Command
         // Comparer les heures et les minutes
         if ($currentHour > $hour || ($currentHour == $hour && $currentMinutes >= $minutes)) {
             Log::info('Hour reached  !!!!!!!');
-            Log::info('Reaction ready for deployment');
             $user->hour_selected = null;
             $user->save();
             return 0;
