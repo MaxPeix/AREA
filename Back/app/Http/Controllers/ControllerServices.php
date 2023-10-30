@@ -85,8 +85,12 @@ class ControllerServices extends Controller
                 ];
             } else if (strpos($serviceNameLower, 'send a mail google') !== false) {
                 $services[$i]['options'] = [
-                    "receiver of the mail",
-                    "content of the mail"
+                    "receiver of the mail (example: test@gmail.com)",
+                    "content of the mail (exemple: Hello test area mail)"
+                ];
+            } else if (strpos($serviceNameLower, 'new commit') !== false) {
+                $services[$i]['options'] = [
+                    "repository (example: MaxPeix/AREA)",
                 ];
             } else {
                 $services[$i]['options'] = [];

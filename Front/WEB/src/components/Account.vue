@@ -23,7 +23,7 @@ import Spotify from './AccountComponents/Spotify.vue';
 import Discord from './AccountComponents/Discord.vue';
 import Twitch from './AccountComponents/Twitch.vue';
 import Youtube from './AccountComponents/Youtube.vue';
-import RadioFrance from './AccountComponents/RadioFrance.vue';
+import Github from './AccountComponents/Github.vue';
 
 export default {
   name: 'Account',
@@ -93,7 +93,7 @@ export default {
         discord: Discord,
         twitch: Twitch,
         youtube: Youtube,
-        radio_france: RadioFrance,
+        github: Github,
       };
       this.selectedContentComponent = contentMap[image];
       console.log(selectedContentComponent);

@@ -46,7 +46,8 @@ class main_to_execute_reactions extends Command
                 if ($service_id == 14) {
                     Log::info("sending a mail");
                     Artisan::call('app:send_a_mail', [
-                        'user' => $userId
+                        'user' => $userId,
+                        'reaction' => $reaction->id
                     ]);
                 }
             }

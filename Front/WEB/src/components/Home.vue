@@ -1,32 +1,24 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-    <div class="columns">
-      <div class="column column1 scrollable-area" :style="{ backgroundColor: currentTheme.bloc }">Current Areas
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
-          <div class="card-content">
-            <div class="card-header" @click="moveToAreaEditor(area.id)">
-              <p class="area-text">{{ area.name }}</p>
-            </div>
-            <div class="card-footer">
-              <b-switch v-model="area.activated" :disabled="areaupdating" class="small-success-button" @input="updateAreaActivation(area)"/>
-            </div>
+    <img class="logo" :src="currentLogo"/>
+    <p class = center>My areas</p>
+    <div class="center">
+      <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
+        <div class="card-content">
+          <div class="card-header" @click="moveToAreaEditor(area.id)">
+            <p class="area-text">{{ area.name }}</p>
+          </div>
+          <div class="card-footer">
+            <b-switch v-model="area.activated" :disabled="areaupdating" class="small-success-button" @input="updateAreaActivation(area)"/>
           </div>
         </div>
-        <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
-          <div class="card-content card-plus">+</div>
-        </div>
       </div>
-      <div class="column is-three-fifths">
-        <div class="center">
-          <img class="logo" :src="currentLogo" />
-        </div>
+      <div class="card" :style="{ backgroundColor: currentTheme.buttons}" @click="moveToAreaCreator">
+        <div class="card-content card-plus">+</div>
       </div>
-      <div class="column">  
-        <div></div>
+      <div class="pfp-container">
+        <img :src="currentPfp" class="pfp" @click="moveToAccount"/>
       </div>
-    </div>
-    <div class="pfp-container">
-      <img :src="currentPfp" class="pfp" @click="moveToAccount"/>
     </div>
   </div>
 </template>
@@ -174,34 +166,30 @@ export default {
 
 .center {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Aligne les éléments en haut de chaque colonne */
   text-align: center;
-  height: 100%;
 }
 
 .wrapper {
-  height: 102vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
+  height: 100vh;
 }
 
-.custom-font {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 64px;
-}
 .logo {
   width: 200px;
   height: 200px;
-  margin-top: 180%;
+  margin: 0 auto;
+  display: block;
 }
 
 .card-footer {
   text-align: left;
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 2;
   width: 100%;
   border-top: none;
   padding: 8px;
@@ -211,7 +199,7 @@ export default {
   margin: 10px;
   padding: 20px;
   border-radius: 16px;
-  width: 80%;
+  width: 25%;
 }
 
 .card-header {
@@ -233,33 +221,6 @@ export default {
 .area-text {
   font-size: 22px;
   margin-bottom: 4px;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.column1  {
-  margin-top: 15px;
-  margin-left: 20px;
-  font-size: 32px;
-  color: #000;
-  border-radius: 24px;
-  font-weight: bold;
-}
-
-.scrollable-area {
-  overflow-y: auto;
-  max-height: 100vh;
-}
-
-.scrollable-area::-webkit-scrollbar {
-  width: 0.1em;
-}
-
-.scrollable-area::-webkit-scrollbar-thumb {
-  background-color: transparent;
 }
 
 .card-plus {

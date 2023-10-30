@@ -116,7 +116,11 @@ export default {
         this.closeModal();
       })
       .catch(error => {
-        console.error('Erreur lors de la création de l\'area :', error);
+        this.$buefy.notification.open({
+          message: error.response.data.message,
+          type: 'is-danger',
+        });
+        console.log('Erreur lors de la création de l\'area :', error.response.data.message);
       })
       .finally(() => {
         this.loading = false;

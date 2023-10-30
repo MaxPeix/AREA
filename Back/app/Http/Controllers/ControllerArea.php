@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Action;
 use App\Models\Service;
 use App\Models\Reaction;
+use App\Models\User;
 
 class ControllerArea extends Controller
 {
@@ -93,8 +94,37 @@ class ControllerArea extends Controller
                 $errors = $e->validator->errors()->getMessages();
                 return response()->json(['message' => 'Invalid data', 'errors' => $errors], 401);
             }
-            $area = Area::create(array_merge($request->all(), ['users_id' => $userId]));
 
+            if ($request->service_reaction_id == 14) {
+                if (!filter_var($request->config[2], FILTER_VALIDATE_EMAIL)) {
+                    return response()->json(['message' => 'Receiver of the mail is not a valid email address'], 401);
+                }
+                if ($request->config[3] == null) {
+                    return response()->json(['message' => 'Content of the mail invalid'], 401);
+                }
+            }
+
+            if ($request->service_action_id == 18) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Invalid hour minute selection format is HH:MM'], 401);
+                } else {
+                    if (!preg_match("/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/", $request->config[0])) {
+                        return response()->json(['message' => 'Invalid hour minute selection format is HH:MM'], 401);
+                    }
+                }
+                User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
+            }
+
+            if ($request->service_action_id == 19) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Invalid github repository'], 401);
+                }
+                if (substr_count($request->config[0], '/') !== 1) {
+                    return response()->json(['message' => 'Invalid github repository, there should be exactly one "/" in the name'], 401);
+                }
+            }
+
+            $area = Area::create(array_merge($request->all(), ['users_id' => $userId]));
             $actionData = [
                 'services_id' => $request->service_action_id,
                 'areas_id' => $area->id,
