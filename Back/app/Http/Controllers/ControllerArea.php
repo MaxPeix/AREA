@@ -115,7 +115,7 @@ class ControllerArea extends Controller
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
             }
 
-            if ($request->service_action_id == 19) {
+            if ($request->service_action_id == 19 || $request->service_reaction_id == 20) {
                 if ($request->config[0] == null) {
                     return response()->json(['message' => 'Invalid github repository'], 401);
                 }

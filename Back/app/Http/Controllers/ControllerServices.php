@@ -92,6 +92,10 @@ class ControllerServices extends Controller
                 $services[$i]['options'] = [
                     "repository (example: MaxPeix/AREA)",
                 ];
+            } else if (strpos($serviceNameLower, 'new issue') !== false) {
+                $services[$i]['options'] = [
+                    "repository (example: MaxPeix/AREA)",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }
