@@ -81,7 +81,12 @@ class ControllerServices extends Controller
             }
             if (strpos($serviceNameLower, 'hour') !== false) {
                 $services[$i]['options'] = [
-                    "hour selected"
+                    "hour selected (format = HH:MM)"
+                ];
+            } else if (strpos($serviceNameLower, 'send a mail google') !== false) {
+                $services[$i]['options'] = [
+                    "receiver of the mail",
+                    "content of the mail"
                 ];
             } else {
                 $services[$i]['options'] = [];
