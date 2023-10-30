@@ -39,6 +39,7 @@ class check_for_hour_expected extends Command
             Log::error('User not found');
             return 1;
         }
+
         if (!$user->hour_selected) {
             Log::error('User has not selected an hour');
             return 1;
@@ -54,7 +55,8 @@ class check_for_hour_expected extends Command
         // Comparer les heures et les minutes
         if ($currentHour > $hour || ($currentHour == $hour && $currentMinutes >= $minutes)) {
             Log::info('Hour reached  !!!!!!!');
-            Log::info('Reaction ready for deployment');
+            $user->hour_selected = null;
+            $user->save();
             return 0;
         } else {
             Log::info('Hour not still reached!');
