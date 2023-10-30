@@ -9,6 +9,7 @@ import spotify from './spotify.png';
 import twitch from './twitch.png';
 import youtube from './youtube.png';
 import github from './github.png';
+import logout from './logout.png';
 
 export {
     arrow,
@@ -22,4 +23,5 @@ export {
     twitch,
     youtube,
     github,
+    logout,
 };

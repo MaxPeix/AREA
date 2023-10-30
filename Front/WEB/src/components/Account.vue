@@ -7,7 +7,7 @@
     <div class="middle-inferior-rectangle">
       <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
-    <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+    <!-- <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
       <div class="logo-title-container">
         <img class="logo" :src="currentLogo"/>
         <p class="left-rectangle-title">Area Forbidden</p>
@@ -42,15 +42,15 @@
           <span class="image-name">GitHub</span>
         </div>
       </div>
-    </div>
-    <button class="delete-button" @click="logout">Logout</button>
+    </div> -->
+    <img :src="logout" class="logout-button" @click="performLogout">
   </div>
 </template>
 
 <script>
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
-import { arrow, overview, discord, twitch, github, spotify, youtube, gmail, google_drive } from '../assets/index'
+import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive, logout, github } from '../assets/index'
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import Overview from './AccountComponents/Overview.vue';
@@ -75,6 +75,7 @@ export default {
       github,
       spotify,
       youtube,
+      logout,
       gmail,
       google_drive,
       username: '',
@@ -124,7 +125,7 @@ export default {
     },
   },
   methods: {
-    logout() {
+    performLogout() {
       localStorage.removeItem('token');
       this.$router.push('/login');
     },
@@ -180,9 +181,9 @@ export default {
 }
 .middle-rectangle {
   position: absolute;
-  margin-left: 25%;
+  margin-left: 20%;
   margin-top: 20px;
-  width: 40%;
+  width: 60%;
   height: 10%;
   border-radius: 20px;
   align-items: center;
@@ -193,7 +194,7 @@ export default {
 .middle-inferior-rectangle {
   position: absolute;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  margin-left: 25%;
+  margin-left: 20%;
   margin-top: 200px;
   width: 60%;
   height: 70%;
@@ -204,6 +205,7 @@ export default {
 }
 .left-rectangle {
   position: absolute;
+  margin-right: auto;
   margin-left: 20px;
   top: 10%;
   width: 20%;
@@ -274,13 +276,15 @@ export default {
   transform: rotate(180deg);
 }
 
-.delete-button {
+.logout-button {
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  width: 60px;
+  height: 50px;
+  margin-right: auto;
+  margin-left: 15px;
   font-size: 24px;
   padding: 5px 10px;
-  background-color: #ff0000;
   color: #fff;
   border: none;
   cursor: pointer;

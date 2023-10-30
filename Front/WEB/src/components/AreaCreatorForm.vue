@@ -16,10 +16,22 @@
                   <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name }}</option>
                 </b-select>
               </b-field>
+              <b-field label="Action Option 1" v-if="selectedAction && selectedAction.options[0]">
+                <b-input v-model="selectedActionOpt1" type="selectedActionOpt1" :placeholder="actionOption1Placeholder" required></b-input>
+              </b-field>
+              <b-field label="Action Option 2" v-if="selectedAction && selectedAction.options[1]">
+                <b-input v-model="selectedActionOpt2" type="selectedActionOpt2" :placeholder="actionOption2Placeholder" required></b-input>
+              </b-field>
               <b-field label="Reactions">
                 <b-select v-model="selectedReaction" placeholder="Select a reaction">
                   <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name }}</option>
                 </b-select>
+              </b-field>
+              <b-field label="Reaction Option 1" v-if="selectedReaction && selectedReaction.options[0]">
+                <b-input v-model="selectedReactionOpt1" type="selectedReactionOpt1" :placeholder="reactionOption1Placeholder" required></b-input>
+              </b-field>
+              <b-field label="Reaction Option 2" v-if="selectedReaction && selectedReaction.options[1]">
+                <b-input v-model="selectedReactionOpt2" type="selectedReactionOpt2" :placeholder="reactionOption2Placeholder" required></b-input>
               </b-field>
           </section>
           <footer class="modal-card-foot">
@@ -58,7 +70,11 @@ export default {
       name: null,
       description: null,
       selectedAction: null,
+      selectedActionOpt1: null,
+      selectedActionOpt2: null,
       selectedReaction: null,
+      selectedReactionOpt1: null,
+      selectedReactionOpt2: null,
       services: [],
       loading: false,
     };
@@ -80,10 +96,10 @@ export default {
         service_action_id: this.selectedAction.id,
         service_reaction_id: this.selectedReaction.id,
         config: [
-          "",
-          "",
-          "",
-          ""
+          this.selectedActionOpt1 ?? "",
+          this.selectedActionOpt2 ?? "",
+          this.selectedReactionOpt1 ?? "",
+          this.selectedReactionOpt2 ?? "",
         ],
         activated: true
       }, {
@@ -118,6 +134,7 @@ export default {
         },
       })
       .then(response => {
+        console.log('Réponse du serveur :', response.data);
         this.services = response.data;
       })
       .catch(error => {
@@ -129,6 +146,20 @@ export default {
     findServiceName(serviceId) {
       const service = this.services.find(s => s.id === serviceId);
       return service ? service.service_name : 'Service non trouvé';
+    },
+  },
+  computed: {
+    actionOption1Placeholder() {
+      return this.selectedAction ? this.selectedAction.options[0] : 'Action Option 1';
+    },
+    actionOption2Placeholder() {
+      return this.selectedAction ? this.selectedAction.options[1] : 'Action Option 2';
+    },
+    reactionOption1Placeholder() {
+      return this.selectedReaction ? this.selectedReaction.options[0] : 'Reaction Option 1';
+    },
+    reactionOption2Placeholder() {
+      return this.selectedReaction ? this.selectedReaction.options[1] : 'Reaction Option 2';
     },
   },
 }

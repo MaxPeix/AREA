@@ -224,6 +224,8 @@ export default {
 }
 
 .card-header, .card-footer {
+  box-shadow: none;
+  border: none;
   display: flex;
   justify-content: space-between;
 }
