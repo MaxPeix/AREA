@@ -14,7 +14,7 @@
 <script>
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
-import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive, logout } from '../assets/index'
+import { arrow, logout } from '../assets/index'
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import Overview from './AccountComponents/Overview.vue';
@@ -33,15 +33,7 @@ export default {
       logo_vert,
       logo_gris,
       arrow,
-      overview,
-      discord,
-      twitch,
-      radio_france,
-      spotify,
-      youtube,
       logout,
-      gmail,
-      google_drive,
       username: '',
       email: '',
       backgroundColor: themes.default.backgroundColor,
