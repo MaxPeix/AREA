@@ -230,6 +230,10 @@ export default {
   margin: 10px;
 }
 
+.card-footer {
+  border-top: none;
+}
+
 .card {
   margin: 10px;
   padding: 20px;
