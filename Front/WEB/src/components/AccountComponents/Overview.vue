@@ -59,18 +59,6 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
-        <div class="card-content">
-          <div class="card-header">
-            <p class="area-text">RadioFrance</p>
-          </div>
-          <div class="card-footer">
-            <button @click="connectRadioFrance" v-if="!serviceStates.radio_france">Se connecter</button>
-            <b-switch disabled v-model="serviceStates.radiofrance" class="small-success-button"></b-switch>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="card-row">
       <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
