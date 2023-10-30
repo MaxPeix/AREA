@@ -2,10 +2,10 @@
   <div class="overview">
     <!-- <div class="overview-header">Overview</div> -->
     <div class="card-row">
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">Google</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Google</p>
           </div>
           <div class="card-footer">
             <button @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
@@ -13,10 +13,10 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">Discord</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Discord</p>
           </div>
           <div class="card-footer">
             <button @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
@@ -24,10 +24,10 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">Twitch</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Twitch</p>
           </div>
           <div class="card-footer">
             <button @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
@@ -37,10 +37,10 @@
       </div>
     </div>
     <div class="card-row">
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">Spotify</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Spotify</p>
           </div>
           <div class="card-footer">
             <button @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
@@ -48,10 +48,10 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">Youtube</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Youtube</p>
           </div>
           <div class="card-footer">
             <button @click="connectYoutube" v-if="!serviceStates.youtube">Se connecter</button>
@@ -59,10 +59,10 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">RadioFrance</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">RadioFrance</p>
           </div>
           <div class="card-footer">
             <button @click="connectRadioFrance" v-if="!serviceStates.radio_france">Se connecter</button>
@@ -72,30 +72,31 @@
       </div>
     </div>
     <div class="card-row">
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">tmp</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">GitHub</p>
+          </div>
+          <div class="card-footer">
+            <button @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
+            <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
+          </div>
+        </div>
+      </div>
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+        <div class="card-content">
+          <div class="card-header">
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">tmp</p>
           </div>
           <div class="card-footer">
             <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">tmp</p>
-          </div>
-          <div class="card-footer">
-            <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <div class="card-header">
-            <p class="area-text">tmp</p>
+            <p class="area-text" :style="{ color: currentTheme.bloc2 }">tmp</p>
           </div>
           <div class="card-footer">
             <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
@@ -209,6 +210,9 @@ export default {
         console.log(error);
       });
     },
+    connectGitHub() {
+
+    },
   },
 };
 </script>
@@ -230,7 +234,8 @@ export default {
   margin: 10px;
   padding: 20px;
   border-radius: 16px;
-  width: 300px;
+  width: 400px;
+  height: 200px;
 }
 
 .card-header {

@@ -7,7 +7,7 @@
     <div class="middle-inferior-rectangle">
       <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
-    <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
+    <!-- <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
       <div class="logo-title-container">
         <img class="logo" :src="currentLogo"/>
         <p class="left-rectangle-title">Area Forbidden</p>
@@ -42,7 +42,7 @@
           <span class="image-name">RadioFrance</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <button class="delete-button" @click="logout">Logout</button>
   </div>
 </template>
@@ -180,9 +180,9 @@ export default {
 }
 .middle-rectangle {
   position: absolute;
-  margin-left: 25%;
+  margin-left: 20%;
   margin-top: 20px;
-  width: 40%;
+  width: 60%;
   height: 10%;
   border-radius: 20px;
   align-items: center;
@@ -193,7 +193,7 @@ export default {
 .middle-inferior-rectangle {
   position: absolute;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  margin-left: 25%;
+  margin-left: 20%;
   margin-top: 200px;
   width: 60%;
   height: 70%;
