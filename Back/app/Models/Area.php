@@ -24,7 +24,7 @@ class Area extends Model
     public function actions()
     {
         return $this->hasMany(Action::class, 'areas_id', 'id');
-    }
+    } 
 
     public function reactions()
     {
