@@ -213,6 +213,12 @@ export default {
     connectGitHub() {
 
     },
+    connectYoutube() {
+
+    },
+    connectRadioFrance() {
+
+    },
   },
 };
 </script>
