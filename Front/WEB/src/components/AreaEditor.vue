@@ -13,7 +13,7 @@
         <p class="subheader-font" v-if="!loading && area && area[0] && area[0].action[0] && area[0].action[0].reactions[0] && area[0].action[0].reactions[0].services && area[0].action[0].reactions[0].services.service_name"> Reaction : {{ area[0].action[0].reactions[0].services.service_name }} </p>
       </div>
     </div>
-    <div class="action-reaction-rectangle" :style="{ left:'20%' }">
+    <div class="action-reaction-rectangle" :style="{ left:'20%', backgroundColor: currentTheme.bloc2 }">
       <button class="action-reaction-button header-font" v-if="!loading"> Current name: {{ area[0].name }} </button>
       <input
         class="action-reaction-input header-font"
@@ -22,7 +22,7 @@
         v-if="!loading"
       />
     </div>
-    <div class="action-reaction-rectangle" :style="{ left: '52%' }">
+    <div class="action-reaction-rectangle" :style="{ left: '52%', backgroundColor: currentTheme.bloc2 }">
       <button class="action-reaction-button header-font" v-if="!loading"> Current description: {{ area[0].description }}</button>
       <input
         class="action-reaction-input header-font"
@@ -31,7 +31,7 @@
         v-if="!loading"
       />
     </div>
-    <div class="logs">
+    <div class="logs" :style="{ backgroundColor: currentTheme.bloc2 }">
       <p class="header-font" :style="{ alignItems: 'center', display: 'flex', justifyContent: 'center' }">Logs</p>
       <div v-if="!loading">
         <div v-for="(log, index) in area[0].historique" :key="index">
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       arrow,
-      backgroundColor: themes.light.backgroundColor,
+      backgroundColor: themes.default.backgroundColor,
       area: [],
       loading: true,
       nameInput: "",
@@ -237,7 +237,6 @@ export default {
 
 /* Action-Reaction styling */
 .action-reaction-rectangle {
-  background-color: #EAEAEA;
   border-radius: 8px;
   padding: 20px;
   width: 80%;
@@ -254,7 +253,6 @@ export default {
 
 /* Logs styling */
 .logs {
-  background-color: #EAEAEA;
   border-radius: 8px;
   padding: 20px;
   width: 80%;

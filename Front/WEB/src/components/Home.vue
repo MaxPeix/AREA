@@ -114,6 +114,7 @@ export default {
         })
         .finally(() => {
           this.areaupdating = false;
+          this.getAreas();
         });
       },
       moveToAccount() {
