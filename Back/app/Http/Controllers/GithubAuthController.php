@@ -14,6 +14,7 @@ class GitHubAuthController extends Controller
             $clientId = env('GITHUB_CLIENT_ID');
             $clientSecret = env('GITHUB_CLIENT_SECRET');
             $redirectUri = 'http://127.0.0.1:8000/api/github-callback';
+            $scope = 'repo read:org';
 
             $code = $request->input('code');
 
@@ -21,7 +22,7 @@ class GitHubAuthController extends Controller
                 if (Auth::check()) {
                     $userId = Auth::id();
                     $state = json_encode(['id' => $userId]);
-                    $authUri = "https://github.com/login/oauth/authorize?client_id={$clientId}&redirect_uri={$redirectUri}&state={$state}";
+                    $authUri = "https://github.com/login/oauth/authorize?client_id={$clientId}&redirect_uri={$redirectUri}&state={$state}&scope={$scope}";
                     return $authUri;
                 } else {
                     return response()->json(['message' => 'Unauthorized'], 401);
