@@ -115,6 +115,15 @@ class ControllerArea extends Controller
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
             }
 
+            if ($request->service_action_id == 19) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Invalid github repository'], 401);
+                }
+                if (substr_count($request->config[0], '/') !== 1) {
+                    return response()->json(['message' => 'Invalid github repository, there should be exactly one "/" in the name'], 401);
+                }
+            }
+
             $area = Area::create(array_merge($request->all(), ['users_id' => $userId]));
             $actionData = [
                 'services_id' => $request->service_action_id,
