@@ -15,6 +15,7 @@ use App\Http\Controllers\TwitchAuthController;
 use App\Http\Controllers\AreaHistoriqueController;
 use App\Http\Controllers\DiscordAuthController;
 use App\Http\Controllers\RadioFranceAuthController;
+use App\Http\Controllers\GithubAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,7 @@ Route::get('/spotify-callback', [SpotifyAuthController::class, 'spotifyCallback'
 Route::get('/twitch-callback', [TwitchAuthController::class, 'twitchCallback']);
 Route::get('/discord-callback', [DiscordAuthController::class, 'discordCallback']);
 Route::get('/radioFrance-callback', [RadioFranceAuthController::class, 'radioFranceCallback']);
+Route::get('/github-callback', [GithubAuthController::class, 'githubCallback']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

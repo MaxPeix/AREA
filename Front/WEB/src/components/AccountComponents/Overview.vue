@@ -57,10 +57,10 @@
       <div class="card">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text">RadioFrance</p>
+            <p class="area-text">Github</p>
           </div>
           <div class="card-footer">
-            <b-switch disabled v-model="serviceStates.radiofrance" class="small-success-button"></b-switch>
+            <b-switch disabled v-model="serviceStates.github" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>

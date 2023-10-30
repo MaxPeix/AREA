@@ -37,9 +37,9 @@
           <img :src="youtube"/>
           <span class="image-name">Youtube</span>
         </div>
-        <div class="app-item" @click="selectContent('radio_france')">
-          <img :src="radio_france"/>
-          <span class="image-name">RadioFrance</span>
+        <div class="app-item" @click="selectContent('github')">
+          <img :src="github"/>
+          <span class="image-name">GitHub</span>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
 <script>
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
-import { arrow, overview, discord, twitch, radio_france, spotify, youtube, gmail, google_drive } from '../assets/index'
+import { arrow, overview, discord, twitch, github, spotify, youtube, gmail, google_drive } from '../assets/index'
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import Overview from './AccountComponents/Overview.vue';
@@ -59,7 +59,7 @@ import Spotify from './AccountComponents/Spotify.vue';
 import Discord from './AccountComponents/Discord.vue';
 import Twitch from './AccountComponents/Twitch.vue';
 import Youtube from './AccountComponents/Youtube.vue';
-import RadioFrance from './AccountComponents/RadioFrance.vue';
+import Github from './AccountComponents/Github.vue';
 
 export default {
   name: 'Account',
@@ -72,7 +72,7 @@ export default {
       overview,
       discord,
       twitch,
-      radio_france,
+      github,
       spotify,
       youtube,
       gmail,
@@ -136,7 +136,7 @@ export default {
         discord: Discord,
         twitch: Twitch,
         youtube: Youtube,
-        radio_france: RadioFrance,
+        github: Github,
       };
       this.selectedContentComponent = contentMap[image];
       console.log(selectedContentComponent);

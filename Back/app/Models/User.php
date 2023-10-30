@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'roles',
         'google_token',
         'spotify_token',
+        'github_token',
         'twitch_token',
         'discord_token',
         'radio_france_token',
