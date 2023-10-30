@@ -7,42 +7,6 @@
     <div class="middle-inferior-rectangle">
       <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
-    <!-- <div class="left-rectangle" :style="{ backgroundColor: currentTheme.bloc2 }">
-      <div class="logo-title-container">
-        <img class="logo" :src="currentLogo"/>
-        <p class="left-rectangle-title">Area Forbidden</p>
-      </div>
-      <div class="apps">
-        <div class="app-item" @click="selectContent('overview')">
-          <img :src="overview"/>
-          <span class="image-name">Overview</span>
-        </div>
-        <div class="app-item" @click="selectContent('google')">
-          <img :src="gmail"/>
-          <span class="image-name">Google</span>
-        </div>
-        <div class="app-item" @click="selectContent('discord')">
-          <img :src="discord"/>
-          <span class="image-name">Discord</span>
-        </div>
-        <div class="app-item" @click="selectContent('twitch')">
-          <img :src="twitch"/>
-          <span class="image-name">Twitch</span>
-        </div>
-        <div class="app-item" @click="selectContent('spotify')">
-          <img :src="spotify"/>
-          <span class="image-name">Spotify</span>
-        </div>
-        <div class="app-item" @click="selectContent('youtube')">
-          <img :src="youtube"/>
-          <span class="image-name">Youtube</span>
-        </div>
-        <div class="app-item" @click="selectContent('radio_france')">
-          <img :src="radio_france"/>
-          <span class="image-name">RadioFrance</span>
-        </div>
-      </div>
-    </div> -->
     <img :src="logout" class="logout-button" @click="performLogout">
   </div>
 </template>
@@ -195,76 +159,13 @@ export default {
   position: absolute;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin-left: 20%;
-  margin-top: 200px;
+  margin-top: 170px;
   width: 60%;
   height: 70%;
   border-radius: 20px;
   align-items: center;
   display: flex;
   justify-content: center;
-}
-.left-rectangle {
-  position: absolute;
-  margin-right: auto;
-  margin-left: 20px;
-  top: 10%;
-  width: 20%;
-  height: 80%;
-  border-radius: 20px;
-  flex-direction: column;
-  display: flex;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.left-rectangle-title {
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: 25px;
-  margin-left: 10px;
-}
-.left-rectangle-subtitle {
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: 14px;
-  margin-left: 20px;
-}
-.apps {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  margin-right: auto;
-  margin-left: 20px;
-  gap: 15px;
-  height: 50px;
-  width: 50px;
-  cursor: pointer;
-}
-.app-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  height: 50px;
-  width: 50px;
-}
-.image-name {
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-.logo {
-  width: 60px;
-  height: 60px;
-  margin-top: 15px;
-}
-.logo-title-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 .arrow {
   width: 50px;

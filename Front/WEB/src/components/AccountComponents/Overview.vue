@@ -1,6 +1,5 @@
 <template>
   <div class="overview">
-    <!-- <div class="overview-header">Overview</div> -->
     <div class="card-row">
       <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
@@ -229,11 +228,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.overview-header {
-  font-size: 24px;
-  margin: 10px;
 }
 
 .card-footer {
