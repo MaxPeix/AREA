@@ -42,7 +42,7 @@
           <span class="image-name">RadioFrance</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <img :src="logout" class="logout-button" @click="performLogout">
   </div>
 </template>

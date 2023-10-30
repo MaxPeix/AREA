@@ -2,10 +2,10 @@
   <div class="overview">
     <!-- <div class="overview-header">Overview</div> -->
     <div class="card-row">
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Google</p>
+            <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
             <button @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
@@ -13,10 +13,10 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Discord</p>
+            <p class="area-text">Discord</p>
           </div>
           <div class="card-footer">
             <button @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
@@ -24,10 +24,10 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Twitch</p>
+            <p class="area-text">Twitch</p>
           </div>
           <div class="card-footer">
             <button @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
@@ -37,10 +37,10 @@
       </div>
     </div>
     <div class="card-row">
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Spotify</p>
+            <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
             <button @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
@@ -48,10 +48,10 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">Youtube</p>
+            <p class="area-text">Youtube</p>
           </div>
           <div class="card-footer">
             <button @click="connectYoutube" v-if="!serviceStates.youtube">Se connecter</button>
@@ -59,10 +59,10 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">RadioFrance</p>
+            <p class="area-text">RadioFrance</p>
           </div>
           <div class="card-footer">
             <button @click="connectRadioFrance" v-if="!serviceStates.radio_france">Se connecter</button>
@@ -72,10 +72,10 @@
       </div>
     </div>
     <div class="card-row">
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">GitHub</p>
+            <p class="area-text">GitHub</p>
           </div>
           <div class="card-footer">
             <button @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
@@ -83,20 +83,20 @@
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">tmp</p>
+            <p class="area-text">tmp</p>
           </div>
           <div class="card-footer">
             <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc }">
+      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <p class="area-text" :style="{ color: currentTheme.bloc2 }">tmp</p>
+            <p class="area-text">tmp</p>
           </div>
           <div class="card-footer">
             <b-switch disabled v-model="serviceStates.tmp" class="small-success-button"></b-switch>
