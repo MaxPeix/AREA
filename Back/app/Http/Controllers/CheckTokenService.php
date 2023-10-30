@@ -100,15 +100,47 @@ class CheckTokenService extends Controller
         }
     }
 
+    public function checkGithubToken(User $user)
+    {
+        $githubToken = $user->github_token;
+    
+        if (!$githubToken) {
+            Log::info('No github token');
+            return false;
+        }
+    
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $githubToken,
+            ])
+            ->withOptions([
+                'verify' => false, // You may want to handle SSL verification properly in production.
+            ])
+            ->get('https://api.github.com/user');
+    
+            if ($response->status() != 200) {
+                return false;
+            }
+    
+            return true;
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return false;
+        }
+    }
+    
+
     public function checkTokensValidity ($user = null) {
         $user = Auth::user();
         $google = $this->checkGoogleToken($user);
         $spotify = $this->checkSpotifyToken($user);
         $discord = $this->checkDiscordToken($user);
+        $github = $this->checkGithubToken($user);
         return [
             'google' => $google,
             'spotify' => $spotify,
-            'discord' => $discord
+            'discord' => $discord,
+            'github' => $github,
         ];
     }
 }
