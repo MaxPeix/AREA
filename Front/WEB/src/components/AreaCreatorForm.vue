@@ -16,10 +16,22 @@
                   <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name }}</option>
                 </b-select>
               </b-field>
+              <b-field label="Action Option 1" v-if="selectedAction && selectedAction.options[0]">
+                <b-input v-model="selectedActionOpt1" type="selectedActionOpt1" :placeholder="actionOption1Placeholder" required></b-input>
+              </b-field>
+              <b-field label="Action Option 2" v-if="selectedAction && selectedAction.options[1]">
+                <b-input v-model="selectedActionOpt2" type="selectedActionOpt2" :placeholder="actionOption2Placeholder" required></b-input>
+              </b-field>
               <b-field label="Reactions">
                 <b-select v-model="selectedReaction" placeholder="Select a reaction">
                   <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name }}</option>
                 </b-select>
+              </b-field>
+              <b-field label="Reaction Option 1" v-if="selectedReaction && selectedReaction.options[0]">
+                <b-input v-model="selectedReactionOpt1" type="selectedReactionOpt1" :placeholder="reactionOption1Placeholder" required></b-input>
+              </b-field>
+              <b-field label="Reaction Option 2" v-if="selectedReaction && selectedReaction.options[1]">
+                <b-input v-model="selectedReactionOpt2" type="selectedReactionOpt2" :placeholder="reactionOption2Placeholder" required></b-input>
               </b-field>
           </section>
           <footer class="modal-card-foot">
@@ -58,7 +70,11 @@ export default {
       name: null,
       description: null,
       selectedAction: null,
+      selectedActionOpt1: null,
+      selectedActionOpt2: null,
       selectedReaction: null,
+      selectedReactionOpt1: null,
+      selectedReactionOpt2: null,
       services: [],
       loading: false,
     };
@@ -67,47 +83,7 @@ export default {
     closeModal() {
       this.$emit('close');
     },
-    createReaction(area_id, service_id, token, actions_id_created) {
-      axios.post('http://localhost:8000/api/reactions/' + area_id, {
-        services_id: service_id,
-        actions_id: actions_id_created,
-        activated: true
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la création de la réaction :', error);
-      })
-    },
-    createAction(area_id, service_id, token) {
-      axios.post('http://localhost:8000/api/actions/' + area_id, {
-        services_id: service_id,
-        activated: true
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        const actions_id_created = response.data.id;
-        console.log("action id created:", actions_id_created);
-        this.createReaction(area_id, this.selectedReaction.id, token, actions_id_created);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la création de l\'action :', error);
-      })
-    },
     createArea() {
-      console.log(this.name);
-      console.log(this.description);
-      console.log("selected actions service id:", this.selectedAction.id);
-      console.log("selected reactions service id:", this.selectedReaction.id);
       const token = localStorage.getItem('token');
       if (!token) {
         this.$router.push('/login');
@@ -117,6 +93,14 @@ export default {
       axios.post('http://localhost:8000/api/area', {
         name: this.name,
         description: this.description,
+        service_action_id: this.selectedAction.id,
+        service_reaction_id: this.selectedReaction.id,
+        config: [
+          this.selectedActionOpt1 ?? "",
+          this.selectedActionOpt2 ?? "",
+          this.selectedReactionOpt1 ?? "",
+          this.selectedReactionOpt2 ?? "",
+        ],
         activated: true
       }, {
         headers: {
@@ -124,20 +108,18 @@ export default {
         },
       })
       .then(response => {
-        let area_id_created = response.data.id;
-        console.log("area id created:", area_id_created);
-        this.createAction(area_id_created, this.selectedAction.id, token);
+        console.log(response.data);
+        this.$buefy.notification.open({
+          message: 'Area created',
+          type: 'is-success',
+        });
+        this.closeModal();
       })
       .catch(error => {
         console.error('Erreur lors de la création de l\'area :', error);
       })
       .finally(() => {
         this.loading = false;
-        this.$buefy.notification.open({
-          message: 'Area created',
-          type: 'is-success',
-        });
-        this.closeModal();
       });
     },
     getServices() {
@@ -152,6 +134,7 @@ export default {
         },
       })
       .then(response => {
+        console.log('Réponse du serveur :', response.data);
         this.services = response.data;
       })
       .catch(error => {
@@ -163,6 +146,20 @@ export default {
     findServiceName(serviceId) {
       const service = this.services.find(s => s.id === serviceId);
       return service ? service.service_name : 'Service non trouvé';
+    },
+  },
+  computed: {
+    actionOption1Placeholder() {
+      return this.selectedAction ? this.selectedAction.options[0] : 'Action Option 1';
+    },
+    actionOption2Placeholder() {
+      return this.selectedAction ? this.selectedAction.options[1] : 'Action Option 2';
+    },
+    reactionOption1Placeholder() {
+      return this.selectedReaction ? this.selectedReaction.options[0] : 'Reaction Option 1';
+    },
+    reactionOption2Placeholder() {
+      return this.selectedReaction ? this.selectedReaction.options[1] : 'Reaction Option 2';
     },
   },
 }

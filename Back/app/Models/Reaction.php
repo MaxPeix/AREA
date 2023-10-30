@@ -12,7 +12,9 @@ class Reaction extends Model
     protected $fillable = [
         'actions_id',
         'services_id',
-        'activated',
+        'first_parameter',
+        'second_parameter',
+        'activated'
     ];
 
     public function action()

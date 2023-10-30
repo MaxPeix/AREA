@@ -20,57 +20,79 @@ class ControllerServices extends Controller
         $this->checkTokenService = $checkTokenService;
     }
 
+    public function is_token_valid_for_service($serviceNameLower, $validity)
+    {
+        if (
+            strpos($serviceNameLower, 'google') !== false &&
+            array_key_exists('google', $validity) &&
+            !$validity['google']
+        ) {
+            return false;
+        }
+        if (
+            strpos($serviceNameLower, 'spotify') !== false &&
+            array_key_exists('spotify', $validity) &&
+            !$validity['spotify']
+        ) {
+            return false;
+        }
+        if (
+            strpos($serviceNameLower, 'discord') !== false &&
+            array_key_exists('discord', $validity) &&
+            !$validity['discord']
+        ) {
+            return false;
+        }
+        if (
+            strpos($serviceNameLower, 'twitch') !== false &&
+            array_key_exists('twitch', $validity) &&
+            !$validity['twitch']
+        ) {
+            return false;
+        }
+        if (
+            strpos($serviceNameLower, 'github') !== false &&
+            array_key_exists('github', $validity) &&
+            !$validity['github']
+        ) {
+            return false;
+        }
+        if (
+            strpos($serviceNameLower, 'hour') !== false &&
+            array_key_exists('hour', $validity) &&
+            !$validity['hour']
+        ) {
+            return false;
+        }
+        return true;
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
         $validity = $this->checkTokenService->checkTokensValidity($user);
 
-        // return response()->json(['validity' => $validity]);
-        // return response()->json(['validity' => $validity]);
         $services = Service::all();
-
         $services_filtered = [];
-
         for ($i = 0; $i < count($services); $i++) {
             $serviceNameLower = strtolower($services[$i]->service_name);
-            if (
-                strpos($serviceNameLower, 'google') !== false &&
-                array_key_exists('google', $validity) &&
-                !$validity['google']
-            ) {
+            if (!$this->is_token_valid_for_service($serviceNameLower, $validity)) {
                 continue;
             }
-            if (
-                strpos($serviceNameLower, 'spotify') !== false &&
-                array_key_exists('spotify', $validity) &&
-                !$validity['spotify']
-            ) {
-                continue;
-            }
-            if (
-                strpos($serviceNameLower, 'discord') !== false &&
-                array_key_exists('discord', $validity) &&
-                !$validity['discord']
-            ) {
-                continue;
-            }
-            if (
-                strpos($serviceNameLower, 'twitch') !== false &&
-                array_key_exists('twitch', $validity) &&
-                !$validity['twitch']
-            ) {
-                continue;
-            }
-            if (
-                strpos($serviceNameLower, 'github') !== false &&
-                array_key_exists('github', $validity) &&
-                !$validity['github']
-            ) {
-                continue;
+            if (strpos($serviceNameLower, 'hour') !== false) {
+                $services[$i]['options'] = [
+                    "hour selected (format = HH:MM)"
+                ];
+            } else if (strpos($serviceNameLower, 'send a mail google') !== false) {
+                $services[$i]['options'] = [
+                    "receiver of the mail",
+                    "content of the mail"
+                ];
+            } else {
+                $services[$i]['options'] = [];
             }
             array_push($services_filtered, $services[$i]);
         }
-
         return response()->json($services_filtered);
     }
 
