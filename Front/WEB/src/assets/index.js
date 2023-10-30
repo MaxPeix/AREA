@@ -8,14 +8,12 @@ import twitch from './twitch.png';
 import youtube from './youtube.png';
 import github from './github.png';
 import logout from './logout.png';
-import github from './github.png';
 
 export {
     arrow,
     default_pfp,
     discord,
     gmail,
-    github,
     overview,
     spotify,
     twitch,
