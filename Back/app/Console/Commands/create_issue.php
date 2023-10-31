@@ -43,6 +43,8 @@ class create_issue extends Command
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.github.v3+json',
             'Authorization' => "Bearer $token",
+        ])->withOptions([
+                'verify' => false
         ])->post($url, [
             'title' => $title,
             'body' => $body,
