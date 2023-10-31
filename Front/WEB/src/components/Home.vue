@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-    <img class="logo" :src="currentLogo"/>
     <p class = center>My areas</p>
+    <img class="logo rotate-animation" :src="currentLogo" v-if="isLoadingAreas"/>
+    <img class="logo" :src="currentLogo" v-else />
     <div class="center">
       <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
         <div class="card-content">
@@ -46,7 +47,8 @@ export default {
         backgroundColor: themes.default.backgroundColor,
         canClose: true,
         areaupdating: false,
-        google_picture: null
+        google_picture: null,
+        isLoadingAreas: true,
       };
     },
     mounted() {
@@ -150,6 +152,7 @@ export default {
           this.$router.push('/login');
           return;
         }
+        this.isLoadingAreas = true;
         axios.get('http://localhost:8000/api/area', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -163,6 +166,7 @@ export default {
           console.error('Erreur lors de la récupération des tâches :', error);
         })
         .finally(() => {
+          this.isLoadingAreas = false;
         });
       },
     }
@@ -251,6 +255,19 @@ export default {
 .pfp {
   width: 100px;
   height: 100px;
+}
+
+.rotate-animation {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 </style>

@@ -100,6 +100,11 @@ class ControllerServices extends Controller
                 $services[$i]['options'] = [
                     "content of the file to put in the drive (example: 'Hello test area file')",
                 ];
+            } else if (strpos($serviceNameLower, 'an issue') !== false) {
+                $services[$i]['options'] = [
+                    "repository (example: MaxPeix/AREA)",
+                    "body of the issue (example: 'Hello test area issue')",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }
