@@ -3,9 +3,9 @@
     <div class="left-content">
         <p class="title">Log in to Area </p>
         <button class="no-acccount-button" @click="movetologin"> No account ?</button>
-        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" @keydown.enter="focusPassword"/>
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" @keydown.enter="movetohome" ref="passwordInput"/>
           <button class="show-button" @click.prevent="toggleShowPassword">
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
@@ -82,6 +82,11 @@
       }
     },
     methods: {
+      focusPassword(event) {
+        if (event.key === 'Enter') {
+          this.$refs.passwordInput.focus();
+        }
+      },
       loginwithgoogle () {
         this.is_loadingoogle = true;
         axios.get("http://127.0.0.1:8000/api/oauth2callback")
@@ -135,8 +140,8 @@
 
 <style scoped>
 .logo {
-  width: 237px;
-  height: 247px;
+  width: 500px;
+  height: 500px;
   margin-right: 300px;
 }
 .inputs {
