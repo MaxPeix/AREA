@@ -51,9 +51,19 @@ class main_to_execute_reactions extends Command
                     ]);
                 }
 
+                // create a file
                 if ($service_id == 21) {
                     Log::info("create a file");
                     Artisan::call('app:drive_create_file_reaction', [
+                        'user' => $userId,
+                        'reaction' => $reaction->id
+                    ]);
+                }
+
+                // create a issue
+                if ($service_id == 22) {
+                    Log::info("create a issue");
+                    Artisan::call('app:create_issue', [
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
