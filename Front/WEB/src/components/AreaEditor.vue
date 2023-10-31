@@ -90,6 +90,12 @@ export default {
       this.$router.push('/login');
     }
     this.getArea();
+    const themeName = localStorage.getItem('theme');
+    if (themeName && themes[themeName]) {
+      this.backgroundColor = themes[themeName].backgroundColor;
+    } else {
+      this.backgroundColor = themes.default.backgroundColor;
+    }
   },
   methods: {
     updateAreaActivation() {

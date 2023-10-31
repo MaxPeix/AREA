@@ -8,6 +8,7 @@ import twitch from './twitch.png';
 import youtube from './youtube.png';
 import github from './github.png';
 import logout from './logout.png';
+import theme_logo from './theme.png';
 
 export {
     arrow,
@@ -20,4 +21,5 @@ export {
     youtube,
     github,
     logout,
+    theme_logo,
 };

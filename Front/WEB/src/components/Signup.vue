@@ -17,8 +17,8 @@
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
-      <b-button class="button" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
-      <b-button :loading="is_loadingoogle" class="button" @click="signupwithgoogle">Sign up with Google</b-button>
+      <b-button class="button" :style="{ backgroundColor: currentTheme.buttons }" @click="moveToHome" :loading="loading" :disabled="(this.passwordInput !== this.confirmPasswordInput) || passwordInput.length == 0 || usernameInput.length == 0 || emailInput.length == 0">Signup</b-button>
+      <b-button :loading="is_loadingoogle" class="button" :style="{ backgroundColor: currentTheme.buttons }" @click="signupwithgoogle">Sign up with Google</b-button>
     </div>
     <img class="logo" :src="currentLogo"/>
   </div>
@@ -53,6 +53,12 @@
       const token = localStorage.getItem('token');
       if (token) {
         this.$router.push('/home');
+      }
+      const themeName = localStorage.getItem('theme');
+      if (themeName && themes[themeName]) {
+        this.backgroundColor = themes[themeName].backgroundColor;
+      } else {
+        this.backgroundColor = themes.default.backgroundColor;
       }
     },
     computed: {
@@ -181,7 +187,6 @@
   .button {
     width: 300px;
     height: 50px;
-    color : #A7A7A7;
     border: none;
     margin: 10px;
     text-align: center;
@@ -191,7 +196,6 @@
     color: #FFF;
     cursor: pointer;
     border-radius: 100px;
-    background: #7E7E7E;
   }
   
   .title {

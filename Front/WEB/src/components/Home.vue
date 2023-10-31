@@ -49,6 +49,26 @@ export default {
         google_picture: null
       };
     },
+    mounted() {
+      const jwtToken = this.$route.query.jwt;
+      if (jwtToken) {
+        localStorage.setItem('token', jwtToken);
+        this.$router.push('/');
+      }
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.$router.push('/login');
+      }
+      const decoded = jwt_decode(token);
+      this.$set(this, 'google_picture', decoded.picture ?? null);
+      this.getAreas();
+      const themeName = localStorage.getItem('theme');
+      if (themeName && themes[themeName]) {
+        this.backgroundColor = themes[themeName].backgroundColor;
+      } else {
+        this.backgroundColor = themes.default.backgroundColor;
+      }
+    },
     computed: {
       currentPfp() {
         return this.google_picture || this.defaultpfp;
@@ -75,20 +95,6 @@ export default {
           return themes.default;
         }
       },
-    },
-    mounted() {
-      const jwtToken = this.$route.query.jwt;
-      if (jwtToken) {
-        localStorage.setItem('token', jwtToken);
-        this.$router.push('/');
-      }
-      const token = localStorage.getItem('token');
-      if (!token) {
-        this.$router.push('/login');
-      }
-      const decoded = jwt_decode(token);
-      this.$set(this, 'google_picture', decoded.picture ?? null);
-      this.getAreas();
     },
     methods: {
       updateAreaActivation(area) {

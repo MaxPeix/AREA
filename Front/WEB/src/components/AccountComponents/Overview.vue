@@ -8,7 +8,7 @@
             <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
             <b-switch v-if="serviceStates.google" disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <p class="area-text">Discord</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
             <b-switch v-if="serviceStates.discord" disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -32,7 +32,7 @@
             <p class="area-text">Twitch</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
             <b-switch v-if="serviceStates.twitch" disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -46,7 +46,7 @@
             <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
             <b-switch v-if="serviceStates.spotify" disabled v-model="serviceStates.spotify" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -54,25 +54,11 @@
       <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <img :src="youtube" class="logos">
-            <p class="area-text">Youtube</p>
-          </div>
-          <div class="card-footer">
-            <button class="connect-button" @click="connectYoutube" v-if="!serviceStates.youtube">Se connecter</button>
-            <b-switch v-if="serviceStates.youtube" disabled v-model="serviceStates.youtube" class="small-success-button"></b-switch>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-row">
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
-        <div class="card-content">
-          <div class="card-header">
             <img :src="github" class="logos">
             <p class="area-text">GitHub</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
             <b-switch v-if="serviceStates.github" disabled v-model="serviceStates.github" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -98,7 +84,16 @@ export default {
       youtube,
       gmail,
       github,
+      backgroundColor: null,
     };
+  },
+  mounted() {
+    const themeName = localStorage.getItem('theme');
+      if (themeName && themes[themeName]) {
+        this.backgroundColor = themes[themeName].backgroundColor;
+      } else {
+        this.backgroundColor = themes.default.backgroundColor;
+      }
   },
   computed: {
     currentTheme() {
@@ -209,12 +204,6 @@ export default {
         console.log(error);
       });
     },
-    connectYoutube() {
-
-    },
-    connectRadioFrance() {
-
-    },
   },
 };
 </script>
@@ -280,7 +269,6 @@ export default {
 }
 
 .connect-button {
-  background-color: #137C8B;
   color: white;
   border: none;
   border-radius: 10px;
@@ -289,10 +277,6 @@ export default {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease;
-}
-
-.connect-button:hover {
-  background-color: #145964;
 }
 
 .area-text {

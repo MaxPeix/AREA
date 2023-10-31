@@ -8,22 +8,24 @@
       <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
     </div>
     <img :src="logout" class="logout-button" @click="performLogout">
+    <div class="theme-button" @click="toggleThemeMenu">
+      <img :src="theme_logo" alt="Theme" />
+    </div>
+    <div class="theme-menu" v-if="showThemeMenu">
+      <div class="theme-color" @click="changeTheme('default')" style="background-color: #709CA7;"></div>
+      <div class="theme-color" @click="changeTheme('dark')" style="background-color: #585858;"></div>
+      <div class="theme-color" @click="changeTheme('light')" style="background-color: #7DC2A5;"></div>
+    </div>
   </div>
-</template>
+</template>7DC2A5
 
 <script>
 import { themes } from '../themes/themes.js';
 import { logo_bleu, logo_gris, logo_vert } from './icons/index';
-import { arrow, logout } from '../assets/index'
+import { arrow, logout, theme_logo } from '../assets/index'
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 import Overview from './AccountComponents/Overview.vue';
-import Google from './AccountComponents/Google.vue';
-import Spotify from './AccountComponents/Spotify.vue';
-import Discord from './AccountComponents/Discord.vue';
-import Twitch from './AccountComponents/Twitch.vue';
-import Youtube from './AccountComponents/Youtube.vue';
-import Github from './AccountComponents/Github.vue';
 
 export default {
   name: 'Account',
@@ -33,13 +35,15 @@ export default {
       logo_vert,
       logo_gris,
       arrow,
+      theme_logo,
       logout,
       username: '',
       email: '',
-      backgroundColor: themes.default.backgroundColor,
+      backgroundColor: null,
       selectedContentComponent: null,
       serviceStates: {},
       selectedServiceState: null,
+      showThemeMenu: false,
     };
   },
   mounted() {
@@ -54,6 +58,12 @@ export default {
       this.email = email;
       this.selectedContentComponent = Overview;
       this.getServices();
+    }
+    const themeName = localStorage.getItem('theme');
+    if (themeName && themes[themeName]) {
+      this.backgroundColor = themes[themeName].backgroundColor;
+    } else {
+      this.backgroundColor = themes.default.backgroundColor;
     }
   },
   computed: {
@@ -81,6 +91,15 @@ export default {
     },
   },
   methods: {
+    toggleThemeMenu() {
+      this.showThemeMenu = !this.showThemeMenu;
+    },
+    changeTheme(themeName) {
+      localStorage.setItem('theme', themeName);
+      this.backgroundColor = themes[themeName].backgroundColor;
+      this.showThemeMenu = false;
+      window.location.reload();
+    },
     performLogout() {
       localStorage.removeItem('token');
       this.$router.push('/login');
@@ -122,7 +141,7 @@ export default {
         console.error('Erreur lors de la récupération des tâches :', error);
       })
     },
-  }
+  },
 };
 </script>
 
@@ -182,6 +201,37 @@ export default {
   border: none;
   cursor: pointer;
   border-radius: 8px;
+}
+
+.theme-button img {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.theme-menu {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.theme-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 5px;
+  cursor: pointer;
 }
 
 </style>

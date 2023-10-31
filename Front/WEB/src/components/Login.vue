@@ -10,7 +10,7 @@
             {{ showPassword ? 'Hide' : 'Show' }}
           </button>
         </div>
-      <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button">Log in</b-button>
+      <b-button :loading="is_loading" @click="movetohome" :disabled="is_loading || emailInput.length < 3 || passwordInput.length < 3" class="button" :style="{ backgroundColor: currentTheme.buttons}">Log in</b-button>
       <b-button :loading="is_loadingoogle" class="google-button" @click="loginwithgoogle">
         <img :src="google" alt="Google logo" class="google-logo"/>
         <span>Google</span>
@@ -73,6 +73,12 @@
       const token = localStorage.getItem('token');
       if (token) {
         this.$router.push('/home');
+      }
+      const themeName = localStorage.getItem('theme');
+      if (themeName && themes[themeName]) {
+        this.backgroundColor = themes[themeName].backgroundColor;
+      } else {
+        this.backgroundColor = themes.default.backgroundColor;
       }
     },
     methods: {
@@ -150,7 +156,6 @@
 .button {
   width: 300px;
   height: 50px;
-  color : #A7A7A7;
   border: none;
   margin: 10px;
   text-align: center;
@@ -160,7 +165,6 @@
   color: #FFF;
   cursor: pointer;
   border-radius: 100px;
-  background: #137C8B;
 }
 
 .google-button {
