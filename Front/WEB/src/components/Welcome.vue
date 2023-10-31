@@ -1,9 +1,10 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
-      <img class="logo" :src="currentLogo"/>
-      <div>Welcome to Area</div>
+    <img class="logo rotate-animation" :src="currentLogo"/>
+    <div>Welcome to Area</div>
   </div>
 </template>
+
 
 <script>
   import { themes } from '../themes/themes.js';
@@ -68,4 +69,18 @@
   width: 200px;
   height: 200px;
 }
+
+.rotate-animation {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 </style>
