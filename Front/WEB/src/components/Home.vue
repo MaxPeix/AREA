@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper" :style="{ backgroundColor: currentTheme.backgroundColor }">
+    <p class = center>My areas</p>
     <img class="logo rotate-animation" :src="currentLogo" v-if="isLoadingAreas"/>
     <img class="logo" :src="currentLogo" v-else />
-    <p class = center>My areas</p>
     <div class="center">
       <div class="card" :style="{ backgroundColor: currentTheme.buttons}" v-for="(area, index) in areas" :key="index">
         <div class="card-content">
