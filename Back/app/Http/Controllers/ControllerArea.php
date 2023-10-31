@@ -104,6 +104,12 @@ class ControllerArea extends Controller
                 }
             }
 
+            if ($request->service_reaction_id == 21) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Invalid content of file'], 401);
+                }
+            }
+
             if ($request->service_action_id == 18) {
                 if ($request->config[0] == null) {
                     return response()->json(['message' => 'Invalid hour minute selection format is HH:MM'], 401);
@@ -115,7 +121,7 @@ class ControllerArea extends Controller
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
             }
 
-            if ($request->service_action_id == 19 || $request->service_reaction_id == 20) {
+            if ($request->service_action_id == 19 || $request->service_action_id == 20) {
                 if ($request->config[0] == null) {
                     return response()->json(['message' => 'Invalid github repository'], 401);
                 }
