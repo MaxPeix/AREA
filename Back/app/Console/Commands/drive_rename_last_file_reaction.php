@@ -46,14 +46,17 @@ class drive_rename_last_file_reaction extends Command
                 $fileId = $latestFile['id'];
 
                 $renameResponse = Http::withToken($user->google_token)
+                    ->withHeaders([
+                        'Content-Type' => 'application/json',
+                    ])
                     ->withOptions([
                         'verify' => false
                     ])
                     ->patch("https://www.googleapis.com/drive/v3/files/{$fileId}", [
-                        'json' => [
-                            'name' => $newName,
-                        ],
+                        'name' => $newName,
                     ]);
+
+                Log::info($renameResponse->json());
 
                 if ($renameResponse->successful()) {
                     return ['message' => 'File renamed successfully'];
