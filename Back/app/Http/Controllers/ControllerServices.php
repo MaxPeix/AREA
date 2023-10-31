@@ -105,6 +105,10 @@ class ControllerServices extends Controller
                     "repository (example: MaxPeix/AREA)",
                     "body of the issue (example: 'Hello test area issue')",
                 ];
+            } else if (strpos($serviceNameLower, 'edit on the drive google') !== false) {
+                $services[$i]['options'] = [
+                    "new file name (example: 'Hello test area file')",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }
