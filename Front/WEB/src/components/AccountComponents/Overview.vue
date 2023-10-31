@@ -8,7 +8,8 @@
             <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google && connectingService !== 'google'">Se connecter</button>
+            <div v-if="connectingService === 'google'" class="spinner"></div>
             <b-switch v-if="serviceStates.google" disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -20,7 +21,8 @@
             <p class="area-text">Discord</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDiscord" v-if="!serviceStates.discord && connectingService !== 'discord'">Se connecter</button>
+            <div v-if="connectingService === 'discord'" class="spinner"></div>
             <b-switch v-if="serviceStates.discord" disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -32,7 +34,8 @@
             <p class="area-text">Twitch</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch && connectingService !== 'twitch'">Se connecter</button>
+            <div v-if="connectingService === 'twitch'" class="spinner"></div>
             <b-switch v-if="serviceStates.twitch" disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -46,7 +49,8 @@
             <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify && connectingService !== 'spotify'">Se connecter</button>
+            <div v-if="connectingService === 'spotify'" class="spinner"></div>
             <b-switch v-if="serviceStates.spotify" disabled v-model="serviceStates.spotify" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -58,7 +62,8 @@
             <p class="area-text">GitHub</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github && connectingService !== 'github'">Se connecter</button>
+            <div v-if="connectingService === 'github'" class="spinner"></div>
             <b-switch v-if="serviceStates.github" disabled v-model="serviceStates.github" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -78,6 +83,7 @@ export default {
   },
   data() {
     return {
+      connectingService: null,
       discord,
       twitch,
       spotify,
@@ -110,6 +116,7 @@ export default {
   },
   methods: {
     connectGoogle() {
+      this.connectingService = 'google';
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
@@ -121,14 +128,17 @@ export default {
         },
         })
         .then((response) => {
-        console.log(response.data);
-        window.location.replace(response.data);
+          this.connectingService = null;
+          console.log(response.data);
+          window.location.replace(response.data);
         })
         .catch((error) => {
-        console.log(error);
+          this.connectingService = null;
+          console.log(error);
       });
     },
     connectSpotify() {
+      this.connectingService = 'spotify';
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
@@ -140,14 +150,17 @@ export default {
         },
         })
         .then((response) => {
+          this.connectingService = null;
           console.log(response.data);
           window.location.replace(response.data);
         })
         .catch((error) => {
+          this.connectingService = null;
           console.log(error);
       });
     },
     connectTwitch() {
+      this.connectingService = 'twitch';
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
@@ -159,14 +172,17 @@ export default {
         },
         })
         .then((response) => {
-        console.log(response.data);
-        window.location.replace(response.data);
+          this.connectingService = null;
+          console.log(response.data);
+          window.location.replace(response.data);
         })
         .catch((error) => {
-        console.log(error);
+          this.connectingService = null;
+          console.log(error);
       });
     },
     connectDiscord() {
+      this.connectingService = 'discord';
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
@@ -178,14 +194,17 @@ export default {
         },
         })
         .then((response) => {
-        console.log(response.data);
-        window.location.replace(response.data);
+          this.connectingService = null;
+          console.log(response.data);
+          window.location.replace(response.data);
         })
         .catch((error) => {
-        console.log(error);
+          $this.connectingService = null;
+          console.log(error);
       });
     },
     connectGitHub() {
+      this.connectingService = 'github';
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
@@ -197,11 +216,13 @@ export default {
         },
         })
         .then((response) => {
-        console.log(response.data);
-        window.location.replace(response.data);
+          this.connectingService = null;
+          console.log(response.data);
+          window.location.replace(response.data);
         })
         .catch((error) => {
-        console.log(error);
+          this.connectingService = null;
+          console.log(error);
       });
     },
   },
@@ -282,6 +303,21 @@ export default {
 .area-text {
   font-size: 18px;
   margin-bottom: 4px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #fff;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-top: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 </style>
