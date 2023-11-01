@@ -158,6 +158,27 @@ class ControllerArea extends Controller
                 }
             }
 
+            if ($request->service_action_id == 25) {
+
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Please choose a valid city'], 401);
+                }
+                if ($request->config[1] == null) {
+                    return response()->json(['message' => 'Please choose a valid temperature'], 401);
+                }
+                if (!preg_match('/^\d+(\.\d+)?$/', $request->config[1])) {
+                    return response()->json(['message' => 'Temperature must be a valid number'], 401);
+                }
+                $city = $request->config[0];
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get("https://wttr.in/$city?format=%t");
+
+                if ($response->status() == 404) {
+                    return response()->json(['message' => 'Please choose a valid city.'], 401);
+                }
+            }
+
             if ($request->service_action_id == 19 || $request->service_action_id == 20) {
                 if ($request->config[0] == null) {
                     return response()->json(['message' => 'Invalid github repository'], 401);
