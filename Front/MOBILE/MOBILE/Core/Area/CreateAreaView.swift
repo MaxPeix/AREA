@@ -25,14 +25,20 @@ struct exService: Decodable {
 
 struct CreateAreaView: View {
     @State private var name_area: String = ""
+    @State private var action_option1: String = ""
+    @State private var action_option2: String = ""
+    @State private var reaction_option1: String = ""
+    @State private var reaction_option2: String = ""
     @State private var desc_area: String = ""
-    @State private var isActivate: Bool = false
+    @State private var isActivate: Bool = true
     @State private var services: [AllService] = []
     @State private var actionServices: [AllService] = []
     @State private var reactionServices: [AllService] = []
     @State private var selectedActionService: Int?
     @State private var selectedReactionService: Int?
     @State private var selectedActionServiceName: String?
+    @State private var showAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         ZStack {
@@ -49,21 +55,49 @@ struct CreateAreaView: View {
                     Section(header: Text("Select Action Service")) {
                         Picker("Action Service", selection: $selectedActionService) {
                             ForEach(actionServices, id: \.id) { service in
-                                Text(service.service_name).tag(selectedActionService)
-                                //                                Text(service.service_name.replacingOccurrences(of: "[ACTION]", with: "")).tag(service.id)
+                                Text(service.service_name.replacingOccurrences(of: "[ACTION]", with: "")).tag(service.id as Int?)
                             }
                         }
-                        .id(UUID())  // Add an id to force SwiftUI to refresh this view
                     }
+                    Section(header: Text("Options Actions")) {
+                        if let selectedId = selectedActionService,
+                           let selectedService = actionServices.first(where: { $0.id == selectedId }) {
+                            if !selectedService.options.isEmpty {
+                                if !selectedService.options[0].isEmpty {
+                                    TextField(selectedService.options[0], text: $action_option1)
+                                }
+                                if selectedService.options.count > 1 && !selectedService.options[1].isEmpty {
+                                    TextField(selectedService.options[1], text: $action_option2)
+                                }
+                            }
+                        } else {
+                            Text("No service selected")
+                        }
+                    }
+
                     Section(header: Text("Select Reaction Service")) {
                         Picker("Reaction Service", selection: $selectedReactionService) {
                             ForEach(reactionServices, id: \.id) { service in
-                                Text(service.service_name.replacingOccurrences(of: "[REACTION]", with: "")).tag(service.id)
+                                Text(service.service_name.replacingOccurrences(of: "[REACTION]", with: "")).tag(service.id as Int?)
                             }
                         }
-                        .id(UUID())  // Add an id to force SwiftUI to refresh this view
                     }
-                    
+
+                    Section(header: Text("Options Reactions")) {
+                        if let selectedId = selectedReactionService,
+                           let selectedService = reactionServices.first(where: { $0.id == selectedId }) {
+                            if !selectedService.options.isEmpty {
+                                if !selectedService.options[0].isEmpty {
+                                    TextField(selectedService.options[0], text: $reaction_option1)
+                                }
+                                if selectedService.options.count > 1 && !selectedService.options[1].isEmpty {
+                                    TextField(selectedService.options[1], text: $reaction_option2)
+                                }
+                            }
+                        } else {
+                            Text("No service selected")
+                        }
+                    }
                     Button("Create Area") {
                         sendCreateAreaRequest()
                     }
@@ -73,6 +107,13 @@ struct CreateAreaView: View {
         }
         .onAppear {
             getAllService()
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(errorMessage),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
 
@@ -117,12 +158,20 @@ struct CreateAreaView: View {
     func sendCreateAreaRequest() {
         let apiURL = "http://localhost:8000/api/area"
 
+        let config = [
+            action_option1.isEmpty ? "" : action_option1,
+            action_option2.isEmpty ? "" : action_option2,
+            reaction_option1.isEmpty ? "" : reaction_option1,
+            reaction_option2.isEmpty ? "" : reaction_option2,
+        ]
+
         let parameters: [String: Any] = [
             "name": name_area,
             "description": desc_area,
             "activated": isActivate,
-            "action_service_id": selectedActionService ?? 0,
-            "reaction_service_id": selectedReactionService ?? 0
+            "service_action_id": selectedActionService ?? 0,
+            "service_reaction_id": selectedReactionService ?? 0,
+            "config": config
         ]
 
         if let authToken = AuthManager.getAuthToken() {
@@ -135,15 +184,26 @@ struct CreateAreaView: View {
                 .responseDecodable(of: AllService.self) { response in
                     switch response.result {
                     case .success(let data):
-                        print("Succès : \(data)")
+                        print("Success: \(data)")
 
                     case .failure(let error):
-                        print("Erreur : \(error)")
+                        if let data = response.data,
+                           let json = try? JSONSerialization.jsonObject(with: data, options: []),
+                           let dictionary = json as? [String: Any],
+                           let message = dictionary["message"] as? String {
+                            self.errorMessage = message
+                            print("Error: \(dictionary)")
+                        } else {
+                            self.errorMessage = "An unknown error occurred."
+                        }
+                        self.showAlert = true
+                        print("Error: \(error)")
                     }
                 }
         } else {
             print("AuthToken est nul")
         }
+        
     }
 }
 
