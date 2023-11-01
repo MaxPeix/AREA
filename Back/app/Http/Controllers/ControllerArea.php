@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Area;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\Action;
 use App\Models\Service;
 use App\Models\Reaction;
-use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class ControllerArea extends Controller
 {
@@ -136,6 +137,25 @@ class ControllerArea extends Controller
                     }
                 }
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
+            }
+
+            if ($request->service_action_id == 24) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Please choose a valid crypto'], 401);
+                }
+                if ($request->config[1] == null) {
+                    return response()->json(['message' => 'Please choose a valid price'], 401);
+                }
+                if (!preg_match('/^\d+(\.\d+)?$/', $request->config[1])) {
+                    return response()->json(['message' => 'Price must be a valid number'], 401);
+                }
+                $pair = strtoupper($request->config[0]) . 'USDT';
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get("https://api.binance.com/api/v3/ticker/price?symbol=$pair");
+                if ($response->failed()) {
+                    return response()->json(['message' => 'Please choose a valid crypto.'], 401);
+                }
             }
 
             if ($request->service_action_id == 19 || $request->service_action_id == 20) {
