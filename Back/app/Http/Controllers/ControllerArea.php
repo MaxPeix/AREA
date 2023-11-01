@@ -172,7 +172,7 @@ class ControllerArea extends Controller
                 $city = $request->config[0];
                 $response = Http::withOptions([
                     'verify' => false
-                ])->get("https://wttr.in/$city?format=%t");
+                ])->get("https://wttr.in/$city");
 
                 if ($response->status() == 404) {
                     return response()->json(['message' => 'Please choose a valid city.'], 401);
