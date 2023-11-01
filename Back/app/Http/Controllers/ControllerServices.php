@@ -109,6 +109,11 @@ class ControllerServices extends Controller
                 $services[$i]['options'] = [
                     "new file name (example: 'Hello test area file')",
                 ];
+            } else if (strpos($serviceNameLower, 'a certain price') !== false) {
+                $services[$i]['options'] = [
+                    "crypto (example: BTC) the default pair with the crypto is USDT",
+                    "price (example: 35000)",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }

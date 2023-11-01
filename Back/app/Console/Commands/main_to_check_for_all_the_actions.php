@@ -111,6 +111,21 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
+
+            // voir si un prix de crypto a été atteint
+            if ($action->service->id == 24) {
+                $exitCode = Artisan::call('app:crypto_reached_price', [
+                    'user' => $user->id,
+                    'action_id' => $action->id
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
         }  
     }
 
