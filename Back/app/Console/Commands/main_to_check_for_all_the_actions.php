@@ -141,6 +141,21 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
+
+            // voir si il pleut dans la ville
+            if ($action->service->id == 26) {
+                $exitCode = Artisan::call('app:humidity_in_a_city', [
+                    'user' => $user->id,
+                    'action_id' => $action->id
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
         }  
     }
 

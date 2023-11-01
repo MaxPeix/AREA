@@ -11,39 +11,39 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
-class temperature_reached_meteo_in_a_city extends Command
+class humidity_in_a_city extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:temperature_reached_meteo_in_a_city {user} {action_id}';
+    protected $signature = 'app:humidity_in_a_city {user} {action_id}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'triggered when a temperature attains a choosen temperature';
+    protected $description = 'triggered when the humidity in a city is higher than a choosen humidity';
 
-    public function get_temperature_in_a_city($city)
+    public function get_humidity_in_a_city($city)
     {
         $response = Http::withOptions([
             'verify' => false
-        ])->get("https://wttr.in/$city?format=%t");
+        ])->get("https://wttr.in/$city?format=%h");
 
         if ($response->status() == 404) {
             return 'City not found';
         }
         
-        $temperatureStr = $response->body();
+        $humidity = $response->body();
 
-        preg_match('/-?\d+/', $temperatureStr, $matches);
+        preg_match('/-?\d+/', $humidity, $matches);
 
         if (!empty($matches)) {
-            $temperature = (int) $matches[0];
-            return $temperature;
+            $humidity = (int) $matches[0];
+            return $humidity;
         } else {
             return false;
         }
@@ -75,27 +75,27 @@ class temperature_reached_meteo_in_a_city extends Command
         }
 
         if (!$action->second_parameter) {
-            Log::error('Temperature not found from parameter second_parameter');
+            Log::error('Humidity not found from parameter second_parameter');
             return 1;
         }
 
         $city_choosed = $action->first_parameter;
-        $temperature_choosed = $action->second_parameter;
+        $humidity_choosed = $action->second_parameter;
 
-        $actual_temperature = $this->get_temperature_in_a_city($city_choosed);
+        $actual_humidity = $this->get_humidity_in_a_city($city_choosed);
 
-        if (!$actual_temperature) {
-            Log::error('Temperature not found from API');
+        if (!$actual_humidity) {
+            Log::error('humidity not found from API');
             return 1;
         }
 
-        if ($actual_temperature >= $temperature_choosed) {
-            Log::info('temperature reached ! actual temperature: ' . $actual_temperature . ' | temperature_choosed: ' . $temperature_choosed);
+        if ($actual_humidity >= $humidity_choosed) {
+            Log::info('humidity reached ! actual humidity: ' . $actual_humidity . ' | humidity_choosed: ' . $humidity_choosed);
             $action->second_parameter = null;
             $action->save();
             return 0;
         } else {
-            Log::info('temperature not reached ! actual temperature: ' . $actual_temperature . ' | temperature_choosed: ' . $temperature_choosed);
+            Log::info('humidity not reached ! actual humidity: ' . $actual_humidity . ' | humidity_choosed: ' . $humidity_choosed);
             return 1;
         }
     }
