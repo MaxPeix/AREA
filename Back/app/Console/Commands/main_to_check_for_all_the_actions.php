@@ -126,6 +126,21 @@ class main_to_check_for_all_the_actions extends Command
                     ]);
                 }
             }
+
+            // voir si une température a été atteinte
+            if ($action->service->id == 25) {
+                $exitCode = Artisan::call('app:temperature_reached_meteo_in_a_city', [
+                    'user' => $user->id,
+                    'action_id' => $action->id
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
         }  
     }
 

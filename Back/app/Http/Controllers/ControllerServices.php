@@ -114,6 +114,11 @@ class ControllerServices extends Controller
                     "crypto (example: BTC) the default pair with the crypto is USDT",
                     "price (example: 35000)",
                 ];
+            } else if (strpos($serviceNameLower, 'temperature in a city') !== false) {
+                $services[$i]['options'] = [
+                    "city (example: Paris)",
+                    "when temperature reached this temperature (example: 20)",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }
