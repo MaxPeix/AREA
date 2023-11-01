@@ -8,13 +8,13 @@
             <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google && connectingService !== 'google'">Se connecter</button>
+            <b-button :loading="loadingCheckTokens" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google && connectingService !== 'google'">Se connecter</b-button>
             <div v-if="connectingService === 'google'" class="spinner"></div>
             <b-switch v-if="serviceStates.google" disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
+      <!-- <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
             <img :src="discord" class="logos">
@@ -26,7 +26,7 @@
             <b-switch v-if="serviceStates.discord" disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
@@ -34,7 +34,7 @@
             <p class="area-text">Twitch</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch && connectingService !== 'twitch'">Se connecter</button>
+            <b-button :loading="loadingCheckTokens" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch && connectingService !== 'twitch'">Se connecter</b-button>
             <div v-if="connectingService === 'twitch'" class="spinner"></div>
             <b-switch v-if="serviceStates.twitch" disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
           </div>
@@ -49,7 +49,7 @@
             <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify && connectingService !== 'spotify'">Se connecter</button>
+            <b-button :loading="loadingCheckTokens" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify && connectingService !== 'spotify'">Se connecter</b-button>
             <div v-if="connectingService === 'spotify'" class="spinner"></div>
             <b-switch v-if="serviceStates.spotify" disabled v-model="serviceStates.spotify" class="small-success-button"></b-switch>
           </div>
@@ -62,7 +62,7 @@
             <p class="area-text">GitHub</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github && connectingService !== 'github'">Se connecter</button>
+            <b-button :loading="loadingCheckTokens" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github && connectingService !== 'github'">Se connecter</b-button>
             <div v-if="connectingService === 'github'" class="spinner"></div>
             <b-switch v-if="serviceStates.github" disabled v-model="serviceStates.github" class="small-success-button"></b-switch>
           </div>
@@ -80,6 +80,7 @@ import axios from 'axios';
 export default {
   props: {
     serviceStates: {},
+    loadingCheckTokens: Boolean
   },
   data() {
     return {

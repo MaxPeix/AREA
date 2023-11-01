@@ -5,7 +5,7 @@
       <p style="font-size: 24px"> Hello, {{ username }} 👋</p>
     </div>
     <div class="middle-inferior-rectangle">
-      <component :is="selectedContentComponent" :serviceStates="serviceStates"></component>
+      <component :is="selectedContentComponent" :serviceStates="serviceStates" :loadingCheckTokens="loadingCheckTokens"></component>
     </div>
     <img :src="logout" class="logout-button" @click="performLogout">
     <div class="theme-button" @click="toggleThemeMenu">
@@ -44,6 +44,7 @@ export default {
       serviceStates: {},
       selectedServiceState: null,
       showThemeMenu: false,
+      loadingCheckTokens: false,
     };
   },
   mounted() {
@@ -128,6 +129,7 @@ export default {
         this.$router.push('/login');
         return;
       }
+      this.loadingCheckTokens = true;
       axios.get('http://localhost:8000/api/checktokens', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -140,6 +142,9 @@ export default {
       .catch(error => {
         console.error('Erreur lors de la récupération des tâches :', error);
       })
+      .finally(() => {
+        this.loadingCheckTokens = false;
+      });
     },
   },
 };
