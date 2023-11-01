@@ -106,22 +106,22 @@ class ControllerArea extends Controller
             }
 
             if ($request->service_reaction_id == 21) {
-                if ($request->config[0] == null) {
+                if ($request->config[2] == null) {
                     return response()->json(['message' => 'Invalid content of file'], 401);
                 }
             }
 
             if ($request->service_reaction_id == 22) {
-                if ($request->config[0] == null) {
+                if ($request->config[2] == null) {
                     return response()->json(['message' => 'Invalid repository name'], 401);
                 }
-                if ($request->config[1] == null) {
+                if ($request->config[3] == null) {
                     return response()->json(['message' => 'Invalid content of the issue'], 401);
                 }
             }
 
             if ($request->service_reaction_id == 23) {
-                if ($request->config[0] == null) {
+                if ($request->config[2] == null) {
                     if (strlen($request->config[0]) > 35 || strlen($request->config[0]) < 1) {
                         return response()->json(['message' => 'Invalid new title of file'], 401);
                     }
