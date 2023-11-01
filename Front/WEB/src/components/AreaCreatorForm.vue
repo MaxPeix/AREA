@@ -13,7 +13,7 @@
               </b-field>
               <b-field label="Action">
                 <b-select v-model="selectedAction" placeholder="Select an action">
-                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name }}</option>
+                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[ACTION]')">{{ service.service_name.replace('[ACTION]', '') }}</option>
                 </b-select>
               </b-field>
               <b-field label="Action Option 1" v-if="selectedAction && selectedAction.options[0]">
@@ -24,7 +24,7 @@
               </b-field>
               <b-field label="Reactions">
                 <b-select v-model="selectedReaction" placeholder="Select a reaction">
-                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name }}</option>
+                  <option v-for="service in services" :value="service" v-if="service.service_name.includes('[REACTION]')">{{ service.service_name.replace('[REACTION]', '') }}</option>
                 </b-select>
               </b-field>
               <b-field label="Reaction Option 1" v-if="selectedReaction && selectedReaction.options[0]">
