@@ -119,6 +119,11 @@ class ControllerServices extends Controller
                     "city (example: Paris)",
                     "when temperature reached this temperature (example: 20)",
                 ];
+            } else if (strpos($serviceNameLower, 'selected humidity') !== false) {
+                $services[$i]['options'] = [
+                    "city (example: Paris)",
+                    "Percentage humidity of the city to trigger (example: 65)",
+                ];
             } else {
                 $services[$i]['options'] = [];
             }
