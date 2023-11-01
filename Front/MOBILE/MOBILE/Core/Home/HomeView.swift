@@ -49,10 +49,10 @@ struct HomeView: View {
                     .listStyle(PlainListStyle())
                     .background(Color.clear)
 
-                    AddCard {
-                        NavigationLink(destination: CreateAreaView()) {
-                            Text("Create Area")
-                        }
+                    NavigationLink {
+                        CreateAreaView()
+                    } label: {
+                        AddCard()
                     }
                     .offset(y: -10)
                 }
