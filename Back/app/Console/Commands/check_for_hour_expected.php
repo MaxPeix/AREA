@@ -64,7 +64,6 @@ class check_for_hour_expected extends Command
             $action->save();
             return 0;
         } else {
-            Log::info('Hour not still reached!');
             return 1;
         }
     }
