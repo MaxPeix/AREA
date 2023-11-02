@@ -72,6 +72,7 @@ class main_to_check_for_all_the_actions extends Command
             if ($action->service->id == 18) {
                 $exitCode = Artisan::call('app:check_for_hour_expected', [
                     'user' => $user->id,
+                    'action_id' => $action->id
                 ]);
 
                 if ($exitCode === 0) {

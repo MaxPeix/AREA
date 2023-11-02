@@ -28,7 +28,7 @@ Route::get('/about.json', function (Request $request) {
     $serviceApplications = [];
 
     foreach ($services as $service) {
-        $allowedApps = ['spotify', 'google', 'github', 'discord', 'reached'];
+        $allowedApps = ['spotify', 'google', 'github', 'discord', 'reached', 'dropbox'];
         $appName = '';
 
         foreach ($allowedApps as $allowedApp) {
