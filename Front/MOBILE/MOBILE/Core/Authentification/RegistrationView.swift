@@ -12,6 +12,8 @@ struct RegistrationView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
+    @State private var showAlert = false
+    @State private var errorMessage = "Registration problem"
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
@@ -73,6 +75,12 @@ struct RegistrationView: View {
                     }
                 }
             }
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(errorMessage),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
     
@@ -104,6 +112,7 @@ struct RegistrationView: View {
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                    self.showAlert = true
                     completion(false, "Erreur de register lolo")
                 }
             }

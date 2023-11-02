@@ -11,6 +11,8 @@ import Alamofire
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var showAlert = false
+    @State private var errorMessage = "Identification invalid"
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
 
@@ -67,6 +69,12 @@ struct LoginView: View {
                         }
                     }
                 }
+            }.alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(errorMessage),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
@@ -98,6 +106,7 @@ struct LoginView: View {
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                    self.showAlert = true
                     completion(false, "Erreur de connexion lolo")
                 }
             }
