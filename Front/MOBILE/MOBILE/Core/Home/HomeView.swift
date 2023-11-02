@@ -92,6 +92,9 @@ struct HomeView: View {
                             print("Statut de la réponse : \(statusCode)")
                         }
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        self.getAllArea()
+                    }
                 }
         } else {
             print("AuthToken est nul")

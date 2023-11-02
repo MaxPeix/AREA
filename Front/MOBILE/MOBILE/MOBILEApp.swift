@@ -10,8 +10,8 @@ import SwiftUI
 @main
 struct MOBILEApp: App {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
-    
-    
+
+
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {

@@ -156,6 +156,12 @@ struct CreateAreaView: View {
     }
 
     func sendCreateAreaRequest() {
+        
+        struct Response: Decodable {
+            let message: String?
+            // Ajoutez ici d'autres propriétés attendues de votre réponse JSON, rendant optionnelles celles qui peuvent manquer.
+        }
+        
         let apiURL = "http://localhost:8000/api/area"
 
         let config = [
@@ -181,23 +187,20 @@ struct CreateAreaView: View {
 
             AF.request(apiURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .validate()
-                .responseDecodable(of: AllService.self) { response in
+                .response { response in
                     switch response.result {
-                    case .success(let data):
-                        print("Success: \(data)")
-
-                    case .failure(let error):
-                        if let data = response.data,
-                           let json = try? JSONSerialization.jsonObject(with: data, options: []),
-                           let dictionary = json as? [String: Any],
-                           let message = dictionary["message"] as? String {
-                            self.errorMessage = message
-                            print("Error: \(dictionary)")
-                        } else {
-                            self.errorMessage = "An unknown error occurred."
+                    case .success:
+                        if let data = response.data {
+                            print("Raw data: \(String(describing: String(data: data, encoding: .utf8)))")
                         }
+                        do {
+                            let _ = try response.result.get()
+                        } catch {
+                            print("Error during JSON decoding: \(error)")
+                        }
+                    case .failure(let error):
+                        print("Request failed with error: \(error)")
                         self.showAlert = true
-                        print("Error: \(error)")
                     }
                 }
         } else {
@@ -205,10 +208,10 @@ struct CreateAreaView: View {
         }
         
     }
-}
 
-struct CreateAreaView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateAreaView()
+    struct CreateAreaView_Previews: PreviewProvider {
+        static var previews: some View {
+            CreateAreaView()
+        }
     }
 }
