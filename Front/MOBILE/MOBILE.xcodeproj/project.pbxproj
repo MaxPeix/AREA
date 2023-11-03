@@ -27,7 +27,6 @@
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
 		F8918EA02AD4353500FBE1F1 /* GoogleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */; };
 		F8B2B3F32AE6ABFC00FEFF49 /* SpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */; };
-		F8C81C102AF507D700D8A601 /* GoogleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C81C0F2AF507D700D8A601 /* GoogleLoginView.swift */; };
 		F8DE10AA2ACC3BB50053F76E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10A92ACC3BB50053F76E /* CardView.swift */; };
 		F8DE10AF2ACC3E340053F76E /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DE10AE2ACC3E340053F76E /* AddCardView.swift */; };
 /* End PBXBuildFile section */
@@ -53,8 +52,6 @@
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleView.swift; sourceTree = "<group>"; };
 		F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView.swift; sourceTree = "<group>"; };
-		F8C81C0F2AF507D700D8A601 /* GoogleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginView.swift; sourceTree = "<group>"; };
-		F8C81C112AF50C1500D8A601 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F8DE10A92ACC3BB50053F76E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		F8DE10AE2ACC3E340053F76E /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,7 +88,6 @@
 				1B35FFA72AD1777A004E9BC5 /* CustomTabView.swift */,
 				F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */,
 				F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */,
-				F8C81C0F2AF507D700D8A601 /* GoogleLoginView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -162,7 +158,6 @@
 		1BEFEBE12AC1C87900DCFE9C /* MOBILE */ = {
 			isa = PBXGroup;
 			children = (
-				F8C81C112AF50C1500D8A601 /* Info.plist */,
 				1BA4CFFF2AC4558300F21586 /* Core */,
 				1BA4CFFE2AC4556900F21586 /* Components */,
 				1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */,
@@ -258,7 +253,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BD8C79D2ACB5F8100A98950 /* HomeView.swift in Sources */,
-				F8C81C102AF507D700D8A601 /* GoogleLoginView.swift in Sources */,
 				1BD8C79A2ACB5D3400A98950 /* ProfileView.swift in Sources */,
 				1BB565FE2ACC0E8900A3738A /* SettingsRowView.swift in Sources */,
 				1BA4D0062AC4563300F21586 /* ContentView.swift in Sources */,
@@ -412,7 +406,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MOBILE/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MOBILE/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -441,7 +434,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MOBILE/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MOBILE/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

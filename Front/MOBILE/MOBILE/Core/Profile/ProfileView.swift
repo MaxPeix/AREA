@@ -68,6 +68,14 @@ struct ProfileView: View {
                         }
                     }
                     Section(header: Text("Overview")) {
+                        ServiceRowView2(imageName: "LogoDiscord", title: "Discord", isConnected: false)
+                        ServiceRowView2(imageName: "LogoDrive", title: "Drive", isConnected: isConnectedToGoogle)
+                            .onTapGesture {
+                                showGoogleConnect.toggle()
+                            }
+                            .sheet(isPresented: $showGoogleConnect, onDismiss: onGoogleConnectViewDismiss) {
+                                GoogleConnectView()
+                            }
                         ServiceRowView2(imageName: "LogoGmail", title: "Gmail", isConnected: isConnectedToGoogle)
                             .onTapGesture {
                                 showGoogleConnect.toggle()
@@ -83,6 +91,7 @@ struct ProfileView: View {
                             .sheet(isPresented: $showSpotifyConnect, onDismiss: onSpotifyConnectViewDismiss) {
                                 SpotifyConnectView()
                             }
+                        ServiceRowView2(imageName: "LogoFranceInter", title: "Radio France", isConnected: false)
                     }
                 }
             }
