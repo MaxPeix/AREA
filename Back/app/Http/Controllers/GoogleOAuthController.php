@@ -52,7 +52,6 @@ class GoogleOAuthController extends Controller
             $redirectUri = 'http://127.0.0.1:8000/api/oauth2callback';
 
             $code = $request->input('code');
-            $mobile = $request->input('mobile');
 
             $receivedState = $request->input('state');
             if ($receivedState) {
@@ -69,7 +68,7 @@ class GoogleOAuthController extends Controller
                     $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientIdGoogle}&redirect_uri={$redirectUri}&scope={$scopeCron}&state={$state}";
                     return $authUri;
                 } else {
-                    $state = json_encode(['connected' => false, 'mobile' => $mobile ? true : false]);
+                    $state = json_encode(['connected' => false]);
                     $authUri = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={$clientIdGoogle}&redirect_uri={$redirectUri}&scope={$scopeLogin}&state={$state}";
                     return $authUri;
                 }
@@ -93,8 +92,6 @@ class GoogleOAuthController extends Controller
                 if ($user) {
                     if ($user instanceof \PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject) {
                         $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email, 'picture' => $picture])->fromUser($user);
-                        if ($decodedState['mobile'] == true)
-                            return redirect("area://home?jwt={$jwtToken}");
                         return redirect("http://localhost:8080/home?jwt={$jwtToken}");
                     } else {
                         return 'Error decoding user please contact site admin';
