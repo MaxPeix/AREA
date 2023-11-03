@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     var title: String
-    @State private var isSwitched: Bool = false
+    @State private var isSwitched: Bool = true
 
     var body: some View {
         RoundedRectangle(cornerRadius: 20)

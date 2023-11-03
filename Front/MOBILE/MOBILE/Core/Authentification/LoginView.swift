@@ -15,7 +15,7 @@ struct LoginView: View {
     @State private var errorMessage = "Identification invalid"
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -40,7 +40,7 @@ struct LoginView: View {
                             .autocapitalization(.none)
                     }
                     .padding(.vertical, 32)
-
+                    
                     Button (action: {
                         authenticateUser { isAuthenticated, message in
                             if isAuthenticated {
@@ -59,7 +59,26 @@ struct LoginView: View {
                                 .font(.system(size: 24))
                         }
                     }
-
+                    Button(action: {
+                        self.connectGoogle { success in
+                            if success {
+                                print("Connexion Google réussie")
+                            } else {
+                                self.showAlert = true
+                                self.errorMessage = "Erreur de connexion avec Google"
+                            }
+                        }
+                    }) {
+                        HStack {
+                            Text("Log In with Google")
+                                .foregroundColor(Color("TextColor"))
+                                .frame(width: 300, height: 50)
+                                .background(Color("Bloc"))
+                                .cornerRadius(10)
+                                .font(.system(size: 24))
+                        }
+                    }
+                    
                     NavigationLink {
                         RegistrationView()
                             .navigationBarBackButtonHidden()
@@ -78,39 +97,57 @@ struct LoginView: View {
             }
         }
     }
-
+    
     func authenticateUser(completion: @escaping (Bool, String) -> Void) {
         let parameters: [String: Any] = [
             "email": email,
             "password": password
         ]
-
+        
         AF.request("http://localhost:8000/api/login", method: .post, parameters: parameters)
             .validate()
             .responseDecodable(of: YourResponse.self) { response in
                 debugPrint(response)
-
+                
                 switch response.result {
                 case .success(let value):
                     print("Response: \(value)")
-
+                    
                     if value.status == "success" {
                         completion(true, "Authentification réussie")
-
+                        
                         let token = value.authorisation.token
                         UserDefaults.standard.set(token, forKey: "AuthToken")
                         isLoggedIn = true
-
+                        
                     } else {
                         completion(false, "Nom d'utilisateur ou mot de passe incorrect")
                     }
                 case .failure(let error):
                     print("Error: \(error)")
                     self.showAlert = true
-                    completion(false, "Erreur de connexion lolo")
+                    completion(false, "Erreur de connexion")
                 }
             }
     }
+    func connectGoogle(completion: @escaping (Bool) -> Void) {
+
+            AF.request("http://127.0.0.1:8000/api/oauth2callback?mobile=true", method: .get)
+                    .responseString { response in
+                        switch response.result {
+                        case .success(let urlString):
+                            if let urlObj = URL(string: urlString) {
+                                UIApplication.shared.open(urlObj)
+                                completion(true)
+                            } else {
+                                self.errorMessage = "URL non valide"
+                                completion(false)
+                            }
+                        case .failure:
+                            completion(false)
+                    }
+                }
+        }
 }
 
 #Preview {
