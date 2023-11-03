@@ -36,6 +36,10 @@ struct ProfileView: View {
     @State private var showSpotifyConnect: Bool = false
     @State private var isConnectedToGoogle: Bool = false
     @State private var isConnectedToSpotify: Bool = false
+    @State private var showTwitchConnect: Bool = false
+    @State private var isConnectedToTwitch: Bool = false
+    @State private var showGithubConnect: Bool = false
+    @State private var isConnectedToGithub: Bool = false
     @State private var username: String = ""
 
     func onGoogleConnectViewDismiss() {
@@ -44,6 +48,14 @@ struct ProfileView: View {
 
     func onSpotifyConnectViewDismiss() {
         self.isConnectedToSpotify = true
+    }
+    
+    func onTwitchConnectViewDismiss() {
+        self.isConnectedToTwitch = true
+    }
+    
+    func onGithubConnectViewDismiss() {
+        self.isConnectedToGithub = true
     }
     
     func getUsernameFromToken() {
@@ -92,8 +104,20 @@ struct ProfileView: View {
                             .sheet(isPresented: $showGoogleConnect, onDismiss: onGoogleConnectViewDismiss) {
                                 GoogleConnectView()
                             }
-                        ServiceRowView2(imageName: "LogoTwitch", title: "Twitch", isConnected: false)
-                        ServiceRowView2(imageName: "LogoGithub", title: "Github", isConnected: false)
+                        ServiceRowView2(imageName: "LogoTwitch", title: "Twitch", isConnected: isConnectedToTwitch)
+                            .onTapGesture {
+                                showTwitchConnect.toggle()
+                            }
+                            .sheet(isPresented: $showTwitchConnect, onDismiss: onTwitchConnectViewDismiss) {
+                                TwitchConnectView()
+                            }
+                        ServiceRowView2(imageName: "LogoGithub", title: "Github", isConnected: isConnectedToGithub)
+                            .onTapGesture {
+                                showGithubConnect.toggle()
+                            }
+                            .sheet(isPresented: $showGithubConnect, onDismiss: onGithubConnectViewDismiss) {
+                                GithubConnectView()
+                            }
                         ServiceRowView2(imageName: "LogoSpotify", title: "Spotify", isConnected: isConnectedToSpotify)
                             .onTapGesture {
                                 showSpotifyConnect.toggle()
