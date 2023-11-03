@@ -85,7 +85,7 @@ struct ProfileView: View {
                             }
                     }
                     Section(header: Text("Overview")) {
-                        ServiceRowView2(imageName: "LogoGmail", title: "Gmail", isConnected: isConnectedToGoogle)
+                        ServiceRowView2(imageName: "LogoGoogle", title: "Google", isConnected: isConnectedToGoogle)
                             .onTapGesture {
                                 showGoogleConnect.toggle()
                             }
@@ -93,6 +93,7 @@ struct ProfileView: View {
                                 GoogleConnectView()
                             }
                         ServiceRowView2(imageName: "LogoTwitch", title: "Twitch", isConnected: false)
+                        ServiceRowView2(imageName: "LogoGithub", title: "Github", isConnected: false)
                         ServiceRowView2(imageName: "LogoSpotify", title: "Spotify", isConnected: isConnectedToSpotify)
                             .onTapGesture {
                                 showSpotifyConnect.toggle()

@@ -70,14 +70,19 @@ struct LoginView: View {
                         }
                     }) {
                         HStack {
-                            Text("Log In with Google")
+                            Image("LogoGoogle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                            Text("Google")
                                 .foregroundColor(Color("TextColor"))
-                                .frame(width: 300, height: 50)
-                                .background(Color("Bloc"))
-                                .cornerRadius(10)
                                 .font(.system(size: 24))
                         }
+                        .frame(width: 300, height: 50)
+                        .background(Color("Bloc"))
+                        .cornerRadius(10)
                     }
+
                     
                     NavigationLink {
                         RegistrationView()
