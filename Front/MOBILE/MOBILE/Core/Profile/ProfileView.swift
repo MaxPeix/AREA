@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import JWTDecode
 
 struct ServiceRowView2: View {
     let imageName: String
@@ -29,14 +30,13 @@ struct ServiceRowView2: View {
     }
 }
 
-import SwiftUI
-
 struct ProfileView: View {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @State private var showGoogleConnect: Bool = false
     @State private var showSpotifyConnect: Bool = false
     @State private var isConnectedToGoogle: Bool = false
     @State private var isConnectedToSpotify: Bool = false
+    @State private var username: String = ""
 
     func onGoogleConnectViewDismiss() {
         self.isConnectedToGoogle = true
@@ -45,27 +45,44 @@ struct ProfileView: View {
     func onSpotifyConnectViewDismiss() {
         self.isConnectedToSpotify = true
     }
-
+    
+    func getUsernameFromToken() {
+        guard let token = AuthManager.getAuthToken() else {
+            print("No token found")
+            return
+        }
+        do {
+            let jwt = try decode(jwt: token)
+            if let user = jwt.claim(name: "username").string {
+                DispatchQueue.main.async {
+                    self.username = user
+                }
+            }
+        } catch {
+            print("Invalid token")
+        }
+    }
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color("background")
-                List {
-                    Section(header: Text("Account")) {
-                        Text("Hello, Jimmy McGill 👋")
-                        
-                        HStack {
-                            SettingsRowView(imageName: "gear", title: "Version")
-                            Spacer()
-                            Text("Alpha")
-                        }
-                        Button (action: {
-                            isLoggedIn = false
-                        }) {
+            NavigationView {
+                ZStack {
+                    Color("background")
+                    List {
+                        Section(header: Text("Account")) {
+                            Text("Hello, \(username)👋")
+                            
                             HStack {
-                                SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out")
+                                SettingsRowView(imageName: "gear", title: "Version")
+                                Spacer()
+                                Text("Alpha")
                             }
-                        }
+                            Button (action: {
+                                isLoggedIn = false
+                            }) {
+                                HStack {
+                                    SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out")
+                                }
+                            }
                     }
                     Section(header: Text("Overview")) {
                         ServiceRowView2(imageName: "LogoGmail", title: "Gmail", isConnected: isConnectedToGoogle)
@@ -87,6 +104,9 @@ struct ProfileView: View {
                 }
             }
             .navigationBarTitle("Profile")
+            .onAppear {
+                getUsernameFromToken()
+            }
         }
     }
 }
