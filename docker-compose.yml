@@ -1,20 +1,40 @@
 version: '3'
-
 services:
-  backend:
+  server:
     build:
-      context: ./Back/  # Remplacez par le chemin vers le Dockerfile du backend
+      context: ./Back/ # Chemin vers le répertoire de votre back-end
     ports:
-      - "8000:8000"  # Mappez le port du conteneur à un port sur l'hôte
+      - "8000:8000"
     volumes:
-      - ./Back:/var/www/html  # Montez le code source du backend dans le conteneur
-    depends_on:
-      - frontend  # Assurez-vous que le service frontend est démarré avant le backend
+      - server-data:/var/www/html
+    command: /start.sh
+    networks:
+      - your-network
 
-  frontend:
+  client_mobile:
     build:
-      context: ./Front/WEB/  # Remplacez par le chemin vers le Dockerfile du frontend
-    ports:
-      - "8080:8080"  # Mappez le port du conteneur à un port sur l'hôte
+      context: ./Front/MOBILE/MOBILE/ # Chemin vers le répertoire de votre application mobile
     volumes:
-      - ./Front/WEB:/app  # Montez le code source du frontend dans le conteneur
+      - shared-data:/shared
+    command: /MOBILE # Remplacez par le nom de l'exécutable mobile
+    networks:
+      - your-network
+
+  client_web:
+    build:
+      context: ./Front/WEB/ # Chemin vers le répertoire de votre application web
+    ports:
+      - "8080:8080"
+    volumes:
+      - shared-data:/app/shared
+    command: npm run dev
+    networks:
+      - your-network
+
+networks:
+  your-network:
+    driver: bridge
+
+volumes:
+  server-data:
+  shared-data:

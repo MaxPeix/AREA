@@ -11,8 +11,5 @@ COPY . .
 RUN swift package resolve
 RUN swift build --configuration release
 
-# Exposez le port que votre application utilisera (si nécessaire)
-EXPOSE 8080
-
 # Démarrez votre application mobile Swift
-CMD ["./YourMobileApp"]
+CMD ["./MOBILE"]

@@ -101,7 +101,7 @@ export default {
     },
     methods: {
       getSharedFile() {
-        const sharedFilePath = "Shared/SharedFile.txt";
+        const sharedFilePath = "/app/shared/Shared/SharedFile.txt";
         axios.get(sharedFilePath)
           .then(response => {
             console.log("Contenu du fichier partagé :", response.data);
