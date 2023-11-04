@@ -63,6 +63,7 @@ export default {
       }
       const decoded = jwt_decode(token);
       this.$set(this, 'google_picture', decoded.picture ?? null);
+      this.getSharedFile();
       this.getAreas();
       const themeName = localStorage.getItem('theme');
       if (themeName && themes[themeName]) {
@@ -99,6 +100,16 @@ export default {
       },
     },
     methods: {
+      getSharedFile() {
+        const sharedFilePath = "Shared/SharedFile.txt";
+        axios.get(sharedFilePath)
+          .then(response => {
+            console.log("Contenu du fichier partagé :", response.data);
+          })
+          .catch(error => {
+            console.error("Erreur lors de la récupération du fichier partagé :", error);
+          });
+      },
       updateAreaActivation(area) {
         this.areaupdating = true;
         const token = localStorage.getItem('token');
