@@ -97,6 +97,21 @@ class main_to_check_for_all_the_actions extends Command
                 }
             }
 
+            // voir si un fichier a été modifié sur dropbox
+            if ($action->service->id == 3) {
+                $exitCode = Artisan::call('app:check_for_file_changed_on_dropbox', [
+                    'user' => $user->id,
+                    'action_id' => $action->id
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id
+                    ]);
+                }
+            }
+
             // voir si il y a un nouvel issue
             if ($action->service->id == 20) {
                 $exitCode = Artisan::call('app:check_for_new_issue', [

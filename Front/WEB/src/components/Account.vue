@@ -110,7 +110,7 @@ export default {
         google: Google,
         spotify: Spotify,
         discord: Discord,
-        twitch: Twitch,
+        dropbox: dropbox,
         youtube: Youtube,
         github: Github,
       };

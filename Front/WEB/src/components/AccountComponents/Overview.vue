@@ -16,24 +16,12 @@
       <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
         <div class="card-content">
           <div class="card-header">
-            <img :src="discord" class="logos">
-            <p class="area-text">Discord</p>
+            <img :src="dropbox" class="logos">
+            <p class="area-text">Dropbox</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDiscord" v-if="!serviceStates.discord">Se connecter</button>
-            <b-switch v-if="serviceStates.discord" disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
-          </div>
-        </div>
-      </div>
-      <div class="card" :style="{ backgroundColor: currentTheme.bloc2 }">
-        <div class="card-content">
-          <div class="card-header">
-            <img :src="twitch" class="logos">
-            <p class="area-text">Twitch</p>
-          </div>
-          <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectTwitch" v-if="!serviceStates.twitch">Se connecter</button>
-            <b-switch v-if="serviceStates.twitch" disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
+            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDropbox" v-if="!serviceStates.dropbox">Se connecter</button>
+            <b-switch v-if="serviceStates.dropbox" disabled v-model="serviceStates.dropbox" class="small-success-button"></b-switch>
           </div>
         </div>
       </div>
@@ -69,7 +57,7 @@
 
 <script>
 import { themes } from '../../themes/themes.js'
-import { discord, twitch, spotify, youtube, gmail, github } from '../../assets/index'
+import { discord, dropbox, spotify, youtube, gmail, github } from '../../assets/index'
 import axios from 'axios';
 
 export default {
@@ -79,7 +67,7 @@ export default {
   data() {
     return {
       discord,
-      twitch,
+      dropbox,
       spotify,
       youtube,
       gmail,
@@ -147,13 +135,13 @@ export default {
           console.log(error);
       });
     },
-    connectTwitch() {
+    connectDropbox() {
       const token = localStorage.getItem('token');
       if (!token) {
           this.$router.push('/login');
           return;
       }
-      axios.get('https://127.0.0.1:8000/api/twitch-callback', {
+      axios.get('http://127.0.0.1:8000/api/dropbox-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },

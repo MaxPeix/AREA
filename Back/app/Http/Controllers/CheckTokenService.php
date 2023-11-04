@@ -103,12 +103,12 @@ class CheckTokenService extends Controller
     public function checkGithubToken(User $user)
     {
         $githubToken = $user->github_token;
-    
+
         if (!$githubToken) {
             Log::info('No github token');
             return false;
         }
-    
+
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $githubToken,
@@ -117,30 +117,60 @@ class CheckTokenService extends Controller
                 'verify' => false, // You may want to handle SSL verification properly in production.
             ])
             ->get('https://api.github.com/user');
-    
+
             if ($response->status() != 200) {
                 return false;
             }
-    
+
             return true;
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return false;
         }
     }
-    
 
-    public function checkTokensValidity ($user = null) {
+    public function checkDropboxToken(User $user)
+    {
+        $dropboxToken = $user->dropbox_token;
+    
+        if (!$dropboxToken) {
+            return false;
+        }
+    
+        // try {
+        //     $response = Http::withHeaders([
+        //         'Authorization' => 'Bearer ' . $dropboxToken,
+        //     ])
+        //     ->get('https://api.dropboxapi.com/2/users/get_current_account');
+    
+        //     if ($response->status() == 200) {
+        //         return true;
+        //     }
+    
+        //     return false;
+
+        return true;
+    
+        // } catch (\Exception $e) {
+        //     return false;
+        // }
+    }
+    
+    public function checkTokensValidity()
+    {
         $user = Auth::user();
         $google = $this->checkGoogleToken($user);
         $spotify = $this->checkSpotifyToken($user);
         $discord = $this->checkDiscordToken($user);
         $github = $this->checkGithubToken($user);
+        $dropbox = $this->checkDropboxToken($user);
+        
         return [
             'google' => $google,
             'spotify' => $spotify,
             'discord' => $discord,
             'github' => $github,
+            'dropbox' => $dropbox,
         ];
     }
 }
