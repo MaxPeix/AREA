@@ -37,14 +37,10 @@ struct HomeView: View {
                         .padding(.top, 30)
                     List {
                         ForEach(areas, id: \.id) { area in
-                            CardView(title: area.name)
+                            CardView(title: area.name, areaID: area.id)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
-                            //                                .onTapGesture {
-                            //                                    print("Card \(num) a été cliquée.")
-                            //                                }
                         }
-//                        .onDelete(perform: removeCard)
                     }
                     .listStyle(PlainListStyle())
                     .background(Color.clear)

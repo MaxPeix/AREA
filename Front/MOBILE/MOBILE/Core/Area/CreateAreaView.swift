@@ -39,6 +39,7 @@ struct CreateAreaView: View {
     @State private var selectedActionServiceName: String?
     @State private var showAlert = false
     @State private var errorMessage = ""
+    @State private var isAreaCreated = false
 
     var body: some View {
         ZStack {
@@ -113,6 +114,17 @@ struct CreateAreaView: View {
                 title: Text("Error"),
                 message: Text(errorMessage),
                 dismissButton: .default(Text("OK"))
+            )
+        }
+        .alert(isPresented: $isAreaCreated) {
+            Alert(
+                title: Text("Area Created"),
+                message: Text("Area is now created"),
+                dismissButton: .default(Text("OK")) {
+                    NavigationLink(destination: HomeView()) {
+                        EmptyView() // Utilisé pour activer la navigation
+                    }
+                }
             )
         }
     }
@@ -192,6 +204,7 @@ struct CreateAreaView: View {
                     case .success:
                         if let data = response.data {
                             print("Raw data: \(String(describing: String(data: data, encoding: .utf8)))")
+                            isAreaCreated = true
                         }
                         do {
                             let _ = try response.result.get()
