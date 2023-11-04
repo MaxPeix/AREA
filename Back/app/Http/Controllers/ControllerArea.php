@@ -111,6 +111,17 @@ class ControllerArea extends Controller
                 }
             }
 
+            if ($request->service_reaction_id == 5) {
+                if ($request->config[2] == null || $request->config[3] == null) {
+                    return response()->json(['message' => 'Invalid parameter (empty)'], 401);
+                }
+            }
+
+            if ($request->service_reaction_id == 7) {
+                if ($request->config[2] == null) {
+                    return response()->json(['message' => 'Invalid parameter (empty)'], 401);
+                }
+            }
             if ($request->service_reaction_id == 22) {
                 if ($request->config[2] == null) {
                     return response()->json(['message' => 'Invalid repository name'], 401);
@@ -122,7 +133,7 @@ class ControllerArea extends Controller
 
             if ($request->service_reaction_id == 23) {
                 if ($request->config[2] == null) {
-                    if (strlen($request->config[0]) > 35 || strlen($request->config[0]) < 1) {
+                    if (strlen($request->config[2]) > 35 || strlen($request->config[2]) < 1) {
                         return response()->json(['message' => 'Invalid new title of file'], 401);
                     }
                 }
@@ -137,6 +148,12 @@ class ControllerArea extends Controller
                     }
                 }
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
+            }
+
+            if ($request->service_action_id == 3) {
+                if ($request->config[0] == null || $request->config[0][0] != '/') {
+                    return response()->json(['message' => 'Invalid path folder'], 401);
+                }
             }
 
             if ($request->service_action_id == 24) {

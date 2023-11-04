@@ -60,6 +60,24 @@ class main_to_execute_reactions extends Command
                     ]);
                 }
 
+                // create a file dropbox
+                if ($service_id == 5) {
+                    Log::info("create a file dropbox");
+                    Artisan::call('app:dropbox_create_file_reaction', [
+                        'user' => $userId,
+                        'reaction' => $reaction->id
+                    ]);
+                }
+
+                // remove a file dropbox
+                if ($service_id == 7) {
+                    Log::info("remove a file dropbox");
+                    Artisan::call('app:dropbox_remove_file_reaction', [
+                        'user' => $userId,
+                        'reaction' => $reaction->id
+                    ]);
+                }
+
                 // create a issue
                 if ($service_id == 22) {
                     Log::info("create a issue");

@@ -44,9 +44,9 @@ class ControllerServices extends Controller
             return false;
         }
         if (
-            strpos($serviceNameLower, 'twitch') !== false &&
-            array_key_exists('twitch', $validity) &&
-            !$validity['twitch']
+            strpos($serviceNameLower, 'dropbox') !== false &&
+            array_key_exists('dropbox', $validity) &&
+            !$validity['dropbox']
         ) {
             return false;
         }
@@ -105,6 +105,18 @@ class ControllerServices extends Controller
                     "repository (example: MaxPeix/AREA)",
                     "body of the issue (example: 'Hello test area issue')",
                 ];
+            } else if (strpos($serviceNameLower, 'detecting file changed') !== false) {
+                $services[$i]['options'] = [
+                    "name of folder dropbox (example: '/Montre')",
+                ];
+            } else if (strpos($serviceNameLower, 'create file dropbox') !== false) {
+                $services[$i]['options'] = [
+                    "title of the new file (example: 'area_file')",
+                    "content of the new file (example: 'Hello test area file')",
+                ];
+            } else if (strpos($serviceNameLower, 'remove file dropbox') !== false) {
+                $services[$i]['options'] = [
+                    "path of the file (example: '/Montre/area_file')",
             } else if (strpos($serviceNameLower, 'edit on the drive google') !== false) {
                 $services[$i]['options'] = [
                     "new file name (example: 'Hello test area file')",

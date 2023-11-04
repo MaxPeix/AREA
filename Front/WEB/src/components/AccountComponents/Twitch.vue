@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="connect" v-if="!serviceStates.twitch">Se connecter</button>
+    <button @click="connect" v-if="!serviceStates.twitch">Se connecter à Twwitch zebi</button>
     <b-switch disabled v-model="serviceStates.twitch" class="small-success-button"></b-switch>
   </div>
 </template>

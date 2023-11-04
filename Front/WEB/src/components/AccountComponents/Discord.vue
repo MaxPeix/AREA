@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="connect" v-if="!serviceStates.discord">Se connecter</button>
+    <button @click="connect" v-if="!serviceStates.discord">Se connecter à discord zebi</button>
     <b-switch disabled v-model="serviceStates.discord" class="small-success-button"></b-switch>
   </div>
 </template>
