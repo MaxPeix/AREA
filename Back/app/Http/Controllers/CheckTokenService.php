@@ -134,24 +134,29 @@ class CheckTokenService extends Controller
         $dropboxToken = $user->dropbox_token;
     
         if (!$dropboxToken) {
+            Log::info('No Dropbox token'); // Add a log message to track this case.
             return false;
         }
-    
+
+        return true;
         // try {
         //     $response = Http::withHeaders([
         //         'Authorization' => 'Bearer ' . $dropboxToken,
         //     ])
         //     ->get('https://api.dropboxapi.com/2/users/get_current_account');
     
-        //     if ($response->status() == 200) {
-        //         return true;
+        //     // Add some logging to see the response and status code.
+        //     Log::info('Dropbox API Response: ' . $response->body());
+        //     Log::info('Dropbox API Status Code: ' . $response->status());
+    
+        //     if ($response->status() != 200) {
+        //         return false;
         //     }
     
-        //     return false;
-
-        return true;
+        //     return true;
     
         // } catch (\Exception $e) {
+        //     Log::error('Dropbox API Exception: ' . $e->getMessage()); // Log the exception message.
         //     return false;
         // }
     }

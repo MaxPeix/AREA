@@ -105,11 +105,6 @@ class ControllerServices extends Controller
                     "repository (example: MaxPeix/AREA)",
                     "body of the issue (example: 'Hello test area issue')",
                 ];
-            } else if (strpos($serviceNameLower, 'an issue') !== false) {
-                $services[$i]['options'] = [
-                    "repository (example: MaxPeix/AREA)",
-                    "body of the issue (example: 'Hello test area issue')",
-                ];
             } else if (strpos($serviceNameLower, 'detecting file changed') !== false) {
                 $services[$i]['options'] = [
                     "name of folder dropbox (example: '/Montre')",

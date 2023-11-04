@@ -110,6 +110,18 @@ class ControllerArea extends Controller
                 }
             }
 
+            if ($request->service_reaction_id == 5) {
+                if ($request->config[2] == null || $request->config[3] == null) {
+                    return response()->json(['message' => 'Invalid parameter (empty)'], 401);
+                }
+            }
+
+            if ($request->service_reaction_id == 7) {
+                if ($request->config[2] == null) {
+                    return response()->json(['message' => 'Invalid parameter (empty)'], 401);
+                }
+            }
+
             if ($request->service_action_id == 18) {
                 if ($request->config[0] == null) {
                     return response()->json(['message' => 'Invalid hour minute selection format is HH:MM'], 401);
@@ -119,6 +131,12 @@ class ControllerArea extends Controller
                     }
                 }
                 User::where('id', $userId)->update(['hour_selected' => $request->config[0]]);
+            }
+
+            if ($request->service_action_id == 3) {
+                if ($request->config[0] == null || $request->config[0][0] != '/') {
+                    return response()->json(['message' => 'Invalid path folder'], 401);
+                }
             }
 
             if ($request->service_action_id == 19 || $request->service_action_id == 20) {
