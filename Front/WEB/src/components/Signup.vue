@@ -3,16 +3,16 @@
     <div class="left-content">
         <p class="title">Signup</p>
       <button class="member-button" @click="movetologin">Already a member ?</button>
-        <input class="inputs" type="text" placeholder="Username" v-model="usernameInput"/>
-        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" />
+        <input class="inputs" type="text" placeholder="Username" v-model="usernameInput" @keydown.enter="focusEmail"/>
+        <input class="inputs" type="text" placeholder="Email" v-model="emailInput" @keydown.enter="focusPassword" ref="emailInput"/>
         <div class="password-wrapper">
-          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" />
+          <input class="inputs" :type="passwordType" v-model="passwordInput" placeholder="Password" @keydown.enter="focusConfirmPassword" ref="passwordInput"/>
             <button class="show-button" @click.prevent="toggleShowPassword">
               {{ showPassword ? 'Hide' : 'Show' }}
             </button>
         </div>
         <div class="password-wrapper">
-          <input class="inputs" :type="confirmPasswordType" v-model="confirmPasswordInput" placeholder="Confirm Password" />
+          <input class="inputs" :type="confirmPasswordType" v-model="confirmPasswordInput" placeholder="Confirm Password" @keydown.enter="movetohome" ref="confirmPasswordInput"/>
             <button class="show-button" @click.prevent="toggleShowConfirmPassword">
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
@@ -92,6 +92,21 @@
       },
     },
     methods: {
+      focusConfirmPassword(event) {
+        if (event.key === 'Enter') {
+          this.$refs.confirmPasswordInput.focus();
+        }
+      },
+      focusPassword(event) {
+        if (event.key === 'Enter') {
+          this.$refs.passwordInput.focus();
+        }
+      },
+      focusEmail(event) {
+        if (event.key === 'Enter') {
+          this.$refs.emailInput.focus();
+        }
+      },
       signupwithgoogle () {
         this.is_loadingoogle = true;
         axios.get("http://127.0.0.1:8000/api/oauth2callback")
@@ -156,8 +171,8 @@
   
   <style scoped>
   .logo {
-    width: 237px;
-    height: 247px;
+    width: 500px;
+    height: 500px;
     margin-right: 300px;
   }
 

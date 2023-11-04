@@ -87,6 +87,14 @@ class main_to_execute_reactions extends Command
                     ]);
                 }
 
+                // rename last file edited
+                if ($service_id == 23) {
+                    Log::info("rename last file");
+                    Artisan::call('app:drive_rename_last_file_reaction', [
+                        'user' => $userId,
+                        'reaction' => $reaction->id
+                    ]);
+                }
             }
         } else {
             Log::error("Action with id {$actionId} not found.");

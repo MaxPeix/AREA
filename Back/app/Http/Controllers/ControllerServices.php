@@ -117,6 +117,24 @@ class ControllerServices extends Controller
             } else if (strpos($serviceNameLower, 'remove file dropbox') !== false) {
                 $services[$i]['options'] = [
                     "path of the file (example: '/Montre/area_file')",
+            } else if (strpos($serviceNameLower, 'edit on the drive google') !== false) {
+                $services[$i]['options'] = [
+                    "new file name (example: 'Hello test area file')",
+                ];
+            } else if (strpos($serviceNameLower, 'a certain price') !== false) {
+                $services[$i]['options'] = [
+                    "crypto (example: BTC) the default pair with the crypto is USDT",
+                    "price (example: 35000)",
+                ];
+            } else if (strpos($serviceNameLower, 'temperature in a city') !== false) {
+                $services[$i]['options'] = [
+                    "city (example: Paris)",
+                    "when temperature reached this temperature (example: 20)",
+                ];
+            } else if (strpos($serviceNameLower, 'selected humidity') !== false) {
+                $services[$i]['options'] = [
+                    "city (example: Paris)",
+                    "Percentage humidity of the city to trigger (example: 65)",
                 ];
             } else {
                 $services[$i]['options'] = [];

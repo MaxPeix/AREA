@@ -37,22 +37,18 @@ struct HomeView: View {
                         .padding(.top, 30)
                     List {
                         ForEach(areas, id: \.id) { area in
-                            CardView(title: area.name)
+                            CardView(title: area.name, areaID: area.id)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparator(.hidden)
-                            //                                .onTapGesture {
-                            //                                    print("Card \(num) a été cliquée.")
-                            //                                }
                         }
-//                        .onDelete(perform: removeCard)
                     }
                     .listStyle(PlainListStyle())
                     .background(Color.clear)
 
-                    AddCard {
-                        NavigationLink(destination: CreateAreaView()) {
-                            Text("Create Area")
-                        }
+                    NavigationLink {
+                        CreateAreaView()
+                    } label: {
+                        AddCard()
                     }
                     .offset(y: -10)
                 }
@@ -91,6 +87,9 @@ struct HomeView: View {
                         if let statusCode = response.response?.statusCode {
                             print("Statut de la réponse : \(statusCode)")
                         }
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                        self.getAllArea()
                     }
                 }
         } else {

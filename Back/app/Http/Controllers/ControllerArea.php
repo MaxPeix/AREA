@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Area;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\Action;
 use App\Models\Service;
 use App\Models\Reaction;
-use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class ControllerArea extends Controller
 {
@@ -105,7 +106,7 @@ class ControllerArea extends Controller
             }
 
             if ($request->service_reaction_id == 21) {
-                if ($request->config[0] == null) {
+                if ($request->config[2] == null) {
                     return response()->json(['message' => 'Invalid content of file'], 401);
                 }
             }
@@ -119,6 +120,22 @@ class ControllerArea extends Controller
             if ($request->service_reaction_id == 7) {
                 if ($request->config[2] == null) {
                     return response()->json(['message' => 'Invalid parameter (empty)'], 401);
+                }
+            }
+            if ($request->service_reaction_id == 22) {
+                if ($request->config[2] == null) {
+                    return response()->json(['message' => 'Invalid repository name'], 401);
+                }
+                if ($request->config[3] == null) {
+                    return response()->json(['message' => 'Invalid content of the issue'], 401);
+                }
+            }
+
+            if ($request->service_reaction_id == 23) {
+                if ($request->config[2] == null) {
+                    if (strlen($request->config[2]) > 35 || strlen($request->config[2]) < 1) {
+                        return response()->json(['message' => 'Invalid new title of file'], 401);
+                    }
                 }
             }
 
@@ -136,6 +153,66 @@ class ControllerArea extends Controller
             if ($request->service_action_id == 3) {
                 if ($request->config[0] == null || $request->config[0][0] != '/') {
                     return response()->json(['message' => 'Invalid path folder'], 401);
+                }
+            }
+
+            if ($request->service_action_id == 24) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Please choose a valid crypto'], 401);
+                }
+                if ($request->config[1] == null) {
+                    return response()->json(['message' => 'Please choose a valid price'], 401);
+                }
+                if (!preg_match('/^\d+(\.\d+)?$/', $request->config[1])) {
+                    return response()->json(['message' => 'Price must be a valid number'], 401);
+                }
+                $pair = strtoupper($request->config[0]) . 'USDT';
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get("https://api.binance.com/api/v3/ticker/price?symbol=$pair");
+                if ($response->failed()) {
+                    return response()->json(['message' => 'Please choose a valid crypto.'], 401);
+                }
+            }
+
+            if ($request->service_action_id == 25) {
+
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Please choose a valid city'], 401);
+                }
+                if ($request->config[1] == null) {
+                    return response()->json(['message' => 'Please choose a valid temperature'], 401);
+                }
+                if (!preg_match('/^\d+(\.\d+)?$/', $request->config[1])) {
+                    return response()->json(['message' => 'Temperature must be a valid number'], 401);
+                }
+                $city = $request->config[0];
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get("https://wttr.in/$city");
+
+                if ($response->status() == 404) {
+                    return response()->json(['message' => 'Please choose a valid city.'], 401);
+                }
+            }
+
+            if ($request->service_action_id == 26) {
+                if ($request->config[0] == null) {
+                    return response()->json(['message' => 'Please choose a valid city'], 401);
+                }
+                if ($request->config[1] == null) {
+                    return response()->json(['message' => 'Please choose a valid humidity percentage'], 401);
+                }
+                if (!preg_match('/^\d+(\.\d+)?$/', $request->config[1])) {
+                    return response()->json(['message' => 'Humidity must be a valid percentage number'], 401);
+                }
+                $city = $request->config[0];
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get("https://wttr.in/$city");
+
+                if ($response->status() == 404) {
+                    return response()->json(['message' => 'Please choose a valid city.'], 401);
                 }
             }
 

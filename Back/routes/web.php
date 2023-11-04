@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return "Welcome to the Area Backend";
 });
 
 Route::get('/about.json', function (Request $request) {
@@ -28,7 +28,7 @@ Route::get('/about.json', function (Request $request) {
     $serviceApplications = [];
 
     foreach ($services as $service) {
-        $allowedApps = ['spotify', 'google', 'github', 'discord', 'reached'];
+        $allowedApps = ['spotify', 'google', 'github', 'discord', 'reached', 'dropbox'];
         $appName = '';
 
         foreach ($allowedApps as $allowedApp) {

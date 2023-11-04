@@ -4,4 +4,4 @@ import os
 
 while (True):
     os.system("php artisan schedule:run")
-    sleep(5)
+    sleep(30)
