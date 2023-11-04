@@ -117,6 +117,7 @@ class ControllerServices extends Controller
             } else if (strpos($serviceNameLower, 'remove file dropbox') !== false) {
                 $services[$i]['options'] = [
                     "path of the file (example: '/Montre/area_file')",
+                ];
             } else if (strpos($serviceNameLower, 'edit on the drive google') !== false) {
                 $services[$i]['options'] = [
                     "new file name (example: 'Hello test area file')",
