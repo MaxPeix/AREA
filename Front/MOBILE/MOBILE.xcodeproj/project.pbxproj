@@ -26,7 +26,7 @@
 		1BEFEBE32AC1C87900DCFE9C /* MOBILEApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */; };
 		1BEFEBE72AC1C87A00DCFE9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */; };
 		1BEFEBEA2AC1C87A00DCFE9C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */; };
-		F847406D2AF562C80095F711 /* TwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F847406C2AF562C80095F711 /* TwitchView.swift */; };
+		F847406D2AF562C80095F711 /* DropboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F847406C2AF562C80095F711 /* DropboxView.swift */; };
 		F847406F2AF568E10095F711 /* GithubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F847406E2AF568E10095F711 /* GithubView.swift */; };
 		F8918EA02AD4353500FBE1F1 /* GoogleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */; };
 		F8B2B3F32AE6ABFC00FEFF49 /* SpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */; };
@@ -55,7 +55,7 @@
 		1BEFEBE22AC1C87900DCFE9C /* MOBILEApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOBILEApp.swift; sourceTree = "<group>"; };
 		1BEFEBE62AC1C87A00DCFE9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BEFEBE92AC1C87A00DCFE9C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F847406C2AF562C80095F711 /* TwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitchView.swift; sourceTree = "<group>"; };
+		F847406C2AF562C80095F711 /* DropboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxView.swift; sourceTree = "<group>"; };
 		F847406E2AF568E10095F711 /* GithubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubView.swift; sourceTree = "<group>"; };
 		F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleView.swift; sourceTree = "<group>"; };
 		F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 				1B35FFA72AD1777A004E9BC5 /* CustomTabView.swift */,
 				F8918E9F2AD4353500FBE1F1 /* GoogleView.swift */,
 				F8B2B3F22AE6ABFC00FEFF49 /* SpotifyView.swift */,
-				F847406C2AF562C80095F711 /* TwitchView.swift */,
+				F847406C2AF562C80095F711 /* DropboxView.swift */,
 				F847406E2AF568E10095F711 /* GithubView.swift */,
 			);
 			path = Components;
@@ -269,7 +269,7 @@
 			files = (
 				1BD8C79D2ACB5F8100A98950 /* HomeView.swift in Sources */,
 				1BD8C79A2ACB5D3400A98950 /* ProfileView.swift in Sources */,
-				F847406D2AF562C80095F711 /* TwitchView.swift in Sources */,
+				F847406D2AF562C80095F711 /* DropboxView.swift in Sources */,
 				1BB565FE2ACC0E8900A3738A /* SettingsRowView.swift in Sources */,
 				1BA4D0062AC4563300F21586 /* ContentView.swift in Sources */,
 				1B6D8C302AD1609000518331 /* TabView.swift in Sources */,

@@ -36,8 +36,8 @@ struct ProfileView: View {
     @State private var showSpotifyConnect: Bool = false
     @State private var isConnectedToGoogle: Bool = false
     @State private var isConnectedToSpotify: Bool = false
-    @State private var showTwitchConnect: Bool = false
-    @State private var isConnectedToTwitch: Bool = false
+    @State private var showDropboxConnect: Bool = false
+    @State private var isConnectedToDropbox: Bool = false
     @State private var showGithubConnect: Bool = false
     @State private var isConnectedToGithub: Bool = false
     @State private var username: String = ""
@@ -50,8 +50,8 @@ struct ProfileView: View {
         self.isConnectedToSpotify = true
     }
     
-    func onTwitchConnectViewDismiss() {
-        self.isConnectedToTwitch = true
+    func onDropboxConnectViewDismiss() {
+        self.isConnectedToDropbox = true
     }
     
     func onGithubConnectViewDismiss() {
@@ -104,12 +104,12 @@ struct ProfileView: View {
                             .sheet(isPresented: $showGoogleConnect, onDismiss: onGoogleConnectViewDismiss) {
                                 GoogleConnectView()
                             }
-                        ServiceRowView2(imageName: "LogoTwitch", title: "Twitch", isConnected: isConnectedToTwitch)
+                        ServiceRowView2(imageName: "LogoDropBox", title: "Dropbox", isConnected: isConnectedToDropbox)
                             .onTapGesture {
-                                showTwitchConnect.toggle()
+                                showDropboxConnect.toggle()
                             }
-                            .sheet(isPresented: $showTwitchConnect, onDismiss: onTwitchConnectViewDismiss) {
-                                TwitchConnectView()
+                            .sheet(isPresented: $showDropboxConnect, onDismiss: onDropboxConnectViewDismiss) {
+                                DropboxConnectView()
                             }
                         ServiceRowView2(imageName: "LogoGithub", title: "Github", isConnected: isConnectedToGithub)
                             .onTapGesture {

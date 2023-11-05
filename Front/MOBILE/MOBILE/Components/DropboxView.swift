@@ -8,23 +8,23 @@
 import SwiftUI
 import Alamofire
 
-struct TokenCheckResponseTwitch: Decodable {
-    let twitch: Bool
+struct TokenCheckResponseDropbox: Decodable {
+    let Dropbox: Bool
 }
 
-struct TwitchConnectView: View {
-    @State private var isConnectedToTwitch: Bool = false
+struct DropboxConnectView: View {
+    @State private var isConnectedToDropbox: Bool = false
     @State private var errorMessage: String? = nil
     
     var body: some View {
         VStack {
-            if !isConnectedToTwitch {
+            if !isConnectedToDropbox {
                 Button("Se connecter") {
-                    connectTwitch { success in
+                    connectDropbox { success in
                         if success {
-                            self.isConnectedToTwitch = true
+                            self.isConnectedToDropbox = true
                         } else {
-                            self.isConnectedToTwitch = false
+                            self.isConnectedToDropbox = false
                         }
                     }
                 }
@@ -35,22 +35,22 @@ struct TwitchConnectView: View {
                 Text("Connected to Twitch")
             }
         }
-        .onAppear(perform: checkTwitchConnectionStatus)
+        .onAppear(perform: checkDropboxConnectionStatus)
     }
     
-    func checkTwitchConnectionStatus() {
+    func checkDropboxConnectionStatus() {
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer " + authToken
             ]
             
             AF.request("http://127.0.0.1:8000/api/checktokens", method: .get, headers: headers)
-                .responseDecodable(of: TokenCheckResponseTwitch.self) { response in
+                .responseDecodable(of: TokenCheckResponseDropbox.self) { response in
                     switch response.result {
                     case .success(let tokenStatus):
-                        self.isConnectedToTwitch = tokenStatus.twitch
+                        self.isConnectedToDropbox = tokenStatus.Dropbox
                     case .failure(let error):
-                        self.errorMessage = "Erreur lors de la vérification de la connexion à Twitch: \(error.localizedDescription)"
+                        self.errorMessage = "Erreur lors de la vérification de la connexion à Dropbox: \(error.localizedDescription)"
                     }
                 }
         } else {
@@ -58,12 +58,12 @@ struct TwitchConnectView: View {
         }
     }
     
-    func connectTwitch(completion: @escaping (Bool) -> Void) {
+    func connectDropbox(completion: @escaping (Bool) -> Void) {
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer " + authToken
             ]
-            AF.request("https://127.0.0.1:8000/api/twitch-callback", method: .get, headers: headers)
+            AF.request("http://127.0.0.1:8000/api/dropbox-callback", method: .get, headers: headers)
                     .responseString { response in
                         switch response.result {
                         case .success(let urlString):
@@ -84,8 +84,8 @@ struct TwitchConnectView: View {
     }
 }
 
-struct TwitchConnectView_Previews: PreviewProvider {
+struct DropboxConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        TwitchConnectView()
+        DropboxConnectView()
     }
 }

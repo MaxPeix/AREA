@@ -57,7 +57,7 @@
 
 <script>
 import { themes } from '../../themes/themes.js'
-import { discord, dropbox, spotify, youtube, gmail, github } from '../../assets/index'
+import { dropbox, spotify, gmail, github } from '../../assets/index'
 import axios from 'axios';
 
 export default {
@@ -66,10 +66,8 @@ export default {
   },
   data() {
     return {
-      discord,
       dropbox,
       spotify,
-      youtube,
       gmail,
       github,
       backgroundColor: null,
