@@ -21,9 +21,9 @@ This project is developped using theses technologies:
 - Mobile = Swift
 
 ## Organization tools
-- Jira ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Fjira-logo-vector-51263.html&psig=AOvVaw3J12dRH4ksa0j1YtFL_Fk5&ust=1699280929909000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOiK5fOIrYIDFQAAAAAdAAAAABAD)
-- Discord ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.wikipedia.org%2Fwiki%2FFichier%3ADiscord_Logo_sans_texte.svg&psig=AOvVaw2MYrtnZm5aGN_pF2wCO81Q&ust=1699280914478000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNi-peyIrYIDFQAAAAAdAAAAABAD)
-- Github (with mirroring) ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fgithub-logo_25231&psig=AOvVaw1BgVpACQNt0UznrtPdbCP-&ust=1699280954506000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNDRrP-IrYIDFQAAAAAdAAAAABAD)
+- Jira ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Fjira-logo-vector-51263.html&psig=AOvVaw3J12dRH4ksa0j1YtFL_Fk5&ust=1699280929909000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOiK5fOIrYIDFQAAAAAdAAAAABAD)
+- Discord ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.wikipedia.org%2Fwiki%2FFichier%3ADiscord_Logo_sans_texte.svg&psig=AOvVaw2MYrtnZm5aGN_pF2wCO81Q&ust=1699280914478000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNi-peyIrYIDFQAAAAAdAAAAABAD)
+- Github (with mirroring) ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fgithub-logo_25231&psig=AOvVaw1BgVpACQNt0UznrtPdbCP-&ust=1699280954506000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNDRrP-IrYIDFQAAAAAdAAAAABAD)
 
 ## Backend UML
 
