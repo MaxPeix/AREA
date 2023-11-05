@@ -131,7 +131,7 @@ struct CreateAreaView: View {
 
 
     func getAllService() {
-        let apiURL = "http://localhost:8000/api/services"
+        let apiURL = "http://localhost:8080/api/services"
 
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
@@ -174,7 +174,7 @@ struct CreateAreaView: View {
             // Ajoutez ici d'autres propriétés attendues de votre réponse JSON, rendant optionnelles celles qui peuvent manquer.
         }
         
-        let apiURL = "http://localhost:8000/api/area"
+        let apiURL = "http://localhost:8080/api/area"
 
         let config = [
             action_option1.isEmpty ? "" : action_option1,

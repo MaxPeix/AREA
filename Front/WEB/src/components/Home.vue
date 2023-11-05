@@ -121,7 +121,7 @@ export default {
           this.$router.push('/login');
           return;
         }
-        axios.get('http://localhost:8000/api/areahistorique', {
+        axios.get('http://localhost:8080/api/areahistorique', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -148,7 +148,7 @@ export default {
       updateAreaActivation(area) {
         this.areaupdating = true;
         const token = localStorage.getItem('token');
-        axios.put('http://localhost:8000/api/area/' + area.id, {
+        axios.put('http://localhost:8080/api/area/' + area.id, {
           activated: area.activated,
         }, {
           headers: {
@@ -197,7 +197,7 @@ export default {
           return;
         }
         this.isLoadingAreas = true;
-        axios.get('http://localhost:8000/api/area', {
+        axios.get('http://localhost:8080/api/area', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

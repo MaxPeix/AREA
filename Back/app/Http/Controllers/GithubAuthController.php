@@ -13,7 +13,7 @@ class GitHubAuthController extends Controller
         try {
             $clientId = env('GITHUB_CLIENT_ID');
             $clientSecret = env('GITHUB_CLIENT_SECRET');
-            $redirectUri = 'http://127.0.0.1:8000/api/github-callback';
+            $redirectUri = 'http://127.0.0.1:8080/api/github-callback';
             $scope = 'repo read:org';
 
             $code = $request->input('code');
@@ -54,7 +54,7 @@ class GitHubAuthController extends Controller
                 } else {
                     \Log::warning("Aucun utilisateur trouvé avec l'ID: " . $id);
                 }
-                return redirect('http://localhost:8080/account');
+                return redirect('http://localhost:8081/account');
             }
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

@@ -130,7 +130,7 @@ export default {
         return;
       }
       this.loadingCheckTokens = true;
-      axios.get('http://localhost:8000/api/checktokens', {
+      axios.get('http://localhost:8080/api/checktokens', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

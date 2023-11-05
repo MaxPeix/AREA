@@ -109,7 +109,7 @@
       },
       signupwithgoogle () {
         this.is_loadingoogle = true;
-        axios.get("http://127.0.0.1:8000/api/oauth2callback")
+        axios.get("http://127.0.0.1:8080/api/oauth2callback")
           .then(response => {
             window.location.href = response.data;
           })
@@ -135,7 +135,7 @@
           });
           return;
         }
-        const apiUrl = 'http://localhost:8000/api/register';
+        const apiUrl = 'http://localhost:8080/api/register';
 
         const requestData = {
           username: this.usernameInput,

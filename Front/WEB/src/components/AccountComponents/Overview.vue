@@ -107,7 +107,7 @@ export default {
           return;
       }
       this.loadinggoogle = true;
-      axios.get('http://127.0.0.1:8000/api/oauth2callback', {
+      axios.get('http://127.0.0.1:8080/api/oauth2callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -130,7 +130,7 @@ export default {
           return;
       }
       this.loadingspotify = true;
-      axios.get('http://127.0.0.1:8000/api/spotify-callback', {
+      axios.get('http://127.0.0.1:8080/api/spotify-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -153,7 +153,7 @@ export default {
           return;
       }
       this.loadingdropbox = true;
-      axios.get('http://127.0.0.1:8000/api/dropbox-callback', {
+      axios.get('http://127.0.0.1:8080/api/dropbox-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -175,7 +175,7 @@ export default {
           this.$router.push('/login');
           return;
       }
-      axios.get('http://127.0.0.1:8000/api/discord-callback', {
+      axios.get('http://127.0.0.1:8080/api/discord-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -195,7 +195,7 @@ export default {
           return;
       }
       this.loadinggithub = true;
-      axios.get('http://127.0.0.1:8000/api/github-callback', {
+      axios.get('http://127.0.0.1:8080/api/github-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
         },

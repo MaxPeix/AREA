@@ -89,7 +89,7 @@
       },
       loginwithgoogle () {
         this.is_loadingoogle = true;
-        axios.get("http://127.0.0.1:8000/api/oauth2callback")
+        axios.get("http://127.0.0.1:8080/api/oauth2callback")
           .then(response => {
             window.location.href = response.data;
           })
@@ -111,7 +111,7 @@
         };
 
         this.is_loading = true;
-        axios.post("http://localhost:8000/api/login", requestData)
+        axios.post("http://localhost:8080/api/login", requestData)
           .then(response => {
             console.log('Réponse du serveur :', response.data);
             localStorage.setItem('token', response.data.authorisation.token);

@@ -101,7 +101,7 @@ export default {
     updateAreaActivation() {
       this.areaupdating = true;
       const token = localStorage.getItem('token');
-      axios.put('http://localhost:8000/api/area/' + this.id, {
+      axios.put('http://localhost:8080/api/area/' + this.id, {
         activated: this.area[0].activated,
       }, {
         headers: {
@@ -131,7 +131,7 @@ export default {
         this.$router.push('/login');
         return;
       }
-      axios.get('http://localhost:8000/api/area/' + this.id, {
+      axios.get('http://localhost:8080/api/area/' + this.id, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -149,7 +149,7 @@ export default {
     },
     updateArea() {
       const token = localStorage.getItem('token');
-      axios.put('http://localhost:8000/api/area/' + this.id, {
+      axios.put('http://localhost:8080/api/area/' + this.id, {
         name: this.nameInput,
         description: this.descriptionInput,
         activated: this.area[0].activated,
@@ -171,7 +171,7 @@ export default {
     deleteArea() {
       if (confirm("Êtes-vous sûr de vouloir supprimer cet élément ?")) {
         const token = localStorage.getItem('token');
-        axios.delete('http://localhost:8000/api/area/' + this.id, {
+        axios.delete('http://localhost:8080/api/area/' + this.id, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

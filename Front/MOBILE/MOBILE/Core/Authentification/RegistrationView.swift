@@ -91,7 +91,7 @@ struct RegistrationView: View {
             "password": password
         ]
 
-        AF.request("http://localhost:8000/api/register", method: .post, parameters: parameters)
+        AF.request("http://localhost:8080/api/register", method: .post, parameters: parameters)
             .validate()
             .responseDecodable(of: YourResponse.self) { response in
                 debugPrint(response)

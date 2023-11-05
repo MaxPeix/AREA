@@ -58,7 +58,7 @@ struct HomeView: View {
     }
 
     func getAllArea() {
-        let apiURL = "http://localhost:8000/api/area"
+        let apiURL = "http://localhost:8080/api/area"
 
         struct YourResponse: Decodable {
             let status: String
