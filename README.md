@@ -21,18 +21,9 @@ This project is developped using theses technologies:
 - Mobile = Swift
 
 ## Organization tools
-- Jira
-
-![image](Doc/jira_logo.png)
-
-- Discord
-
-![image](Doc/discord_logo.png)
-
-- Github (with mirroring)
-
-![image](Doc/github_logo.png)
-![image](Doc/uml.png)
+- Jira![image](Doc/jira_logo.png)
+- Discord![image](Doc/discord_logo.png)
+- Github (with mirroring)![image](Doc/github_logo.png)
 
 ## Backend UML
 
