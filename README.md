@@ -40,7 +40,114 @@ This project is developped using theses technologies:
 ![image](Doc/Slide4.jpg)
 
 ## Documentation
-> Api Backend [link](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
+> Api Backend [link Postam API](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
+
+Protocol create service in area application:
+
+1. Go to Database postgreSQL and add new line on table "services" width ID / service_name with [ACTION] or [REACTION] at the end / service_description / apiKey (optional) / url (optional) / working (true)
+2. Go to the file "main_to_check_for_all_the_actions" / "main_to_check_for_all_reactions" and add your service (example):
+```php
+            // voir si il y a un nouveau commit
+            if ($action->service->id == 19) {
+                $exitCode = Artisan::call('app:check_for_new_commit', [
+                    'user' => $user->id,
+                    'action_id' => $action->id
+                ]);
+
+                if ($exitCode === 0) {
+                    Artisan::call('app:main_to_execute_reactions', [
+                        'action' => $action->id,
+                        'user' => $user->id,
+                        'area_name' => $area->name
+                    ]);
+                }
+            }
+```
+3. Create your file ("main_to_execute_reactions") in the folder
+/Back/app/Console/Commands/ (example):
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Action;
+
+class check_for_new_issue extends Command
+{
+    protected $signature = 'app:check_for_new_issue {user} {action_id}';
+    protected $description = 'Check for new issues on a GitHub repository';
+
+    public function handle()
+    {
+        $user = $this->argument('user');
+        $action_id = $this->argument('action_id');
+        $action = Action::find($action_id);
+        $user = User::find($user);
+        $repository = $action->first_parameter;
+        if (!$repository) {
+            Log::info('Repository not found');
+            return 1;
+        }
+        $token = $user->github_token;
+        Log::info("token : " . $token);
+
+        $url = "https://api.github.com/repos/$repository/issues";
+
+        $response = Http::withHeaders([
+            'Accept' => 'application/vnd.github.v3+json',
+            'Authorization' => "Bearer $token",
+        ])->get($url);
+
+        if ($response->failed()) {
+            Log::info('Failed to fetch issues from GitHub.');
+            return 1;
+        }
+
+        $issues = $response->json();
+        $latestIssueId = $issues[0]['id'] ?? null;
+
+        if (!$latestIssueId) {
+            Log::info('No issues found.');
+            return 1;
+        }
+
+        $lastCheckedIssueId = $action->second_parameter;
+
+        if ($latestIssueId == $lastCheckedIssueId) {
+            Log::info('No new issues.');
+            return 1;
+        } else {
+            Log::info('New issue detected: ' . $latestIssueId);
+            $action->second_parameter = $latestIssueId;
+            $action->save();
+            return 0;
+        }
+    }
+}
+```
+4. If you want add some parameters to your service, go to
+/Back/app/Http/Controllers/ControllerServices.php and put your parameters (example):
+```php
+            } else if (strpos($serviceNameLower, 'new issue') !== false) {
+                $services[$i]['options'] = [
+                    "repository (example: MaxPeix/AREA)",
+                ];
+```
+5. You can manage users's error input in /Back/app/Http/Controllers/ControllerAreas (example):
+```php
+            if ($request->service_reaction_id == 23) {
+                if ($request->config[2] == null) {
+                    if (strlen($request->config[2]) > 35 || strlen($request->config[2]) < 1) {
+                        return response()->json(['message' => 'Invalid new title of file'], 401);
+                    }
+                }
+            }
+```
 
 ## Folder architecture
 
