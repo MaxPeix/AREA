@@ -44,8 +44,6 @@ class dropbox_remove_file_reaction extends Command
         // Extract the file path from the reaction parameter
         $filePath = $reaction->first_parameter; // Assuming the parameter contains the file path
 
-        \Log::info("File path: " . $filePath);
-
         $accessToken = $user->dropbox_token; // Replace with your Dropbox access token
         $dropboxApiUrl = 'https://api.dropboxapi.com/2/files/delete_v2'; // Dropbox API endpoint for file deletion
 
@@ -58,7 +56,7 @@ class dropbox_remove_file_reaction extends Command
             'path' => $filePath, // Specify the path of the file to delete
         ];
 
-        $response = Http::withHeaders($headers)->post($dropboxApiUrl, $data);
+        $response = Http::withHeaders($headers)->withOptions(['verify' => false])->post($dropboxApiUrl, $data);
 
         Log::info('Dropbox API Response: ' . $response->body());
 

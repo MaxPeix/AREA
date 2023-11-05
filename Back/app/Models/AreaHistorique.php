@@ -13,7 +13,6 @@ class AreaHistorique extends Model
 
     protected $fillable = [
         'users_id',
-        'areas_id',
         'name',
         'description',
         'informations_random',
@@ -22,10 +21,5 @@ class AreaHistorique extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
-    }
-
-    public function area()
-    {
-        return $this->belongsTo(Area::class, 'areas_id', 'id');
     }
 }

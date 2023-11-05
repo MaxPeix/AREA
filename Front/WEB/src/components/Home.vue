@@ -21,6 +21,13 @@
         <img :src="currentPfp" class="pfp" @click="moveToAccount"/>
       </div>
     </div>
+    <div style="margin-left: 20%; margin-right: 20%; font-size: 15px;">
+      <div style="margin-bottom: 1rem;">
+        <div v-for="data in dataList" :key="data.id" style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0; border-radius: 5px; display: flex; flex-wrap: wrap; gap: 1rem;">
+          <span><strong>{{ data.name }}</strong> {{ data.description }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,7 +56,12 @@ export default {
         areaupdating: false,
         google_picture: null,
         isLoadingAreas: true,
+        dataList: [],
+        timerrefresh: null,
       };
+    },
+    beforeDestroy() {
+      clearInterval(this.timerrefresh);
     },
     mounted() {
       const jwtToken = this.$route.query.jwt;
@@ -65,6 +77,9 @@ export default {
       this.$set(this, 'google_picture', decoded.picture ?? null);
       this.getSharedFile();
       this.getAreas();
+      this.timerrefresh = setInterval(() => {
+        this.getAreaHistorique();
+      }, 30000);
       const themeName = localStorage.getItem('theme');
       if (themeName && themes[themeName]) {
         this.backgroundColor = themes[themeName].backgroundColor;
@@ -100,6 +115,25 @@ export default {
       },
     },
     methods: {
+      getAreaHistorique () {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          this.$router.push('/login');
+          return;
+        }
+        axios.get('http://localhost:8000/api/areahistorique', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          console.log('Réponse du serveur :', response.data);
+          this.dataList = response.data;
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération des tâches :', error);
+        })
+      },
       getSharedFile() {
         const sharedFilePath = "Shared/SharedFile.txt";
         axios.get(sharedFilePath)
@@ -176,6 +210,7 @@ export default {
         })
         .finally(() => {
           this.isLoadingAreas = false;
+          this.getAreaHistorique();
         });
       },
     }
@@ -195,7 +230,7 @@ export default {
 .wrapper {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 64px;
-  height: 100vh;
+  height: 300vh;
 }
 
 .logo {
@@ -254,7 +289,7 @@ export default {
 }
 
 .pfp-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   margin: 20px;

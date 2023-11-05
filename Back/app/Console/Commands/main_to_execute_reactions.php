@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Action;
+use App\Models\AreaHistorique;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,7 @@ class main_to_execute_reactions extends Command
      *
      * @var string
      */
-    protected $signature = 'app:main_to_execute_reactions {action} {user}';
+    protected $signature = 'app:main_to_execute_reactions {action} {user} {area_name}';
 
     /**
      * The console command description.
@@ -31,6 +32,9 @@ class main_to_execute_reactions extends Command
         $actionId = $this->argument('action');
         $userId = $this->argument('user');
         Log::info("Action id: " . $actionId);
+        $area_name = $this->argument('area_name');
+        $description = "La reaction";
+        date_default_timezone_set('Europe/Paris');
 
         $action = Action::with('reactions')->find($actionId);
 
@@ -41,6 +45,7 @@ class main_to_execute_reactions extends Command
 
             foreach ($reactions as $reaction) {
                 $service_id = $reaction->services_id;
+                $trigerred = false;
                 
                 // send a mail
                 if ($service_id == 14) {
@@ -49,6 +54,8 @@ class main_to_execute_reactions extends Command
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
+                    $description = $description . " send a mail a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
                 }
 
                 // create a file
@@ -58,6 +65,8 @@ class main_to_execute_reactions extends Command
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
+                    $description = $description . " create a file a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
                 }
 
                 // create a file dropbox
@@ -67,6 +76,8 @@ class main_to_execute_reactions extends Command
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
+                    $description = $description . " create a file dropbox a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
                 }
 
                 // remove a file dropbox
@@ -76,6 +87,8 @@ class main_to_execute_reactions extends Command
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
+                    $description = $description . " remove a file dropbox a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
                 }
 
                 // create a issue
@@ -85,6 +98,8 @@ class main_to_execute_reactions extends Command
                         'user' => $userId,
                         'reaction' => $reaction->id
                     ]);
+                    $description = $description . " create a issue a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
                 }
 
                 // rename last file edited
@@ -93,6 +108,17 @@ class main_to_execute_reactions extends Command
                     Artisan::call('app:drive_rename_last_file_reaction', [
                         'user' => $userId,
                         'reaction' => $reaction->id
+                    ]);
+                    $description = $description . " rename last file a été déclenchée à " . date("H:i:s") . ".";
+                    $trigerred = true;
+                }
+
+                if ($trigerred) {
+                    AreaHistorique::create([
+                        'users_id' => $userId,
+                        'areas_id' => 0,
+                        'name' => $area_name,
+                        'description' => $description
                     ]);
                 }
             }

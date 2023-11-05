@@ -45,8 +45,8 @@ class dropbox_create_file_reaction extends Command
         $title = $reaction->first_parameter; // Assuming title is the first parameter
         $content = $reaction->second_parameter; // Assuming content is the second parameter
     
-        \Log::info("title: " . $title);
-        \Log::info("content: " . $content);
+        Log::info("title: " . $title);
+        Log::info("content: " . $content);
     
         $accessToken = $user->dropbox_token; // Replace with your Dropbox access token
         $dropboxFolder = '/'; // Set the Dropbox folder path where you want to create the file
@@ -62,8 +62,8 @@ class dropbox_create_file_reaction extends Command
                 'autorename' => true,
             ]),
         ];
-    
-        $response = Http::withHeaders($headers)->post($dropboxApiUrl, $content);
+
+        $response = Http::withHeaders($headers)->withOptions(['verify' => false])->post($dropboxApiUrl, $content);
     
         Log::info('Dropbox API Response: ' . $response->body());
     
