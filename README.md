@@ -31,7 +31,8 @@ This project is developped using theses technologies:
 
 ## Usage of website app
 
-![image](Doc/uml.png)
+![image](Doc/Slide1.jpg)
+![image](Doc/Slide2.jpg)
 
 ## Usage of mobile app
 
