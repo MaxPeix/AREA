@@ -98,10 +98,6 @@ struct HomeView: View {
     }
 }
 
-//    func removeCard(at offsets: IndexSet) {
-//        cards.remove(atOffsets: offsets)
-//    }
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
@@ -114,7 +110,6 @@ struct Area: Decodable {
     let description: String
     let activated: Bool
     let action: [Action]
-    let historique: [History]
 }
 
 struct Action: Decodable {
@@ -139,8 +134,4 @@ struct Service: Decodable {
     let service_description: String
     let url: String
     let working: Bool
-}
-
-struct History: Decodable {
-    let pastRequest: String
 }
