@@ -54,7 +54,7 @@ struct LoginView: View {
                             Text("Log In")
                                 .foregroundColor(Color("TextColor"))
                                 .frame(width: 300, height: 50)
-                                .background(Color("Bloc"))
+                                .background(Color("Button"))
                                 .cornerRadius(10)
                                 .font(.system(size: 24))
                         }
@@ -79,7 +79,7 @@ struct LoginView: View {
                                 .font(.system(size: 24))
                         }
                         .frame(width: 300, height: 50)
-                        .background(Color("Bloc"))
+                        .background(Color("Button"))
                         .cornerRadius(10)
                     }
 

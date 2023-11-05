@@ -36,13 +36,16 @@ struct RegistrationView: View {
                 }
                 VStack(spacing: 12) {
                     InputView(text: $username, placeholder: "Your Username")
-                        .autocapitalization(.none)
+                        .foregroundColor(Color("TextColor"))
+                        .accentColor(Color("TextColor"))
                     
                     InputView(text: $email, placeholder: "Your Email")
                         .autocapitalization(.none)
+                        .accentColor(Color("TextColor"))
                     
                     InputView(text: $password, placeholder: "Your Password", isSecureField: true)
                         .autocapitalization(.none)
+                        .accentColor(Color("TextColor"))
                     
                 }
                 .padding(.vertical, 32)
@@ -59,7 +62,7 @@ struct RegistrationView: View {
                         Text("Register")
                             .foregroundColor(Color("TextColor"))
                             .frame(width: 300, height: 50)
-                            .background(Color("Bloc"))
+                            .background(Color("Button"))
                             .cornerRadius(10)
                             .font(.system(size: 24))
                     }
