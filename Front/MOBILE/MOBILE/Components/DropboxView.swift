@@ -32,7 +32,7 @@ struct DropboxConnectView: View {
                     Text(error).foregroundColor(.red)
                 }
             } else {
-                Text("Connected to Twitch")
+                Text("Connected to Dropbox")
             }
         }
         .onAppear(perform: checkDropboxConnectionStatus)

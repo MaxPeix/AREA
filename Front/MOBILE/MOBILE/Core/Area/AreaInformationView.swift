@@ -122,7 +122,6 @@ struct AreaInformationView: View {
         let description: String
         let activated: Bool
         let action: [Action] // Une liste d'actions
-        let historique: [Historique] // Une liste d'historique
     }
 
     struct Action: Decodable {
@@ -148,11 +147,6 @@ struct AreaInformationView: View {
         let action_id: Int
         let services: Services
     }
-
-    struct Historique: Decodable {
-        // Propriétés de l'historique
-    }
-
 }
 
 struct AreaInformationView_Previews: PreviewProvider {
