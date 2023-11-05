@@ -15,10 +15,10 @@ This software suite is a divided into 3 parts:
 
 This project is developped using theses technologies:
 
-- Server = Laravel
-- Database = PostgresSQL
-- Front WEB = VueJS
-- Mobile = Swift
+- Server = Laravel  <img src="Doc/laravel_logo.png" width="30" height="30" alt="Description de l'image">
+- Database = PostgresSQL  <img src="Doc/postgresql_logo.png" width="30" height="30" alt="Description de l'image">
+- Front WEB = VueJS  <img src="Doc/vuejs_logo.png" width="30" height="30" alt="Description de l'image">
+- Mobile = Swift  <img src="Doc/swift_logo.png" width="30" height="30" alt="Description de l'image">
 
 ## Organization tools
 - Jira  <img src="Doc/jira_logo.png" width="30" height="30" alt="Description de l'image">
