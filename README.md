@@ -21,8 +21,10 @@ This project is developped using theses technologies:
 - Mobile = Swift
 
 ## Organization tools
-- Jira ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Fjira-logo-vector-51263.html&psig=AOvVaw3J12dRH4ksa0j1YtFL_Fk5&ust=1699280929909000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOiK5fOIrYIDFQAAAAAdAAAAABAD)
-- Discord ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.wikipedia.org%2Fwiki%2FFichier%3ADiscord_Logo_sans_texte.svg&psig=AOvVaw2MYrtnZm5aGN_pF2wCO81Q&ust=1699280914478000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNi-peyIrYIDFQAAAAAdAAAAABAD)
+- Jira
+![image](Doc/jira_logo.png)
+- Discord
+![image](Doc/discord_logo.png)
 - Github (with mirroring)
 ![image](Doc/github_logo.png)
 ## Backend UML
