@@ -36,8 +36,8 @@ This project is developped using theses technologies:
 
 ## Usage of mobile app
 
-![image](Doc/Slide3.png)
-![image](Doc/Slide4.png)
+![image](Doc/Slide3.jpg)
+![image](Doc/Slide4.jpg)
 
 ## Documentation
 > Api Backend [link](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
