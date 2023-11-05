@@ -36,7 +36,8 @@ This project is developped using theses technologies:
 
 ## Usage of mobile app
 
-![image](Doc/uml.png)
+![image](Doc/Slide3.png)
+![image](Doc/Slide4.png)
 
 ## Documentation
 > Api Backend [link](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
@@ -55,19 +56,7 @@ We have 3 subprojects in this repository:
 This project use __Docker__ and __docker-compose__ to be served:
 
 ```bash
-$ docker-compose up -d --build
-```
-
-If you don't have docker, you can follow theses instructions :
-
-In the folder /Back/:
-```bash
-$ php artisan serve
-```
-
-In the folder /Front/WEB/:
-```bash
-$ npm run dev   
+$ docker-compose up
 ```
 
 ### Made by:  
