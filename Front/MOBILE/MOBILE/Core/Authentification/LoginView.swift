@@ -137,7 +137,7 @@ struct LoginView: View {
     }
     func connectGoogle(completion: @escaping (Bool) -> Void) {
 
-            AF.request("http://127.0.0.1:8000/api/oauth2callback?mobile=true", method: .get)
+            AF.request("http://127.0.0.1:8080/api/oauth2callback?mobile=true", method: .get)
                     .responseString { response in
                         switch response.result {
                         case .success(let urlString):

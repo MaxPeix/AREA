@@ -27,7 +27,7 @@ struct AreaView: View {
                 "Authorization": "Bearer \(authToken)"
             ]
             
-            AF.request("http://localhost:8000/api/areahistorique", headers: headers)
+            AF.request("http://localhost:8080/api/areahistorique", headers: headers)
                 .responseDecodable(of: [AreaHistorique].self) { response in
                     switch response.result {
                     case .success(let areaHistoriques):

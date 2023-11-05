@@ -44,7 +44,7 @@ struct GoogleConnectView: View {
                 "Authorization": "Bearer " + authToken
             ]
             
-            AF.request("http://127.0.0.1:8000/api/checktokens", method: .get, headers: headers)
+            AF.request("http://127.0.0.1:8080/api/checktokens", method: .get, headers: headers)
                 .responseDecodable(of: TokenCheckResponse.self) { response in
                     switch response.result {
                     case .success(let tokenStatus):
@@ -64,7 +64,7 @@ struct GoogleConnectView: View {
                 "Authorization": "Bearer " + authToken
             ]
             
-            AF.request("http://127.0.0.1:8000/api/oauth2callback", method: .get, headers: headers)
+            AF.request("http://127.0.0.1:8080/api/oauth2callback", method: .get, headers: headers)
                     .responseString { response in
                         switch response.result {
                         case .success(let urlString):

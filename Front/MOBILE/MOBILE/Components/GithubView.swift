@@ -44,7 +44,7 @@ struct GithubConnectView: View {
                 "Authorization": "Bearer " + authToken
             ]
             
-            AF.request("http://127.0.0.1:8000/api/checktokens", method: .get, headers: headers)
+            AF.request("http://127.0.0.1:8080/api/checktokens", method: .get, headers: headers)
                 .responseDecodable(of: TokenCheckResponseGithub.self) { response in
                     switch response.result {
                     case .success(let tokenStatus):
@@ -63,7 +63,7 @@ struct GithubConnectView: View {
             let headers: HTTPHeaders = [
                 "Authorization": "Bearer " + authToken
             ]
-            AF.request("http://127.0.0.1:8000/api/github-callback", method: .get, headers: headers)
+            AF.request("http://127.0.0.1:8080/api/github-callback", method: .get, headers: headers)
                     .responseString { response in
                         switch response.result {
                         case .success(let urlString):
