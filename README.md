@@ -41,7 +41,7 @@ This project is developped using theses technologies:
 
 ## Documentation
 you can find our documentation to understand how our laravel back API works:
-> Api Backend [link Postam API](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
+> Api Backend [Documentation](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
 
 Protocol create service in area application:
 
