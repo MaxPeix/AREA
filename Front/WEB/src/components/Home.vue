@@ -101,8 +101,8 @@ export default {
     },
     methods: {
       getSharedFile() {
-        const sharedFilePath = "/app/shared/Shared/SharedFile.txt";
-        axios.get(sharedFilePath)
+        const sharedFilePath = "http://192.168.64.3:8080/shared/SharedFile.txt";
+        axios.get(sharedFilePath, { timeout: 30000 }) // Timeout de 10 secondes
           .then(response => {
             console.log("Contenu du fichier partagé :", response.data);
           })
@@ -110,6 +110,7 @@ export default {
             console.error("Erreur lors de la récupération du fichier partagé :", error);
           });
       },
+
       updateAreaActivation(area) {
         this.areaupdating = true;
         const token = localStorage.getItem('token');

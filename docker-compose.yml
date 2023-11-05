@@ -2,39 +2,38 @@ version: '3'
 services:
   server:
     build:
-      context: ./Back/ # Chemin vers le répertoire de votre back-end
+      context: ./Back/
     ports:
       - "8000:8000"
     volumes:
       - server-data:/var/www/html
     command: /start.sh
-    networks:
-      - your-network
-
-  client_mobile:
-    build:
-      context: ./Front/MOBILE/MOBILE/ # Chemin vers le répertoire de votre application mobile
-    volumes:
-      - shared-data:/shared
-    command: /MOBILE # Remplacez par le nom de l'exécutable mobile
-    networks:
-      - your-network
 
   client_web:
     build:
-      context: ./Front/WEB/ # Chemin vers le répertoire de votre application web
+      context: ./Front/WEB/
     ports:
       - "8080:8080"
     volumes:
       - shared-data:/app/shared
     command: npm run dev
     networks:
-      - your-network
+      - my-network
 
-networks:
-  your-network:
-    driver: bridge
+
+  client_mobile:
+    build:
+      context: ./Front/MOBILE/MOBILE/
+    volumes:
+      - shared-data:/shared
+    command: ["tail", "-f", "/dev/null"] # Cette commande maintient le conteneur en cours d'exécution
+    networks:
+      - my-network
 
 volumes:
   server-data:
   shared-data:
+
+networks:
+  my-network:
+    driver: bridge

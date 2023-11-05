@@ -1,15 +1,11 @@
-# Utilisez une image de base contenant le SDK Swift
-FROM swift:5.5
+# Utilisez une image de base
+FROM alpine
 
-# Définissez le répertoire de travail
-WORKDIR /app
+# Créez un répertoire pour les fichiers partagés
+RUN mkdir -p /shared
 
-# Copiez les fichiers de votre application mobile dans le conteneur
-COPY . .
+# Copiez les fichiers partagés dans le répertoire du conteneur
+COPY ./Shared /shared
 
-# Installez les dépendances de votre application Swift
-RUN swift package resolve
-RUN swift build --configuration release
-
-# Démarrez votre application mobile Swift
-CMD ["./MOBILE"]
+# Commande par défaut, ce conteneur ne fait rien d'autre que copier les fichiers partagés
+CMD ["sleep", "infinity"]
