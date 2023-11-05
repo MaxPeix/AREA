@@ -49,7 +49,7 @@ class dropbox_create_file_reaction extends Command
         \Log::info("content: " . $content);
     
         $accessToken = $user->dropbox_token; // Replace with your Dropbox access token
-        $dropboxFolder = '/Montre/'; // Set the Dropbox folder path where you want to create the file
+        $dropboxFolder = '/'; // Set the Dropbox folder path where you want to create the file
     
         $dropboxApiUrl = 'https://content.dropboxapi.com/2/files/upload';
     
