@@ -32,6 +32,7 @@ This project is developped using theses technologies:
 - Github (with mirroring)
 
 ![image](Doc/github_logo.png)
+![image](Doc/uml.png)
 
 ## Backend UML
 
