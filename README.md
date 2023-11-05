@@ -28,15 +28,15 @@ This project is developped using theses technologies:
 
 ## Backend UML
 
-![image](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Usage of website app
 
-![image](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Usage of mobile app
 
-![image](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Documentation
 > Api Backend [link](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
