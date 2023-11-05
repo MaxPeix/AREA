@@ -22,11 +22,17 @@ This project is developped using theses technologies:
 
 ## Organization tools
 - Jira
+
 ![image](Doc/jira_logo.png)
+
 - Discord
+
 ![image](Doc/discord_logo.png)
+
 - Github (with mirroring)
+
 ![image](Doc/github_logo.png)
+
 ## Backend UML
 
 ![image](Doc/uml.png)
