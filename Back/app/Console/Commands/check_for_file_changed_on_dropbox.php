@@ -38,6 +38,7 @@ class check_for_file_changed_on_dropbox extends Command
 
         // Configuration de la requête à l'API Dropbox
         $response = Http::withToken($accessToken)
+            ->withOptions(['verify' => false])
             ->post($dropboxApiUrl, [
                 'path' => $folderPath,
                 'recursive' => false,

@@ -21,8 +21,7 @@ class ControllerArea extends Controller
         $areas = Area::with([
             'actions.service',
             'actions.reactions',
-            'reactions.service',
-            'areaHistorique'
+            'reactions.service'
         ])
         ->where('users_id', $userId)
         ->get();
@@ -61,16 +60,7 @@ class ControllerArea extends Controller
                             ];
                         }),
                     ];
-                }),
-                'historique' => $area->areaHistorique->map(function ($areaHistorique) {
-                    return [
-                        'id' => $areaHistorique->id,
-                        'name' => $areaHistorique->name,
-                        'description' => $areaHistorique->description,
-                        'informations_random' => $areaHistorique->informations_random,
-                        'created_at' => $areaHistorique->created_at,
-                    ];
-                }),
+                })
             ];
         })->toArray();
 
@@ -263,8 +253,7 @@ class ControllerArea extends Controller
         $areas = Area::with([
             'actions.service',
             'actions.reactions',
-            'reactions.service',
-            'areaHistorique'
+            'reactions.service'
         ])
         ->where('id', $id)
         ->where('users_id', $userId)
@@ -303,15 +292,6 @@ class ControllerArea extends Controller
                                 ],
                             ];
                         }),
-                    ];
-                }),
-                'historique' => $area->areaHistorique->map(function ($areaHistorique) {
-                    return [
-                        'id' => $areaHistorique->id,
-                        'name' => $areaHistorique->name,
-                        'description' => $areaHistorique->description,
-                        'informations_random' => $areaHistorique->informations_random,
-                        'created_at' => $areaHistorique->created_at,
                     ];
                 }),
             ];

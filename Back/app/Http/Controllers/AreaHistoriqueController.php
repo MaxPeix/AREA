@@ -41,14 +41,13 @@ class AreaHistoriqueController extends Controller
         try {
             $validatedData = $request->validate([
                 'users_id' => 'required',
-                'areas_id' => 'required',
                 'name' => 'nullable|string',
                 'description' => 'nullable|string',
                 'informations_random' => 'nullable|string',
             ]);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->getMessages();
-            return response()->json(['message' => 'Invalid data need password and an valid adress mail', 'errors' => $errors], 401);
+            return response()->json(['errors' => $errors], 401);
         }
 
         $areaHistorique = AreaHistorique::create($validatedData);
@@ -66,7 +65,6 @@ class AreaHistoriqueController extends Controller
 
         try {
             $validatedData = $request->validate([
-                'areas_id' => 'required',
                 'name' => 'nullable|string',
                 'description' => 'nullable|string',
                 'informations_random' => 'nullable|string',

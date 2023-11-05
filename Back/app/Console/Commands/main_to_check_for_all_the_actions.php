@@ -51,7 +51,8 @@ class main_to_check_for_all_the_actions extends Command
                     Log::info("un mail a été recu pour l'user" . $user->id);
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -64,7 +65,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -78,7 +80,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -93,7 +96,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -108,7 +112,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -123,7 +128,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -138,7 +144,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -153,7 +160,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
@@ -168,7 +176,8 @@ class main_to_check_for_all_the_actions extends Command
                 if ($exitCode === 0) {
                     Artisan::call('app:main_to_execute_reactions', [
                         'action' => $action->id,
-                        'user' => $user->id
+                        'user' => $user->id,
+                        'area_name' => $area->name
                     ]);
                 }
             }
