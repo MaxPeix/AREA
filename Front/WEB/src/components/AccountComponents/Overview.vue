@@ -8,7 +8,7 @@
             <p class="area-text">Google</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google">Se connecter</button>
+            <b-button :loading="loadingCheckTokens || loadinggoogle" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGoogle" v-if="!serviceStates.google">Se connecter</b-button>
             <b-switch v-if="serviceStates.google" disabled v-model="serviceStates.google" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <p class="area-text">Dropbox</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDropbox" v-if="!serviceStates.dropbox">Se connecter</button>
+            <b-button :loading="loadingCheckTokens || loadingdropbox" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectDropbox" v-if="!serviceStates.dropbox">Se connecter</b-button>
             <b-switch v-if="serviceStates.dropbox" disabled v-model="serviceStates.dropbox" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -34,7 +34,7 @@
             <p class="area-text">Spotify</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</button>
+            <b-button :loading="loadingCheckTokens || loadingspotify" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectSpotify" v-if="!serviceStates.spotify">Se connecter</b-button>
             <b-switch v-if="serviceStates.spotify" disabled v-model="serviceStates.spotify" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -46,7 +46,7 @@
             <p class="area-text">GitHub</p>
           </div>
           <div class="card-footer">
-            <button class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github">Se connecter</button>
+            <b-button :loading="loadingCheckTokens || loadinggithub" class="connect-button" :style="{ backgroundColor: currentTheme.buttons}" @click="connectGitHub" v-if="!serviceStates.github">Se connecter</b-button>
             <b-switch v-if="serviceStates.github" disabled v-model="serviceStates.github" class="small-success-button"></b-switch>
           </div>
         </div>
@@ -63,6 +63,7 @@ import axios from 'axios';
 export default {
   props: {
     serviceStates: {},
+    loadingCheckTokens: Boolean
   },
   data() {
     return {
@@ -71,6 +72,10 @@ export default {
       gmail,
       github,
       backgroundColor: null,
+      loadinggoogle: false,
+      loadingdropbox: false,
+      loadingspotify: false,
+      loadinggithub: false
     };
   },
   mounted() {
@@ -101,6 +106,7 @@ export default {
           this.$router.push('/login');
           return;
       }
+      this.loadinggoogle = true;
       axios.get('http://127.0.0.1:8000/api/oauth2callback', {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -112,6 +118,9 @@ export default {
         })
         .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        this.loadinggoogle = false;
       });
     },
     connectSpotify() {
@@ -120,6 +129,7 @@ export default {
           this.$router.push('/login');
           return;
       }
+      this.loadingspotify = true;
       axios.get('http://127.0.0.1:8000/api/spotify-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -131,6 +141,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+      })
+      .finally(() => {
+        this.loadingspotify = false;
       });
     },
     connectDropbox() {
@@ -139,6 +152,7 @@ export default {
           this.$router.push('/login');
           return;
       }
+      this.loadingdropbox = true;
       axios.get('http://127.0.0.1:8000/api/dropbox-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -150,6 +164,9 @@ export default {
         })
         .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        this.loadingdropbox = false;
       });
     },
     connectDiscord() {
@@ -177,6 +194,7 @@ export default {
           this.$router.push('/login');
           return;
       }
+      this.loadinggithub = true;
       axios.get('http://127.0.0.1:8000/api/github-callback', {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -188,6 +206,9 @@ export default {
         })
         .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        this.loadinggithub = false;
       });
     },
   },

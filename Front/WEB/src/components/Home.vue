@@ -126,14 +126,12 @@ export default {
             message: area.name + ' a été ' + (area.activated ? 'activé' : 'désactivé'),
             type: area.activated ? 'is-success' : 'is-danger',
           });
-          this.getAreas();
         })
         .catch((error) => {
           console.error('Erreur lors de la récupération des tâches :', error);
         })
         .finally(() => {
           this.areaupdating = false;
-          this.getAreas();
         });
       },
       moveToAccount() {
