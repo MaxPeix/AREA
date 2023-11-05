@@ -150,6 +150,10 @@ class check_for_new_issue extends Command
             }
 ```
 
+## Routing architecture
+
+![image](Doc/routes_application.png)
+
 ## Folder architecture
 
 We have 3 subprojects in this repository:
