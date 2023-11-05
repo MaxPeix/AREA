@@ -15,27 +15,27 @@ This software suite is a divided into 3 parts:
 
 This project is developped using theses technologies:
 
-- Server = Laravel
-- Database = PostgresSQL
-- Front WEB = VueJS
-- Mobile = Swift
+- Server = Laravel  <img src="Doc/laravel_logo.png" width="30" height="30" alt="Description de l'image">
+- Database = PostgresSQL  <img src="Doc/postgresql_logo.png" width="30" height="30" alt="Description de l'image">
+- Front WEB = VueJS  <img src="Doc/vuejs_logo.png" width="30" height="30" alt="Description de l'image">
+- Mobile = Swift  <img src="Doc/swift_logo.png" width="30" height="30" alt="Description de l'image">
 
 ## Organization tools
-- Jira ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Fjira-logo-vector-51263.html&psig=AOvVaw3J12dRH4ksa0j1YtFL_Fk5&ust=1699280929909000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCOiK5fOIrYIDFQAAAAAdAAAAABAD)
-- Discord ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Ffr.wikipedia.org%2Fwiki%2FFichier%3ADiscord_Logo_sans_texte.svg&psig=AOvVaw2MYrtnZm5aGN_pF2wCO81Q&ust=1699280914478000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNi-peyIrYIDFQAAAAAdAAAAABAD)
-- Github (with mirroring) ![Alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fgithub-logo_25231&psig=AOvVaw1BgVpACQNt0UznrtPdbCP-&ust=1699280954506000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNDRrP-IrYIDFQAAAAAdAAAAABAD)
+- Jira  <img src="Doc/jira_logo.png" width="30" height="30" alt="Description de l'image">
+- Discord  <img src="Doc/discord_logo.png" width="30" height="30" alt="Description de l'image">
+- Github (with mirroring)  <img src="Doc/github_logo.png" width="30" height="30" alt="Description de l'image">
 
 ## Backend UML
 
-![UML](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Usage of website app
 
-![Mobile](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Usage of mobile app
 
-![Mobile](doc/uml.png)
+![image](Doc/uml.png)
 
 ## Documentation
 > Api Backend [link](https://documenter.getpostman.com/view/20779056/2s9YJc1hgo).
