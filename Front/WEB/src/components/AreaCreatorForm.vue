@@ -90,7 +90,7 @@ export default {
         return;
       }
       this.loading = true;
-      axios.post('http://localhost:8000/api/area', {
+      axios.post('http://localhost:8080/api/area', {
         name: this.name,
         description: this.description,
         service_action_id: this.selectedAction.id,
@@ -132,7 +132,7 @@ export default {
         this.$router.push('/login');
         return;
       }
-      axios.get('http://localhost:8000/api/services', {
+      axios.get('http://localhost:8080/api/services', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

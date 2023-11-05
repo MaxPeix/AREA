@@ -109,7 +109,7 @@ struct LoginView: View {
             "password": password
         ]
         
-        AF.request("http://localhost:8000/api/login", method: .post, parameters: parameters)
+        AF.request("http://localhost:8080/api/login", method: .post, parameters: parameters)
             .validate()
             .responseDecodable(of: YourResponse.self) { response in
                 debugPrint(response)

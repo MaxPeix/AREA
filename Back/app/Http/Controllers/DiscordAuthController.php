@@ -13,7 +13,7 @@ class DiscordAuthController extends Controller
         try {
             $clientId = env('DISCORD_CLIENT_ID');
             $clientSecret = env('DISCORD_CLIENT_SECRET');
-            $redirectUri = 'http://127.0.0.1:8000/api/discord-callback';
+            $redirectUri = 'http://127.0.0.1:8080/api/discord-callback';
             $scope = 'identify email connections guilds.members.read';
 
             $code = $request->input('code');
@@ -56,7 +56,7 @@ class DiscordAuthController extends Controller
                 } else {
                     \Log::warning("Aucun utilisateur trouvé avec l'ID: " . $userId);
                 }
-                return redirect('http://localhost:8080/account');
+                return redirect('http://localhost:8081/account');
             }
         } catch (\Exception $e) {
             \Log::error($e->getMessage());

@@ -57,7 +57,7 @@ struct AreaInformationView: View {
     }
 
     func delSpecificArea() {
-        let apiURL = "http://localhost:8000/api/area/\(areaID)"
+        let apiURL = "http://localhost:8080/api/area/\(areaID)"
 
         if let authToken = AuthManager.getAuthToken() {
             let headers: HTTPHeaders = [
@@ -86,7 +86,7 @@ struct AreaInformationView: View {
     }
 
     func getSpecificArea() {
-        let apiURL = "http://localhost:8000/api/area/\(areaID)"
+        let apiURL = "http://localhost:8080/api/area/\(areaID)"
         
         print(apiURL)
 

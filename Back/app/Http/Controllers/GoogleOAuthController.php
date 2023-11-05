@@ -49,7 +49,7 @@ class GoogleOAuthController extends Controller
             $clientIdSecretGoogle = env('GOOGLE_CLIENT_SECRET');
             $scopeCron = 'email profile https://www.googleapis.com/auth/drive https://mail.google.com/';
             $scopeLogin = 'email profile';
-            $redirectUri = 'http://127.0.0.1:8000/api/oauth2callback';
+            $redirectUri = 'http://127.0.0.1:8080/api/oauth2callback';
 
             $code = $request->input('code');
             $mobile = $request->input('mobile');
@@ -95,7 +95,7 @@ class GoogleOAuthController extends Controller
                         $jwtToken = Auth::setTTL(90 * 24 * 60)->claims(['username' => $username, 'email' => $email, 'picture' => $picture])->fromUser($user);
                         if ($decodedState['mobile'] == true)
                             return redirect("area://home?jwt={$jwtToken}");
-                        return redirect("http://localhost:8080/home?jwt={$jwtToken}");
+                        return redirect("http://localhost:8081/home?jwt={$jwtToken}");
                     } else {
                         return 'Error decoding user please contact site admin';
                     }
@@ -115,7 +115,7 @@ class GoogleOAuthController extends Controller
                     }
                     $minutes = 90 * 24 * 60;
                     $jwtToken = Auth::setTTL($minutes)->claims(['username' => $user->username, 'email' => $user->email, 'picture' => $picture])->fromUser($user);
-                    return redirect("http://localhost:8080/home?jwt={$jwtToken}?fromregister=true");
+                    return redirect("http://localhost:8081/home?jwt={$jwtToken}?fromregister=true");
                 }
             } else {
                 $id = $decodedState['id'] ?? null;
@@ -137,7 +137,7 @@ class GoogleOAuthController extends Controller
                 } else {
                     Log::warning("Aucun utilisateur trouvé avec l'ID: " . $id);
                 }
-                return redirect('http://localhost:8080/account');
+                return redirect('http://localhost:8081/account');
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -13,7 +13,7 @@ class DropboxAuthController extends Controller
         try {
             $clientKey = env('DROPBOX_CLIENT_ID');
             $clientSecret = env('DROPBOX_CLIENT_SECRET');
-            $redirectUri = 'http://127.0.0.1:8000/api/dropbox-callback';
+            $redirectUri = 'http://127.0.0.1:8080/api/dropbox-callback';
             $scope = 'files.metadata.read files.metadata.write files.content.write';
 
             $code = $request->input('code');
@@ -57,7 +57,7 @@ class DropboxAuthController extends Controller
                     \Log::info("No user found with ID: " . $id);
                     \Log::warning("No user found with ID: " . $id);
                 }
-                return redirect('http://localhost:8080/account');
+                return redirect('http://localhost:8081/account');
             }
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
